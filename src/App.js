@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Map from "./components/Map/Map";
 
 function App() {
+  const [devices, setDevices] = useState([]);
+
+  const fetchData = async () => {
+    const response = await fetch("https://open-data.senstate.cloud/devices");
+    const data = await response.json();
+
+    const loadedDevices = [];
+    for (const key in data) {
+      loadedDevices.push(data[key]);
+    }
+
+    setDevices(loadedDevices);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <button onClick={fetchData}>FetchData</button>
+      </div>
+      <div>
+        <Map devices={devices} />
+      </div>
+    </>
   );
 }
 
