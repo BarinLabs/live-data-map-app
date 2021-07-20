@@ -1,7 +1,26 @@
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import styles from "./styles.module.css";
 
-const Map = ({ devices }) => {
+const Map = () => {
+  const [devices, setDevices] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const response = await fetch("https://open-data.senstate.cloud/devices");
+    const data = await response.json();
+
+    const loadedDevices = [];
+    for (const key in data) {
+      loadedDevices.push(data[key]);
+    }
+
+    setDevices(loadedDevices);
+  };
+
   const markers = devices.map((device) => {
     return (
       <Marker
