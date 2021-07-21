@@ -1,0 +1,26 @@
+.container {
+  font-size: 80%;
+  padding: 10px;
+  height: 40px;
+
+  button {
+    all: unset;
+  }
+
+  .btnContainer,
+  .titleContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleContainer {
+    p {
+      margin-top: 5px;
+    }
+  }
+}
+
+.container:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}

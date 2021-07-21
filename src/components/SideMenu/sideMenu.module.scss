@@ -1,6 +1,5 @@
 .container {
-  //   width: 60px;
-  width: 90px;
+  width: 60px;
 
   height: 100%;
   background-color: white;
@@ -8,6 +7,10 @@
   z-index: 1;
 
   box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+}
+
+.activeMenu {
+  width: 90px;
 }
 
 .toggleMenu {
@@ -25,31 +28,4 @@
 
 .toggleMenu > button:hover {
   cursor: pointer;
-}
-
-.sideMenuItem {
-  font-size: 80%;
-  padding: 10px;
-  height: 40px;
-
-  button {
-    all: unset;
-  }
-
-  .sideMenuItemBtnContainer,
-  .sideMenuItemTitleContainer {
-    display: flex;
-    justify-content: center;
-  }
-
-  .sideMenuItemTitleContainer {
-    p {
-      margin-top: 5px;
-    }
-  }
-}
-
-.sideMenuItem:hover {
-  cursor: pointer;
-  background-color: whitesmoke;
 }

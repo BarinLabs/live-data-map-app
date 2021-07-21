@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faChevronCircleRight,
   faChevronCircleLeft,
@@ -7,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./sideMenu.module.scss";
 import { useState } from "react";
+import SideMenuItem from "./SideMenuItem";
 
 const SideMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,35 +30,21 @@ const SideMenu = () => {
       style={{ color: "#0078ff" }}
     />
   );
+
+  const menuStyles = `${styles.container} ${
+    isMenuOpen ? styles.activeMenu : ""
+  }`;
   return (
-    <section className={styles.container}>
+    <section className={menuStyles}>
       <div className={styles.toggleMenu}>
         <button onClick={toggleOpenMenuBtn}>{openMenuBtnIcon}</button>
       </div>
-      <div className={styles.sideMenuItem}>
-        <div className={styles.sideMenuItemBtnContainer}>
-          <button>
-            <FontAwesomeIcon icon={faCog} size="lg" />
-          </button>
-        </div>
-        {isMenuOpen && (
-          <div className={styles.sideMenuItemTitleContainer}>
-            <p>Preferences</p>
-          </div>
-        )}
-      </div>
-      <div className={styles.sideMenuItem}>
-        <div className={styles.sideMenuItemBtnContainer}>
-          <button>
-            <FontAwesomeIcon icon={faShareAlt} size="lg" />
-          </button>
-        </div>
-        {isMenuOpen && (
-          <div className={styles.sideMenuItemTitleContainer}>
-            <p>Share</p>
-          </div>
-        )}
-      </div>
+      <SideMenuItem
+        title={"Preferences"}
+        icon={faCog}
+        isMenuOpen={isMenuOpen}
+      />
+      <SideMenuItem title={"Share"} icon={faShareAlt} isMenuOpen={isMenuOpen} />
     </section>
   );
 };
