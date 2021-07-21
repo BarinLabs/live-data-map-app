@@ -1,6 +1,6 @@
 import React from "react";
-import Map from "./components/Map/Map";
 import SideMenu from "./components/SideMenu/SideMenu";
+import Map from "./components/Map/Map";
 
 function App() {
   return (
