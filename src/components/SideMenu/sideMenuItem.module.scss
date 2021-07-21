@@ -1,3 +1,5 @@
+@import "../../utils/stylesVariables.scss";
+
 .container {
   font-size: 80%;
   padding: 10px;
@@ -26,5 +28,5 @@
 
 .container:hover {
   cursor: pointer;
-  background-color: whitesmoke;
+  background-color: $sideMenuItem-hover-color;
 }

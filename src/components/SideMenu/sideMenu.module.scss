@@ -1,6 +1,8 @@
+@import "../../utils/stylesVariables.scss";
+
 .container {
   height: 100%;
   position: absolute;
-  z-index: 1;
+  z-index: $sideMenu-z-index;
   display: flex;
 }

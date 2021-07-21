@@ -1,9 +1,11 @@
+@import "../../utils/stylesVariables.scss";
+
 .container {
   width: 60px;
   height: 100%;
-  background-color: white;
+  background-color: $sideMenu-bg-color;
 
-  box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+  box-shadow: $sideMenu-box-shadow;
 }
 
 .activeMenu {
