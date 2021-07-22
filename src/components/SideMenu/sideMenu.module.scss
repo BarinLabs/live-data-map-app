@@ -3,6 +3,6 @@
 .container {
   height: 100%;
   position: absolute;
-  z-index: $sideMenu-z-index;
+  z-index: 1;
   display: flex;
 }

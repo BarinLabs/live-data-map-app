@@ -1,4 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+
+import SideMenuItem from "./SideMenuItem";
+
+import styles from "./sideMenuNav.module.scss";
 
 import {
   faChevronCircleRight,
@@ -6,11 +11,8 @@ import {
   faCog,
   faShareAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import styles from "./sideMenuBar.module.scss";
-import { useState } from "react";
-import SideMenuItem from "./SideMenuItem";
 
-const SideMenuBar = ({ selectItem, closeContent }) => {
+const SideMenuNav = ({ selectItem, closeContent }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleOpenMenuBtn = () => {
@@ -58,4 +60,4 @@ const SideMenuBar = ({ selectItem, closeContent }) => {
   );
 };
 
-export default SideMenuBar;
+export default SideMenuNav;

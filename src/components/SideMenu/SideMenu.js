@@ -1,4 +1,4 @@
-import SideMenuBar from "./SideMenuBar";
+import SideMenuNav from "./SideMenuNav";
 import SideMenuContent from "./SideMenuContent";
 
 import styles from "./sideMenu.module.scss";
@@ -24,7 +24,7 @@ const SideMenu = () => {
 
   return (
     <div className={styles.container}>
-      <SideMenuBar
+      <SideMenuNav
         selectItem={handleItemSelection}
         closeContent={closeContent}
       />

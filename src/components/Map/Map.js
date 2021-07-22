@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
+import Pin from "./Pin";
+
 import styles from "./map.module.scss";
 
 const Map = () => {
   const [devices, setDevices] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    fetchData().catch((e) => console.log("error", e.message));
   }, []);
 
   const fetchData = async () => {
     const response = await fetch("https://open-data.senstate.cloud/devices");
+
+    if (!response.ok) {
+      throw new Error("Something went wrong.");
+    }
+
     const data = await response.json();
 
     const loadedDevices = [];
@@ -21,15 +28,8 @@ const Map = () => {
     setDevices(loadedDevices);
   };
 
-  const markers = devices.map((device) => {
-    return (
-      <Marker
-        key={device.token}
-        position={[device.location.latitude, device.location.longtitude]}
-      >
-        <Popup>{device.location.address}</Popup>
-      </Marker>
-    );
+  const pins = devices.map((device) => {
+    return <Pin key={device.token} device={device} />;
   });
 
   return (
@@ -44,7 +44,7 @@ const Map = () => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {markers}
+        {pins}
       </MapContainer>
     </div>
   );
