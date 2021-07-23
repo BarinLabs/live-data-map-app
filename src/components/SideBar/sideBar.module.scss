@@ -1,12 +1,33 @@
 @import "../../utils/stylesVariables.scss";
 
 .container {
+  height: 100%;
+  width: 315px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: $sideMenuContent-bg-color;
+  box-shadow: $sideMenuContent-box-shadow;
   position: absolute;
   z-index: 1;
   right: 0;
 
-  height: 100%;
-  width: 315px;
-  background-color: $sideMenuContent-bg-color;
-  box-shadow: $sideMenuContent-box-shadow;
+  .error {
+    color: red;
+  }
+
+  .closeBtnAndStatusContainer {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #cacaca;
+
+    button {
+      all: unset;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+  }
 }

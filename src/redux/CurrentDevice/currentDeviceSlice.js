@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { error: false, isDeviceOpen: false, device: "" };
+const initialState = {
+  error: false,
+  isDeviceOpen: false,
+  device: { data: {}, status: { online: false, lastSubmissionShort: "" } },
+};
 
 export const currentDeviceSlice = createSlice({
   name: "currentUser",
@@ -13,12 +17,12 @@ export const currentDeviceSlice = createSlice({
     },
     closeDevice: (state) => {
       state.isDeviceOpen = false;
-      state.device = "";
+      state.device = { ...initialState };
       state.error = false;
     },
     setError: (state) => {
       state.isDeviceOpen = true;
-      state.device = "";
+      state.device = { ...initialState.device };
       state.error = true;
     },
   },
