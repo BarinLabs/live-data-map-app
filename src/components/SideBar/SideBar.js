@@ -83,7 +83,7 @@ const SideBar = () => {
             )}
             {gasesChannels.length > 0 && (
               <>
-                <h3>Gasses:</h3>
+                <h3>Gases:</h3>
                 <div>
                   {gasesChannels.map((channel) => {
                     return (
