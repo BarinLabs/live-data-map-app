@@ -5,6 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faTimes, faBan } from "@fortawesome/free-solid-svg-icons";
 import styles from "./sideBar.module.scss";
 import { useEffect, useState } from "react";
+import TestChart from "../TestChart";
+import Weather from "./Categories/Weather/Weather";
+import Gases from "./Categories/Gases/Gases";
+import Particulates from "./Categories/Particulates/Particulates";
 
 const _WEATHER = "Weather";
 const _GASES = "Gases";
@@ -64,56 +68,13 @@ const SideBar = () => {
         <div>
           <div>Last Submission: {lastSubmissionShort}</div>
           <div>
+            {/* <TestChart /> */}
             {weatherChannels.length > 0 && (
-              <>
-                <h3>Weather:</h3>
-                <div>
-                  {weatherChannels.map((channel) => {
-                    return (
-                      <div key={channel.token}>
-                        <span>{channel.name} </span>
-                        <span>
-                          {channel.value.toFixed(0)} {channel.suffix}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
+              <Weather channels={weatherChannels} />
             )}
-            {gasesChannels.length > 0 && (
-              <>
-                <h3>Gases:</h3>
-                <div>
-                  {gasesChannels.map((channel) => {
-                    return (
-                      <div key={channel.token}>
-                        <span>{channel.name} </span>
-                        <span>
-                          {channel.value.toFixed(0)} {channel.suffix}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
+            {gasesChannels.length > 0 && <Gases channels={gasesChannels} />}
             {particulatesChannels.length > 0 && (
-              <>
-                <h3>Particulates:</h3>
-                <div>
-                  {particulatesChannels.map((channel) => {
-                    return (
-                      <div key={channel.token}>
-                        <span>{channel.name} </span>
-                        <span>
-                          {channel.value.toFixed(0)} {channel.suffix}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
+              <Particulates channels={particulatesChannels} />
             )}
           </div>
         </div>
