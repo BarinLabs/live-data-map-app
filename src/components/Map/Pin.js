@@ -6,7 +6,7 @@ import {
 } from "../../redux/CurrentDevice/currentDeviceSlice";
 
 const Pin = ({ device }) => {
-  const token = device.token;
+  const { token } = device;
   const dispatch = useDispatch();
 
   const onDeviceOpen = () => {
@@ -21,7 +21,7 @@ const Pin = ({ device }) => {
     }
 
     const deviceData = await res.json();
-    dispatch(openDevice({ device: deviceData }));
+    dispatch(openDevice({ device: { token, ...deviceData } }));
   };
   return (
     <>

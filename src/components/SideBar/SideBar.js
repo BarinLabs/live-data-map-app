@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeDevice } from "../../redux/CurrentDevice/currentDeviceSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faTimes, faBan } from "@fortawesome/free-solid-svg-icons";
 import styles from "./sideBar.module.scss";
-import { useEffect, useState } from "react";
-import TestChart from "../TestChart";
+
 import Weather from "./Categories/Weather/Weather";
 import Gases from "./Categories/Gases/Gases";
 import Particulates from "./Categories/Particulates/Particulates";
@@ -13,6 +13,7 @@ import Particulates from "./Categories/Particulates/Particulates";
 const _WEATHER = "Weather";
 const _GASES = "Gases";
 const _PARTICULATES = "Particulates";
+
 const SideBar = () => {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.currentDevice.error);
@@ -68,7 +69,6 @@ const SideBar = () => {
         <div>
           <div>Last Submission: {lastSubmissionShort}</div>
           <div>
-            {/* <TestChart /> */}
             {weatherChannels.length > 0 && (
               <Weather channels={weatherChannels} />
             )}

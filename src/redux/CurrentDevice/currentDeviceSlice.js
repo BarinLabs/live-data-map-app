@@ -3,11 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   error: false,
   isDeviceOpen: false,
-  device: { data: {}, status: { online: false, lastSubmissionShort: "" } },
+  device: {
+    token: "",
+    data: [],
+    status: { online: false, lastSubmissionShort: "" },
+  },
 };
 
 export const currentDeviceSlice = createSlice({
-  name: "currentUser",
+  name: "currentDevice",
   initialState,
   reducers: {
     openDevice: (state, action) => {
