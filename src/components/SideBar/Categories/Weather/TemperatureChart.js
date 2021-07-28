@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 
-const TemperatureChart = ({ channel: { token: channelToken, suffix } }) => {
+const getLast7Dates = () => {
+  var result = [];
+  for (var i = 0; i < 7; i++) {
+    var d = new Date();
+    d.setDate(d.getDate() - i);
+    result.push(formatDate(d));
+  }
+
+  return result.reverse();
+};
+
+const formatDate = (date) => {
+  var dd = date.getDate();
+  var mm = date.getMonth() + 1;
+  var yyyy = date.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  date = dd + "/" + mm;
+  return date;
+};
+
+const TemperatureChart = (props) => {
   const [chartData, setChartData] = useState({});
+  const { token: channelToken, suffix } = props.channel;
   const { token: deviceToken } = useSelector(
     (state) => state.currentDevice.device
   );
-  const [temperatureValues, setTemperatureValues] = useState([]);
 
-  const last7Days = () => {
-    var result = [];
-    for (var i = 0; i < 7; i++) {
-      var d = new Date();
-      d.setDate(d.getDate() - i);
-      result.push(formatDate(d));
-    }
+  const generateChartData = useCallback((data) => {
+    const dates = getLast7Dates();
 
-    return result.reverse();
-  };
-
-  function formatDate(date) {
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1;
-    var yyyy = date.getFullYear();
-    if (dd < 10) {
-      dd = "0" + dd;
-    }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-    date = dd + "/" + mm;
-    return date;
-  }
-
-  const days = last7Days();
-
-  const Chart = () => {
     setChartData({
-      labels: days,
+      labels: dates,
       datasets: [
         {
           label: "High",
-          data: temperatureValues,
+          data,
           parsing: {
             yAxisKey: "x",
           },
@@ -51,7 +51,7 @@ const TemperatureChart = ({ channel: { token: channelToken, suffix } }) => {
         },
         {
           label: "Low",
-          data: temperatureValues,
+          data,
           parsing: {
             yAxisKey: "y",
           },
@@ -60,9 +60,9 @@ const TemperatureChart = ({ channel: { token: channelToken, suffix } }) => {
         },
       ],
     });
-  };
+  }, []);
 
-  const getDataForLast7Days = async () => {
+  const getDataForLast7Days = useCallback(async () => {
     const response = await fetch(
       `https://see.senstate.cloud/data/${deviceToken}/channel/${channelToken}`,
       {
@@ -83,13 +83,12 @@ const TemperatureChart = ({ channel: { token: channelToken, suffix } }) => {
         return { x: high, y: low };
       });
 
-    setTemperatureValues(currentTemperatureValues);
-  };
+    generateChartData(currentTemperatureValues);
+  }, [deviceToken, channelToken, generateChartData]);
 
   useEffect(() => {
-    Chart();
     getDataForLast7Days().catch((e) => console.log("error", e.message));
-  }, [deviceToken]);
+  }, [getDataForLast7Days]);
 
   return (
     <div className="App">
