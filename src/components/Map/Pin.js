@@ -6,22 +6,28 @@ import {
 } from "../../redux/CurrentDevice/currentDeviceSlice";
 
 const Pin = ({ device }) => {
-  const { token } = device;
   const dispatch = useDispatch();
+  const { token, dataEndpoint } = device;
+  let { deviceURL: deviceURLTemplate, channelDataURL: channelDataURLTemplate } =
+    dataEndpoint;
+  const deviceURL = deviceURLTemplate.replace("{Token}", token);
+  const channelDataURL = channelDataURLTemplate.replace("{Token}", token);
 
   const onDeviceOpen = () => {
     fetchDeviceData().catch((e) => dispatch(setError()));
   };
 
   const fetchDeviceData = async () => {
-    const res = await fetch("https://see.senstate.cloud/data/" + token);
+    const res = await fetch(deviceURL);
 
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
 
     const deviceData = await res.json();
-    dispatch(openDevice({ device: { token, ...deviceData } }));
+    dispatch(
+      openDevice({ device: { deviceURL, channelDataURL, ...deviceData } })
+    );
   };
   return (
     <>
