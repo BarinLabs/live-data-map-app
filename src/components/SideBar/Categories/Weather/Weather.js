@@ -1,6 +1,6 @@
 import styles from "./weather.module.scss";
 
-import WeatherChart from "./WeatherChart";
+import LineChart from "../../Charts/LineChart";
 import { useEffect, useMemo, useState } from "react";
 
 const Weather = ({ channels }) => {
@@ -84,7 +84,7 @@ const Weather = ({ channels }) => {
       </div>
       <div>
         {selectedChannel && (
-          <WeatherChart channel={selectedChannel} period={selectedPeriod} />
+          <LineChart channel={selectedChannel} period={selectedPeriod} />
         )}
       </div>
     </div>

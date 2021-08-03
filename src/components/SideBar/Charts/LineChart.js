@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback, useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useStore } from "react-redux";
-import { formatDate } from "../../../../utils/generateDates";
+import { formatDate } from "../../../utils/generateDates";
 
-const WeatherChart = (props) => {
+const LineChart = (props) => {
   const store = useStore();
   const [chartState, setChartState] = useState({ labels: [], data: [] });
   const { period } = props;
@@ -104,4 +104,4 @@ const WeatherChart = (props) => {
   );
 };
 
-export default WeatherChart;
+export default LineChart;
