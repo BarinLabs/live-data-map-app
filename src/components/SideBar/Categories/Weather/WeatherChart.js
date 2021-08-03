@@ -3,9 +3,11 @@ import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { getLastNumOfDates } from "../../../../utils/generateDates";
 
-const TemperatureChart = (props) => {
+const WeatherChart = (props) => {
   const [chartData, setChartData] = useState({});
-  const { token: channelToken, suffix } = props.channel;
+  const [labels, setLabels] = useState("");
+  const { period } = props;
+  const { token: channelToken, name: channelName, suffix } = props.channel;
   let { channelDataURL: channelDataURLTemplate } = useSelector(
     (state) => state.currentDevice.device
   );
@@ -15,7 +17,7 @@ const TemperatureChart = (props) => {
   );
 
   const generateChartData = useCallback((data) => {
-    const dates = getLastNumOfDates(10);
+    const dates = getLastNumOfDates(30);
 
     setChartData({
       labels: dates,
@@ -45,7 +47,7 @@ const TemperatureChart = (props) => {
   const getDataForLast7Days = useCallback(async () => {
     const response = await fetch(channelDataURL, {
       headers: {
-        timeFrame: "lastMonth",
+        timeFrame: period === "30 days" ? "lastMonth" : "last24h",
       },
     });
 
@@ -54,14 +56,13 @@ const TemperatureChart = (props) => {
     }
 
     const data = await response.json();
-    const currentTemperatureValues = data
-      .slice(data.length - 7)
-      .map(({ high, low }) => {
-        return { x: high, y: low };
-      });
+    console.log(data);
+    const currentTemperatureValues = data.map(({ high, low }) => {
+      return { x: high, y: low };
+    });
 
     generateChartData(currentTemperatureValues);
-  }, [channelDataURL, generateChartData]);
+  }, [period, channelDataURL, generateChartData]);
 
   useEffect(() => {
     getDataForLast7Days().catch((e) => console.log("error", e.message));
@@ -77,7 +78,7 @@ const TemperatureChart = (props) => {
             plugins: {
               title: {
                 display: true,
-                text: `Tempreture last 7 days in ${suffix}`,
+                text: `${channelName} last ${period} in ${suffix}`,
               },
             },
             scales: {
@@ -94,4 +95,4 @@ const TemperatureChart = (props) => {
   );
 };
 
-export default TemperatureChart;
+export default WeatherChart;
