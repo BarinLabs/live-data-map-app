@@ -5,11 +5,13 @@ export const getLastNumOfDates = (numberOfDates) => {
     d.setDate(d.getDate() - i);
     result.push(formatDate(d));
   }
+  const temp = new Date("2021-07-05T00:00:00");
+  console.log(temp);
 
   return result.reverse();
 };
 
-const formatDate = (date) => {
+export const formatDate = (date) => {
   let dd = date.getDate();
   let mm = date.getMonth() + 1;
   //   let yyyy = date.getFullYear();

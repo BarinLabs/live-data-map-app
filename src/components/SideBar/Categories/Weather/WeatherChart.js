@@ -1,26 +1,24 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
-import { useSelector } from "react-redux";
-import { getLastNumOfDates } from "../../../../utils/generateDates";
+import { useStore } from "react-redux";
+import { formatDate } from "../../../../utils/generateDates";
 
 const WeatherChart = (props) => {
-  const [chartData, setChartData] = useState({});
-  const [labels, setLabels] = useState("");
+  const store = useStore();
+  const [chartState, setChartState] = useState({ labels: [], data: [] });
   const { period } = props;
   const { token: channelToken, name: channelName, suffix } = props.channel;
-  let { channelDataURL: channelDataURLTemplate } = useSelector(
-    (state) => state.currentDevice.device
-  );
-  const channelDataURL = channelDataURLTemplate.replace(
-    "{channel}",
-    channelToken
-  );
 
-  const generateChartData = useCallback((data) => {
-    const dates = getLastNumOfDates(30);
+  const channelDataURL = useMemo(() => {
+    const { channelDataURLTemplate } = store.getState().currentDevice.device;
+    return channelDataURLTemplate.replace("{channel}", channelToken);
+  }, [channelToken, store]);
 
-    setChartData({
-      labels: dates,
+  const chartData = useMemo(() => {
+    const { labels, data } = chartState;
+
+    return {
+      labels: labels,
       datasets: [
         {
           label: "High",
@@ -41,10 +39,10 @@ const WeatherChart = (props) => {
           backgroundColor: "blue",
         },
       ],
-    });
-  }, []);
+    };
+  }, [chartState]);
 
-  const getDataForLast7Days = useCallback(async () => {
+  const getData = useCallback(async () => {
     const response = await fetch(channelDataURL, {
       headers: {
         timeFrame: period === "30 days" ? "lastMonth" : "last24h",
@@ -56,17 +54,28 @@ const WeatherChart = (props) => {
     }
 
     const data = await response.json();
-    console.log(data);
-    const currentTemperatureValues = data.map(({ high, low }) => {
+
+    const loadedLabels = [];
+    const currentValues = data.map(({ high, low, timeStamp }) => {
+      const currentDate = new Date(timeStamp);
+
+      if (period === "30 days") {
+        const day = formatDate(currentDate);
+        loadedLabels.push(day);
+      } else if (period === "24 hours") {
+        const hour = currentDate.getHours() + ":00";
+        loadedLabels.push(hour);
+      }
+
       return { x: high, y: low };
     });
 
-    generateChartData(currentTemperatureValues);
-  }, [period, channelDataURL, generateChartData]);
+    setChartState({ labels: loadedLabels, data: currentValues });
+  }, [period, channelDataURL]);
 
   useEffect(() => {
-    getDataForLast7Days().catch((e) => console.log("error", e.message));
-  }, [getDataForLast7Days]);
+    getData().catch((e) => console.log("error", e.message));
+  }, [getData]);
 
   return (
     <div className="App">

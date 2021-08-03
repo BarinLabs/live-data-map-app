@@ -26,7 +26,13 @@ const Pin = ({ device }) => {
 
     const deviceData = await res.json();
     dispatch(
-      openDevice({ device: { deviceURL, channelDataURL, ...deviceData } })
+      openDevice({
+        device: {
+          deviceURL,
+          channelDataURLTemplate: channelDataURL,
+          ...deviceData,
+        },
+      })
     );
   };
   return (
