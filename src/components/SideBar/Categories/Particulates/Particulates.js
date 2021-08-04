@@ -1,4 +1,4 @@
-import ChannelItem from "./ChannelItem";
+import ChannelItem from "../ChannelItem";
 
 const Particulates = ({ channels }) => {
   console.log(channels);
