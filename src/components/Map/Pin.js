@@ -1,13 +1,17 @@
 import { Marker } from "react-leaflet";
+import * as L from "leaflet";
 import { useDispatch } from "react-redux";
 import {
   openDevice,
   setError,
 } from "../../redux/CurrentDevice/currentDeviceSlice";
 
+import styles from "./pin.module.scss";
+
 const Pin = ({ device }) => {
   const dispatch = useDispatch();
-  const { token, dataEndpoint } = device;
+  const { token, dataEndpoint, indexes } = device;
+
   let { deviceURL: deviceURLTemplate, channelDataURL: channelDataURLTemplate } =
     dataEndpoint;
   const deviceURL = deviceURLTemplate.replace("{Token}", token);
@@ -35,9 +39,23 @@ const Pin = ({ device }) => {
       })
     );
   };
+
+  let iconClasses = styles.divIcon + " ";
+  const commonAirQualityIndex = indexes.find((index) => index.slug === "caqi");
+  if (commonAirQualityIndex) {
+    const { indexLevel } = commonAirQualityIndex;
+    iconClasses += styles[`indexLevel${indexLevel}`];
+  }
+
+  const icon = new L.divIcon({
+    iconSize: [15, 15],
+    className: iconClasses,
+  });
+
   return (
     <>
       <Marker
+        icon={icon}
         eventHandlers={{
           click: onDeviceOpen,
         }}
