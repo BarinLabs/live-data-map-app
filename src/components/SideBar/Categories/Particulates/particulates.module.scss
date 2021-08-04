@@ -1,28 +1,56 @@
 .channelContainer {
-  height: 40px;
   padding: 5px;
-  border-bottom: 1px solid #dbdbdb;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid #dbdbdb;
 
-  .statusContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: green;
+  .mainContainer {
     height: 40px;
-    width: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    .iconContainer {
+    .statusContainer {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: white;
-      height: 35px;
-      width: 35px;
       border-radius: 50%;
+      background-color: green;
+      height: 40px;
+      width: 40px;
+
+      .iconContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+      }
+    }
+
+    .dataContainer {
+      flex-grow: 1;
+      padding: 5px;
+      display: flex;
+      justify-content: space-between;
     }
   }
+
+  .descriptionContainer {
+    h6 {
+      margin: 10px 0 0 0;
+    }
+
+    p {
+      margin-top: 5px;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+.channelContainer:hover {
+  cursor: pointer;
+  background-color: white;
 }
