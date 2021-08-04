@@ -6,7 +6,7 @@ const Slugs = ({ slugs }) => {
 
   useEffect(() => {
     setSelectedSlug(slugs[0]);
-  });
+  }, []);
 
   const slugSelectOptions = useMemo(() => {
     return slugs.map(({ slug }) => {
