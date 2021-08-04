@@ -46,13 +46,13 @@ const SideMenuNav = ({ selectItem, closeContent }) => {
       </div>
       <SideMenuItem
         selectItem={selectItem}
-        title={"Preferences"}
+        title={"About"}
         icon={faCog}
         isMenuOpen={isMenuOpen}
       />
       <SideMenuItem
         selectItem={selectItem}
-        title={"Share"}
+        title={"Faq"}
         icon={faShareAlt}
         isMenuOpen={isMenuOpen}
       />

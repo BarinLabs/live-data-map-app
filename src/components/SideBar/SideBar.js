@@ -9,6 +9,7 @@ import styles from "./sideBar.module.scss";
 import Weather from "./Categories/Weather/Weather";
 import Gases from "./Categories/Gases/Gases";
 import Particulates from "./Categories/Particulates/Particulates";
+import Slugs from "./Categories/Slugs/Slugs";
 
 const _WEATHER = "Weather";
 const _GASES = "Gases";
@@ -70,8 +71,9 @@ const SideBar = () => {
           <div>Last Submission: {lastSubmissionShort}</div>
           <div>
             {weatherChannels.length > 0 && (
-              <Weather channels={weatherChannels} />
+              <Weather channels={data} />
             )}
+            {device.indexes.length > 0 && <Slugs slugs={device.indexes} /> }
             {gasesChannels.length > 0 && <Gases channels={gasesChannels} />}
             {particulatesChannels.length > 0 && (
               <Particulates channels={particulatesChannels} />
