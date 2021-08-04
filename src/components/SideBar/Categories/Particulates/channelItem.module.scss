@@ -1,0 +1,57 @@
+.channelContainer {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #dbdbdb;
+
+  .mainContainer {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .statusContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+
+      height: 40px;
+      width: 40px;
+
+      .iconContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+      }
+    }
+
+    .dataContainer {
+      flex-grow: 1;
+      padding: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .descriptionContainer {
+    h6 {
+      margin: 10px 0 0 0;
+    }
+
+    p {
+      font-size: 0.7rem;
+      margin-top: 5px;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+.channelContainer:hover {
+  cursor: pointer;
+  background-color: white;
+}
