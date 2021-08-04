@@ -6,4 +6,17 @@
   background-color: $sideMenuContent-bg-color;
   box-shadow: $sideMenuContent-box-shadow;
   padding: 20px;
+
+  .closeBtnContainer {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      all: unset;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+  }
 }

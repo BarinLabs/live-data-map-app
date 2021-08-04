@@ -1,8 +1,6 @@
 import ChannelItem from "../ChannelItem";
 
 const Particulates = ({ channels }) => {
-  console.log(channels);
-
   return (
     <div>
       <h3>Particulates:</h3>
