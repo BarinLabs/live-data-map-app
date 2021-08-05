@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./sideMenuItem.module.scss";
 
-
 const SideMenuItem = ({ title, icon, isMenuOpen, selectItem }) => {
   const containerStyles = `${styles.container} ${
     isMenuOpen ? styles.activeMenu : ""
@@ -15,13 +14,7 @@ const SideMenuItem = ({ title, icon, isMenuOpen, selectItem }) => {
           <FontAwesomeIcon icon={icon} size="lg" />
         </button>
       </div>
-      {isMenuOpen && (
-        <div
-        
-        className={styles.titleContainer}>
-          {title}
-        </div>
-      )}
+      {isMenuOpen && <div className={styles.titleContainer}>{title}</div>}
     </div>
   );
 };

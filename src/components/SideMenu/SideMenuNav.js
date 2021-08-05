@@ -1,3 +1,4 @@
+import DarkModeToggle from "react-dark-mode-toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
@@ -13,7 +14,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const SideMenuNav = ({ selectItem, closeContent }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleDarkModeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const toggleOpenMenuBtn = () => {
     if (isMenuOpen) {
@@ -56,6 +62,13 @@ const SideMenuNav = ({ selectItem, closeContent }) => {
         icon={faShareAlt}
         isMenuOpen={isMenuOpen}
       />
+      <div className={styles.darkModeToggleContainer}>
+        <DarkModeToggle
+          onChange={handleDarkModeToggle}
+          checked={isDarkMode}
+          size={50}
+        />
+      </div>
     </section>
   );
 };

@@ -4,26 +4,35 @@
   width: 60px;
   height: 100%;
   background-color: $sideMenu-bg-color;
-
   box-shadow: $sideMenu-box-shadow;
+  display: flex;
+  flex-direction: column;
+
+  .toggleMenu {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      all: unset;
+    }
+  }
+
+  .toggleMenu > button:hover {
+    cursor: pointer;
+  }
+
+  .darkModeToggleContainer {
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-grow: 1;
+  }
 }
 
 .activeMenu {
   width: 90px;
-}
-
-.toggleMenu {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  button {
-    all: unset;
-  }
-}
-
-.toggleMenu > button:hover {
-  cursor: pointer;
 }
