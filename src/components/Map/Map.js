@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import Pin from "./Pin";
 
 import styles from "./map.module.scss";
+import { useSelector } from "react-redux";
 
 const Map = () => {
   const [devices, setDevices] = useState([]);
+  let isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
 
   useEffect(() => {
     fetchData().catch((e) => console.log("error", e.message));
@@ -32,6 +34,10 @@ const Map = () => {
     return <Pin key={device.token} device={device} />;
   });
 
+  const tileLayerKey = useMemo(() => {
+    return Math.random();
+  }, [isDarkMode]);
+
   return (
     <div className={styles.container}>
       <MapContainer
@@ -41,6 +47,8 @@ const Map = () => {
         scrollWheelZoom={true}
       >
         <TileLayer
+          key={tileLayerKey}
+          className={isDarkMode && styles.darkMode}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
