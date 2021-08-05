@@ -39,10 +39,13 @@ const ChannelItem = ({ channel }) => {
   };
 
   let statusColor = "grey";
+  let percentage = "";
   if (standard) {
-    const percentage = standard.percentage * 100;
+    const currPercentage = standard.percentage * 100;
     statusColor =
-      percentage <= 50 ? "green" : percentage <= 75 ? "yellow" : "red";
+      currPercentage <= 50 ? "green" : currPercentage <= 75 ? "yellow" : "red";
+
+    percentage = Math.round(currPercentage) + "%";
   }
   return (
     <div className={styles.channelContainer} onClick={toggleCollapse}>
@@ -59,7 +62,7 @@ const ChannelItem = ({ channel }) => {
         </div>
         <div className={styles.dataContainer}>
           <span>{name} </span>
-          {standard && <span>{standard.percentage * 100}%</span>}
+          {standard && <span>{percentage}</span>}
           <span>
             {value.toFixed(0)} {suffix}
           </span>
