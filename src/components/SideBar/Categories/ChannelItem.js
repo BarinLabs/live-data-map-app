@@ -7,32 +7,15 @@ import {
   faArrowDown,
   faArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useStore } from "react-redux";
 
 const ChannelItem = ({ channel }) => {
-  const [definedStandards, setDefinedStandards] = useState();
+  const store = useStore();
+  const { standardsArr: definedStandards } = store.getState().definedStandards;
   const { name, value, suffix, standards } = channel;
   const standard = standards[0];
   const [isCollapseOpen, setIsCollapseOpen] = useState(false);
-
-  useEffect(() => {
-    if (standard && !definedStandards) {
-      fetchStandards();
-    }
-  }, [standard, definedStandards]);
-
-  const fetchStandards = async () => {
-    const res = await fetch(
-      "https://open-data.senstate.cloud/assets/standards"
-    );
-
-    if (!res.ok) {
-      throw new Error("Something went wrong.");
-    }
-
-    const data = await res.json();
-    setDefinedStandards(data);
-  };
 
   const toggleCollapse = () => {
     setIsCollapseOpen(!isCollapseOpen);
@@ -40,13 +23,24 @@ const ChannelItem = ({ channel }) => {
 
   let statusColor = "grey";
   let percentage = "";
+  let standardName = "";
   if (standard) {
     const currPercentage = standard.percentage * 100;
     statusColor =
       currPercentage <= 50 ? "green" : currPercentage <= 75 ? "yellow" : "red";
 
     percentage = Math.round(currPercentage) + "%";
+
+    const standardSlug = standard.standard;
+    const backupStandardName = standardSlug + " regulations";
+    const matchingStandard = definedStandards.find(
+      (currStand) => currStand.slug === standardSlug
+    );
+    standardName = matchingStandard
+      ? matchingStandard.name
+      : backupStandardName;
   }
+
   return (
     <div className={styles.channelContainer} onClick={toggleCollapse}>
       <div className={styles.mainContainer}>
@@ -80,12 +74,7 @@ const ChannelItem = ({ channel }) => {
       {standard && isCollapseOpen && (
         <div className={styles.descriptionContainer}>
           <h6>
-            {
-              definedStandards.find(
-                (currStand) => currStand.slug === standard.standard
-              ).name
-            }
-            : {standard.limit} {suffix}
+            {standardName}: {standard.limit} {suffix}
           </h6>
           <p>{standard.description}</p>
         </div>
