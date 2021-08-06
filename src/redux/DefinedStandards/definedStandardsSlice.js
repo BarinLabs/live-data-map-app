@@ -21,13 +21,7 @@ const initialState = { standardsArr: [] };
 export const definedStandardsSlice = createSlice({
   name: "standards",
   initialState,
-  reducers: {
-    openDevice: (state, action) => {
-      state.isDeviceOpen = true;
-      state.device = action.payload.device;
-      state.error = false;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchDefinedStandards.pending, (state, action) => {})

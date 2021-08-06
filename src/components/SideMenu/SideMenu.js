@@ -11,11 +11,13 @@ import { useState } from "react";
 const SideMenu = () => {
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [currItem, setCurrItem] = useState("");
+  const [currItemTitle, setCurrItemTitle] = useState("");
 
   const handleItemSelection = (itemTitle) => {
-    if (currItem !== itemTitle) {
+    if (currItemTitle !== itemTitle) {
       setIsItemSelected(true);
       setCurrItem(itemTitle === "About" ? About : FAQ);
+      setCurrItemTitle(itemTitle);
     } else {
       closeContent();
     }
@@ -24,6 +26,7 @@ const SideMenu = () => {
   const closeContent = () => {
     setIsItemSelected(false);
     setCurrItem("");
+    setCurrItemTitle("");
   };
 
   return (
