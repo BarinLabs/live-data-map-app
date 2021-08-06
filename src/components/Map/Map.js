@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import Pin from "./Pin";
 
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const Map = () => {
   const [devices, setDevices] = useState([]);
   let isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const tileLayerRef = useRef();
 
   useEffect(() => {
     fetchData().catch((e) => console.log("error", e.message));
@@ -34,6 +35,9 @@ const Map = () => {
     return <Pin key={device.token} device={device} />;
   });
 
+  let tileLayerClasses =
+    tileLayerRef.current && (isDarkMode ? styles.darkMode : styles.lightMode);
+
   const tileLayerKey = useMemo(() => {
     return Math.random();
   }, [isDarkMode]);
@@ -47,8 +51,9 @@ const Map = () => {
         scrollWheelZoom={true}
       >
         <TileLayer
+          ref={tileLayerRef}
           key={tileLayerKey}
-          className={isDarkMode && styles.darkMode}
+          className={tileLayerClasses}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />

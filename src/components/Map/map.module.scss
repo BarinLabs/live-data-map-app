@@ -8,8 +8,43 @@
 .mapContainer {
   width: 100%;
   height: 100%;
+
+  .lightMode {
+    filter: none;
+
+    animation-name: lightMode;
+    animation-duration: 1.2s;
+  }
+
+  .darkMode {
+    filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg)
+      saturate(0.2);
+
+    animation-name: darkMode;
+    animation-duration: 1.2s;
+  }
 }
 
-.darkMode {
-  filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg) saturate(0.2);
+@keyframes darkMode {
+  0% {
+    filter: brightness(0.7);
+  }
+  50% {
+    filter: brightness(1) invert(1)  contrast(1)  hue-rotate(200deg)
+       saturate(0.2);
+  }
+  100% {
+    filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg)
+      saturate(0.2);
+  }
+}
+
+@keyframes lightMode {
+  0% {
+    filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg)
+      saturate(0.2);
+  }
+  100% {
+    filter: brightness(1);
+  }
 }
