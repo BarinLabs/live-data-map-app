@@ -2,3 +2,9 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+@media screen and (max-width: 330px) {
+  .selectMenusContainer {
+    flex-direction: column;
+  }
+}
