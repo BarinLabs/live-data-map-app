@@ -4,12 +4,14 @@ import Pin from "./Pin";
 
 import styles from "./map.module.scss";
 import ThemeContext from "../../context/theme-context";
+import Loader from "react-loader-spinner";
 
 const Map = () => {
-  const [devices, setDevices] = useState([]);
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
   const tileLayerRef = useRef();
+  const [devices, setDevices] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchData().catch((e) => console.log("error", e.message));
@@ -19,6 +21,7 @@ const Map = () => {
     const response = await fetch("https://open-data.senstate.cloud/devices");
 
     if (!response.ok) {
+      setIsLoading(false);
       throw new Error("Something went wrong.");
     }
 
@@ -30,6 +33,7 @@ const Map = () => {
     }
 
     setDevices(loadedDevices);
+    setIsLoading(false);
   };
 
   const pins = devices.map((device) => {
@@ -58,7 +62,17 @@ const Map = () => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {pins}
+        {isLoading ? (
+          <Loader
+            className={styles.loader}
+            type="Oval"
+            color="rgb(0 120 255)"
+            height={30}
+            width={30}
+          />
+        ) : (
+          pins
+        )}
       </MapContainer>
     </div>
   );

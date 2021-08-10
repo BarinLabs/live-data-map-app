@@ -3,25 +3,35 @@
   height: 100vh;
   position: relative;
   z-index: 0;
-}
 
-.mapContainer {
-  width: 100%;
-  height: 100%;
+  .mapContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  .lightMode {
-    filter: none;
+    .loader {
+      position: absolute;
+      z-index: 999;
+    }
 
-    animation-name: lightMode;
-    animation-duration: 1.2s;
-  }
+    .lightMode {
+      filter: none;
 
-  .darkMode {
-    filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg)
-      saturate(0.2);
+      animation-name: lightMode;
+      animation-duration: 1.2s;
+    }
 
-    animation-name: darkMode;
-    animation-duration: 1.2s;
+    .darkMode {
+      filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg)
+        saturate(0.2);
+
+      animation-name: darkMode;
+      animation-duration: 1.2s;
+    }
   }
 }
 
