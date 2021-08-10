@@ -23,7 +23,7 @@ const SideMenuNav = ({ selectItem, closeContent }) => {
     if (isMenuOpen) {
       closeContent();
     }
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prevState) => !prevState);
   };
 
   const openMenuBtnIcon = isMenuOpen ? (

@@ -21,7 +21,7 @@ const Map = () => {
     const response = await fetch("https://open-data.senstate.cloud/devices");
 
     if (!response.ok) {
-      setIsLoading(false);
+      setIsLoading((prevState) => !prevState);
       throw new Error("Something went wrong.");
     }
 
@@ -33,7 +33,7 @@ const Map = () => {
     }
 
     setDevices(loadedDevices);
-    setIsLoading(false);
+    setIsLoading((prevState) => !prevState);
   };
 
   const pins = devices.map((device) => {

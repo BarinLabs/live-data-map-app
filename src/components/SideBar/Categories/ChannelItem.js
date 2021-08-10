@@ -18,7 +18,7 @@ const ChannelItem = ({ channel }) => {
   const [isCollapseOpen, setIsCollapseOpen] = useState(false);
 
   const toggleCollapse = () => {
-    setIsCollapseOpen(!isCollapseOpen);
+    setIsCollapseOpen((prevState) => !prevState);
   };
 
   let statusColor = "grey";

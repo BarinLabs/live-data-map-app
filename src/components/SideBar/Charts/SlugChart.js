@@ -6,7 +6,7 @@ import { formatDate } from "../../../utils/generateDates";
 const SlugChart = (props) => {
   const store = useStore();
   const [chartState, setChartState] = useState({ labels: [], data: [] });
-  const { slug: slug } = props.slug;
+  const { slug } = props.slug;
 
   const deviceUrl = useMemo(() => {
     const { deviceURL } = store.getState().currentDevice.device;
@@ -27,7 +27,7 @@ const SlugChart = (props) => {
           },
           borderColor: "red",
           backgroundColor: "red",
-        }
+        },
       ],
     };
   }, [chartState]);
@@ -46,7 +46,7 @@ const SlugChart = (props) => {
       const currentDate = new Date(timeStamp);
       const day = formatDate(currentDate);
       loadedLabels.push(day);
-      return { x: value};
+      return { x: value };
     });
 
     setChartState({ labels: loadedLabels, data: currentValues });

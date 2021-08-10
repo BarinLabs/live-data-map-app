@@ -7,9 +7,9 @@ import { fetchDefinedStandards } from "./redux/DefinedStandards/definedStandards
 import { ThemeContextProvider } from "./context/theme-context";
 
 function App() {
-  const isDeviceOpen = useSelector((state) => state.currentDevice.isDeviceOpen);
   const store = useStore();
   const { standardsArr } = store.getState().definedStandards;
+  const isDeviceOpen = useSelector((state) => state.currentDevice.isDeviceOpen);
 
   const dispatch = useDispatch();
   useEffect(() => {
