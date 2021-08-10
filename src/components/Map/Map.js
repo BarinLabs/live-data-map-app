@@ -1,13 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import Pin from "./Pin";
 
 import styles from "./map.module.scss";
-import { useSelector } from "react-redux";
+import ThemeContext from "../../context/theme-context";
 
 const Map = () => {
   const [devices, setDevices] = useState([]);
-  let isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const ctx = useContext(ThemeContext);
+  let { isDarkTheme } = ctx;
   const tileLayerRef = useRef();
 
   useEffect(() => {
@@ -36,11 +37,11 @@ const Map = () => {
   });
 
   let tileLayerClasses =
-    tileLayerRef.current && (isDarkMode ? styles.darkMode : styles.lightMode);
+    tileLayerRef.current && (isDarkTheme ? styles.darkMode : styles.lightMode);
 
   const tileLayerKey = useMemo(() => {
     return Math.random();
-  }, [isDarkMode]);
+  }, [isDarkTheme]);
 
   return (
     <div className={styles.container}>

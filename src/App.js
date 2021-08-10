@@ -4,6 +4,7 @@ import SideBar from "./components/SideBar/SideBar";
 import Map from "./components/Map/Map";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { fetchDefinedStandards } from "./redux/DefinedStandards/definedStandardsSlice";
+import { ThemeContextProvider } from "./context/theme-context";
 
 function App() {
   const isDeviceOpen = useSelector((state) => state.currentDevice.isDeviceOpen);
@@ -18,11 +19,11 @@ function App() {
   }, [standardsArr, dispatch]);
 
   return (
-    <>
+    <ThemeContextProvider>
       <SideMenu />
       {isDeviceOpen && <SideBar />}
       <Map />
-    </>
+    </ThemeContextProvider>
   );
 }
 

@@ -1,6 +1,6 @@
 import DarkModeToggle from "react-dark-mode-toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import SideMenuItem from "./SideMenuItem";
 
@@ -12,12 +12,11 @@ import {
   faCog,
   faShareAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleDarkMode } from "../../redux/DarkMode/darkModeSlice";
+import ThemeContext from "../../context/theme-context";
 
 const SideMenuNav = ({ selectItem, closeContent }) => {
-  const dispatch = useDispatch();
-  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const ctx = useContext(ThemeContext);
+  const { isDarkTheme, toggleDarkTheme } = ctx;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleOpenMenuBtn = () => {
@@ -63,10 +62,8 @@ const SideMenuNav = ({ selectItem, closeContent }) => {
       />
       <div className={styles.darkModeToggleContainer}>
         <DarkModeToggle
-          onChange={() => {
-            dispatch(toggleDarkMode());
-          }}
-          checked={isDarkMode}
+          onChange={toggleDarkTheme}
+          checked={isDarkTheme}
           size={50}
         />
       </div>
