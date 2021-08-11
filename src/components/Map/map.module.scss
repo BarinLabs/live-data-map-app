@@ -19,18 +19,11 @@
     }
 
     .lightMode {
-      filter: none;
-
-      animation-name: lightMode;
-      animation-duration: 1.2s;
+      animation: lightMode 1.2s forwards;
     }
 
     .darkMode {
-      filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg)
-        saturate(0.2);
-
-      animation-name: darkMode;
-      animation-duration: 1.2s;
+      animation: darkMode 1.2s forwards;
     }
   }
 }
@@ -50,11 +43,11 @@
 }
 
 @keyframes lightMode {
-  0% {
+  from {
     filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg)
       saturate(0.2);
   }
-  100% {
+  to {
     filter: brightness(1);
   }
 }
