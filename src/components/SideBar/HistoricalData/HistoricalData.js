@@ -5,13 +5,13 @@ import styles from "./historicalData.module.scss";
 const _WEATHER = "Weather";
 
 const HistoricalData = ({ categories }) => {
-  const weatherCategory = categories.find(
-    (category) => category.name === _WEATHER
-  );
-
   const [selectedPeriod, setSelectedPeriod] = useState("24 hours");
 
   const [selectedCategoryName, setSelectedCategoryName] = useState(() => {
+    const weatherCategory = categories.find(
+      (category) => category.name === _WEATHER
+    );
+
     return weatherCategory ? _WEATHER : categories[0].name;
   });
 
@@ -26,20 +26,22 @@ const HistoricalData = ({ categories }) => {
       );
 
       if (weatherCategory) {
+        setSelectedCategoryName(_WEATHER);
         return weatherCategory;
       }
 
+      setSelectedCategoryName(categories[0].name);
       return categories[0];
     }
 
     return currCategory;
   }, [categories, selectedCategoryName]);
 
-  const { channels } = selectedCategory;
+  const { channels, name } = selectedCategory;
 
   const [selectedChannelName, setSelectedChannelName] = useState(() => {
     if (
-      selectedCategory.name === _WEATHER &&
+      name === _WEATHER &&
       channels.find((channel) => channel.name === "Temperature")
     ) {
       return "Temperature";
@@ -49,28 +51,15 @@ const HistoricalData = ({ categories }) => {
   });
 
   const selectedChannel = useMemo(() => {
-    if (selectedCategory.name === _WEATHER) {
-      const tempretatureChannel = channels.find(
-        (channel) => channel.name === "Temperature"
-      );
+    const currChannel = channels.find(
+      (channel) => channel.name === selectedChannelName
+    );
 
-      if (tempretatureChannel) {
-        return tempretatureChannel;
-      }
-
-      return channels[0];
-    } else {
-      const channelIsFound = channels.find(
-        (channel) => channel.name === selectedChannelName
-      );
-
-      if (channelIsFound) {
-        return channelIsFound;
-      }
-
-      return channels[0];
+    if (currChannel) {
+      return currChannel;
     }
 
+    setSelectedChannelName(channels[0].name);
     return channels[0];
   }, [channels, selectedChannelName]);
 
