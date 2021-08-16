@@ -6,7 +6,7 @@ const initialState = {
   device: {
     deviceURL: "",
     channelDataURLTemplate: "",
-    data: [],
+    categories: [],
     status: { online: false, lastSubmissionShort: "" },
   },
 };

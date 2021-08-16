@@ -1,6 +1,6 @@
 import { Marker } from "react-leaflet";
 import * as L from "leaflet";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import {
   openDevice,
   setError,
@@ -9,6 +9,10 @@ import {
 import styles from "./pin.module.scss";
 
 const Pin = ({ device }) => {
+  const currDeviceURL = useSelector(
+    (state) => state.currentDevice.device.deviceURL
+  );
+
   const dispatch = useDispatch();
   const { token, dataEndpoint, indexes } = device;
 
@@ -18,7 +22,9 @@ const Pin = ({ device }) => {
   const channelDataURL = channelDataURLTemplate.replace("{Token}", token);
 
   const onDeviceOpen = () => {
-    fetchDeviceData().catch((e) => dispatch(setError()));
+    if (currDeviceURL !== deviceURL) {
+      fetchDeviceData().catch((e) => dispatch(setError()));
+    }
   };
 
   const fetchDeviceData = async () => {
@@ -29,11 +35,15 @@ const Pin = ({ device }) => {
     }
 
     const deviceData = await res.json();
+    const { data: categories } = deviceData;
+    delete deviceData.data;
+
     dispatch(
       openDevice({
         device: {
           deviceURL,
           channelDataURLTemplate: channelDataURL,
+          categories,
           ...deviceData,
         },
       })

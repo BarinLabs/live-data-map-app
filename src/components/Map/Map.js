@@ -11,17 +11,18 @@ const Map = () => {
   let { isDarkTheme } = ctx;
   const tileLayerRef = useRef();
   const [devices, setDevices] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchData().catch((e) => console.log("error", e.message));
   }, []);
 
   const fetchData = async () => {
+    setIsLoading(true);
     const response = await fetch("https://open-data.senstate.cloud/devices");
 
     if (!response.ok) {
-      setIsLoading((prevState) => !prevState);
+      setIsLoading(false);
       throw new Error("Something went wrong.");
     }
 
@@ -33,7 +34,7 @@ const Map = () => {
     }
 
     setDevices(loadedDevices);
-    setIsLoading((prevState) => !prevState);
+    setIsLoading(false);
   };
 
   const pins = devices.map((device) => {
@@ -44,7 +45,7 @@ const Map = () => {
     tileLayerRef.current && (isDarkTheme ? styles.darkMode : styles.lightMode);
 
   const tileLayerKey = useMemo(() => {
-    return Math.random();
+    return Math.random().toString();
   }, [isDarkTheme]);
 
   return (

@@ -82,7 +82,13 @@ const About = (
     </p>
     <p>
       You can read the full terms of CC BY 4.0{" "}
-      <a href="https://creativecommons.org/licenses/by/4.0/">here</a>
+      <a
+        href="https://creativecommons.org/licenses/by/4.0/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        here
+      </a>
     </p>
     <h3>Data reliability</h3>
     <p>
@@ -138,7 +144,11 @@ const FAQ = (
         <img src={CAQI}></img>
         <p>
           For more information about this index, please check this{" "}
-          <a href="https://en.wikipedia.org/wiki/Air_quality_index#CAQI">
+          <a
+            href="https://en.wikipedia.org/wiki/Air_quality_index#CAQI"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             link
           </a>
         </p>
@@ -172,7 +182,11 @@ const FAQ = (
         <img src={SBAQI}></img>
         <p>
           For more information about this index, please check this{" "}
-          <a href="https://en.wikipedia.org/wiki/Air_quality_index#CAQI">
+          <a
+            href="https://en.wikipedia.org/wiki/Air_quality_index#CAQI"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             link
           </a>
         </p>

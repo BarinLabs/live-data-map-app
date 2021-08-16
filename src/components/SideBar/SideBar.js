@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeDevice } from "../../redux/CurrentDevice/currentDeviceSlice";
 
@@ -10,6 +10,7 @@ import Weather from "./Categories/Weather/Weather";
 import Gases from "./Categories/Gases/Gases";
 import Particulates from "./Categories/Particulates/Particulates";
 import Slugs from "./Categories/Slugs/Slugs";
+import HistoricalData from "./HistoricalData/HistoricalData";
 
 const _WEATHER = "Weather";
 const _GASES = "Gases";
@@ -17,32 +18,32 @@ const _PARTICULATES = "Particulates";
 
 const SideBar = () => {
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.currentDevice.error);
 
-  const device = useSelector((state) => state.currentDevice.device);
-  const { data, status } = device;
+  const { device, error } = useSelector((state) => state.currentDevice);
+
+  const { categories, status, indexes } = device;
   const { online, lastSubmissionShort } = status;
-  const [weatherChannels, setWeatherChannels] = useState([]);
-  const [gasesChannels, setGasesChannels] = useState([]);
-  const [particulatesChannels, setParticulatesChannels] = useState([]);
 
-  useEffect(() => {
-    setWeatherChannels([]);
-    setGasesChannels([]);
-    setParticulatesChannels([]);
-    if (!error) {
-      data.forEach((category) => {
-        const channels = category.channels;
-        if (category.name === _WEATHER) {
-          setWeatherChannels(channels);
-        } else if (category.name === _GASES) {
-          setGasesChannels(channels);
-        } else if (category.name === _PARTICULATES) {
-          setParticulatesChannels(channels);
-        }
-      });
-    }
-  }, [data, error]);
+  const getCategoryChannels = useCallback(
+    (categoryName) => {
+      const currCategory = categories.find(
+        (category) => category.name === categoryName
+      );
+
+      return currCategory ? currCategory.channels : [];
+    },
+    [categories]
+  );
+
+  const weatherChannels = getCategoryChannels(_WEATHER);
+  const gasesChannels = useMemo(
+    () => getCategoryChannels(_GASES),
+    [getCategoryChannels]
+  );
+  const particulatesChannels = useMemo(
+    () => getCategoryChannels(_PARTICULATES),
+    [getCategoryChannels]
+  );
 
   const statusCircleColor = error ? "red" : online ? "green" : "red";
   const statusIcon = error ? (
@@ -50,6 +51,7 @@ const SideBar = () => {
   ) : (
     <FontAwesomeIcon icon={faCircle} style={{ color: statusCircleColor }} />
   );
+
   return (
     <div className={styles.container}>
       <div className={styles.closeBtnAndStatusContainer}>
@@ -70,10 +72,11 @@ const SideBar = () => {
         <div>
           <div>Last Submission: {lastSubmissionShort}</div>
           <div>
-            {weatherChannels.length > 0 && (
-              <Weather channels={data} />
+            {categories.length > 0 && (
+              <HistoricalData categories={categories} />
             )}
-            {device.indexes.length > 0 && <Slugs slugs={device.indexes} /> }
+            {/* {weatherChannels.length > 0 && <Weather channels={categories} />} */}
+            {indexes.length > 0 && <Slugs slugs={indexes} />}
             {gasesChannels.length > 0 && <Gases channels={gasesChannels} />}
             {particulatesChannels.length > 0 && (
               <Particulates channels={particulatesChannels} />

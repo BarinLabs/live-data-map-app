@@ -9,7 +9,7 @@ const ThemeContextProvider = (props) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const toggleDarkTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
+    setIsDarkTheme((prevState) => !prevState);
   };
 
   return (
