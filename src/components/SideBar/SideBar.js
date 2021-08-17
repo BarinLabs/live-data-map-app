@@ -56,7 +56,7 @@ const SideBar = () => {
 
   return (
     <div className={styles.container}>
-      <Main />
+      <Main indexes={indexes} />
       <div className={styles.closeBtnAndStatusContainer}>
         <button onClick={() => dispatch(closeDevice())}>
           <FontAwesomeIcon icon={faTimes} size="lg" />

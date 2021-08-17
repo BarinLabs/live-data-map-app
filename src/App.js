@@ -4,19 +4,24 @@ import SideBar from "./components/SideBar/SideBar";
 import Map from "./components/Map/Map";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { fetchDefinedStandards } from "./redux/DefinedStandards/definedStandardsSlice";
+import { fetchDefinedIndexes } from "./redux/DefinedIndexes/definedIndexesSlice";
 import { ThemeContextProvider } from "./context/theme-context";
 
 function App() {
   const store = useStore();
-  const { standardsArr } = store.getState().definedStandards;
+  const { definedStandards, definedIndexes } = store.getState();
   const isDeviceOpen = useSelector((state) => state.currentDevice.isDeviceOpen);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!standardsArr.length) {
+    if (!definedStandards.length) {
       dispatch(fetchDefinedStandards());
     }
-  }, [standardsArr, dispatch]);
+
+    if (!definedIndexes.length) {
+      dispatch(fetchDefinedIndexes());
+    }
+  }, [definedStandards, definedIndexes, dispatch]);
 
   return (
     <ThemeContextProvider>

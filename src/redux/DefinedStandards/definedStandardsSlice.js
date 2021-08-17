@@ -16,7 +16,7 @@ const fetchDefinedStandards = createAsyncThunk(
   }
 );
 
-const initialState = { standardsArr: [] };
+const initialState = [];
 
 export const definedStandardsSlice = createSlice({
   name: "standards",
@@ -26,7 +26,7 @@ export const definedStandardsSlice = createSlice({
     builder
       .addCase(fetchDefinedStandards.pending, (state, action) => {})
       .addCase(fetchDefinedStandards.fulfilled, (state, action) => {
-        state.standardsArr.push(...action.payload);
+        state.push(...action.payload);
       })
       .addCase(fetchDefinedStandards.rejected, (state, action) => {
         console.log(action.error.message);

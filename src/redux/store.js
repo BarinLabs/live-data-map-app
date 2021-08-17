@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import currentDeviceReducer from "./CurrentDevice/currentDeviceSlice";
-import definedStandardsSlice from "./DefinedStandards/definedStandardsSlice";
+import definedStandardsReducer from "./DefinedStandards/definedStandardsSlice";
+import definedIndexesReducer from "./DefinedIndexes/definedIndexesSlice";
 
 const store = configureStore({
   reducer: {
     currentDevice: currentDeviceReducer,
-    definedStandards: definedStandardsSlice,
+    definedStandards: definedStandardsReducer,
+    definedIndexes: definedIndexesReducer,
   },
 });
 

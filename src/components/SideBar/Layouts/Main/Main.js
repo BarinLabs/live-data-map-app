@@ -5,7 +5,10 @@ import iconIndexVeryLow from "../../../../assets/icons/icon-index-very-low.svg";
 import iconFacebook from "../../../../assets/icons/icon-facebook.svg";
 import iconTwitter from "../../../../assets/icons/icon-twitter.svg";
 
-const Main = () => {
+const Main = ({ indexes }) => {
+  const index = indexes.find((index) => index.slug === "sbaqi");
+  const { value: indexValue } = index;
+
   return (
     <div className={styles["container"]}>
       <div className={styles["bg-image-container"]}>
@@ -18,7 +21,7 @@ const Main = () => {
           </div>
           <div className={styles["index-data-container"]}>
             <p>Very low</p>
-            <p>7.5</p>
+            <p>{indexValue}</p>
             <p>Senstate CAQI</p>
           </div>
         </div>

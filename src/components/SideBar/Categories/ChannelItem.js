@@ -12,7 +12,7 @@ import { useStore } from "react-redux";
 
 const ChannelItem = ({ channel }) => {
   const store = useStore();
-  const { standardsArr: definedStandards } = store.getState().definedStandards;
+  const { definedStandards } = store.getState();
   const { name, value, suffix, standards } = channel;
   const standard = standards[0];
   const [isCollapseOpen, setIsCollapseOpen] = useState(false);
