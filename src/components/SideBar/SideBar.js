@@ -11,6 +11,7 @@ import Gases from "./Categories/Gases/Gases";
 import Particulates from "./Categories/Particulates/Particulates";
 import Slugs from "./Categories/Slugs/Slugs";
 import HistoricalData from "./HistoricalData/HistoricalData";
+import Main from "./Layouts/Main/Main";
 
 const _WEATHER = "Weather";
 const _GASES = "Gases";
@@ -20,6 +21,7 @@ const SideBar = () => {
   const dispatch = useDispatch();
 
   const { device, error } = useSelector((state) => state.currentDevice);
+  console.log(device);
 
   const { categories, status, indexes } = device;
   const { online, lastSubmissionShort } = status;
@@ -54,6 +56,7 @@ const SideBar = () => {
 
   return (
     <div className={styles.container}>
+      <Main />
       <div className={styles.closeBtnAndStatusContainer}>
         <button onClick={() => dispatch(closeDevice())}>
           <FontAwesomeIcon icon={faTimes} size="lg" />
