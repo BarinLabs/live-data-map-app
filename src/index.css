@@ -2,6 +2,7 @@
 
 body {
   margin: 0;
+  color: rgba(22, 18, 63, 1);
   font-size: 14px;
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;

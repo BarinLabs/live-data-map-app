@@ -1,0 +1,26 @@
+.container {
+  border: 1px solid red;
+  padding: 5px 10px;
+
+  .title-and-select-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    select {
+      color: rgba(187, 187, 187, 1);
+      height: 34px;
+      width: 99px;
+      border-radius: 5px;
+    }
+  }
+
+  .chart-container {
+    height: 140px;
+  }
+}

@@ -12,6 +12,7 @@ import Particulates from "./Categories/Particulates/Particulates";
 import Slugs from "./Categories/Slugs/Slugs";
 import HistoricalData from "./HistoricalData/HistoricalData";
 import Main from "./Layouts/Main/Main";
+import AQIChart from "./Layouts/AQIChart/AQIChart";
 
 const _WEATHER = "Weather";
 const _GASES = "Gases";
@@ -60,10 +61,6 @@ const SideBar = () => {
         <button onClick={() => dispatch(closeDevice())}>
           <FontAwesomeIcon icon={faTimes} size="lg" />
         </button>
-        <div className={styles.status}>
-          <span>Status: </span>
-          {statusIcon}
-        </div>
       </div>
 
       {error && (
@@ -77,7 +74,7 @@ const SideBar = () => {
             location={location}
             lastSubmission={lastSubmission}
           />
-          <div>Last Submission: {lastSubmissionShort}</div>
+          <AQIChart />
           <div>
             {categories.length > 0 && (
               <HistoricalData categories={categories} />
