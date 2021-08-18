@@ -24,7 +24,7 @@ const SideBar = () => {
   console.log(device);
 
   const { categories, status, indexes, location } = device;
-  const { online, lastSubmissionShort } = status;
+  const { online, lastSubmission, lastSubmissionShort } = status;
 
   const getCategoryChannels = useCallback(
     (categoryName) => {
@@ -72,7 +72,11 @@ const SideBar = () => {
 
       {!error && (
         <div>
-          <Main indexes={indexes} location={location} />
+          <Main
+            indexes={indexes}
+            location={location}
+            lastSubmission={lastSubmission}
+          />
           <div>Last Submission: {lastSubmissionShort}</div>
           <div>
             {categories.length > 0 && (

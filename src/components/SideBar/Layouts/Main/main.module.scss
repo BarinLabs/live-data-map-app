@@ -11,7 +11,7 @@
     align-items: flex-end;
     position: absolute;
     z-index: 0;
-    bottom: 0;
+    bottom: -1px;
 
     img {
       width: 100%;
@@ -52,26 +52,64 @@
   }
 }
 
-.index-level-no-index {
+.index-description-container,
+.last-submission-container {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255, 255, 255, 1);
+  font-weight: 600;
+}
+
+.last-submission-container {
+  background-color: rgba(22, 18, 63, 1);
+
+  img {
+    margin-right: 10px;
+  }
+}
+
+.index-color-very-low {
+  background-color: $index-very-low;
+}
+
+.index-color-low {
+  background-color: $index-low;
+}
+
+.index-color-medium {
+  background-color: $index-medium;
+}
+
+.index-color-high {
+  background-color: $index-high;
+}
+.index-color-very-high {
+  background-color: $index-very-high;
+}
+
+.index-bg-no-index {
   background-color: $bg-no-index;
 }
 
-.index-level-very-low {
+.index-bg-very-low {
   background-color: $bg-index-very-low;
 }
 
-.index-level-low {
+.index-bg-low {
   background-color: $bg-index-low;
 }
 
-.index-level-medium {
+.index-bg-medium {
   background-color: $bg-index-medium;
 }
 
-.index-level-high {
+.index-bg-high {
   background-color: $bg-index-high;
 }
 
-.index-level-very-high {
+.index-bg-very-high {
   background-color: $bg-index-very-high;
 }
