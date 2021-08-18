@@ -1,0 +1,54 @@
+@import "../../../../../utils/stylesVariables.scss";
+
+.index-container {
+  width: 85%;
+  display: flex;
+
+  .index-data-container {
+    margin-left: 12px;
+
+    p {
+      margin: 0;
+    }
+
+    p:first-of-type {
+      font-size: 16px;
+      text-align: center;
+      padding: 2px 0px;
+      border-radius: 10px;
+      color: rgba(244, 244, 244, 1);
+    }
+
+    p:nth-of-type(2) {
+      font-size: 45px;
+      font-weight: 500;
+      margin-top: 5px;
+      padding-left: 2px;
+    }
+
+    p:nth-of-type(3) {
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+}
+
+.index-level-very-low {
+  background-color: $index-very-low;
+}
+
+.index-level-low {
+  background-color: $index-low;
+}
+
+.index-level-medium {
+  background-color: $index-medium;
+}
+
+.index-level-high {
+  background-color: $index-high;
+}
+
+.index-level-very-high {
+  background-color: $index-very-high;
+}

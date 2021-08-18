@@ -14,7 +14,7 @@ const Pin = ({ device }) => {
   );
 
   const dispatch = useDispatch();
-  const { token, dataEndpoint, indexes } = device;
+  const { token, dataEndpoint, indexes, location } = device;
 
   let { deviceURL: deviceURLTemplate, channelDataURL: channelDataURLTemplate } =
     dataEndpoint;
@@ -43,6 +43,7 @@ const Pin = ({ device }) => {
         device: {
           deviceURL,
           channelDataURLTemplate: channelDataURL,
+          location: { ...location },
           categories,
           ...deviceData,
         },

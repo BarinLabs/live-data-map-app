@@ -5,3 +5,16 @@ $sideMenuContent-box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px,
   rgb(0 0 0 / 24%) 0px 1px 2px;
 $sideMenuItem-hover-color: whitesmoke;
 $sideMenu-z-index: 1;
+
+$index-very-low: rgba(121, 188, 106, 1);
+$index-low: rgba(187, 207, 76, 1);
+$index-medium: rgba(238, 194, 11, 1);
+$index-high: rgba(242, 147, 5, 1);
+$index-very-high: rgba(232, 65, 111, 1);
+
+$bg-no-index: rgb(244, 251, 244);
+$bg-index-very-low: rgba(189, 242, 186, 1);
+$bg-index-low: rgba(242, 252, 185, 1);
+$bg-index-medium: rgba(254, 233, 204, 1);
+$bg-index-high: rgba(254, 233, 204, 1);
+$bg-index-very-high: rgba(255, 215, 215, 1);

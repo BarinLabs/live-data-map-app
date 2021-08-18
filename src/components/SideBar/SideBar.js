@@ -23,7 +23,7 @@ const SideBar = () => {
   const { device, error } = useSelector((state) => state.currentDevice);
   console.log(device);
 
-  const { categories, status, indexes } = device;
+  const { categories, status, indexes, location } = device;
   const { online, lastSubmissionShort } = status;
 
   const getCategoryChannels = useCallback(
@@ -56,7 +56,6 @@ const SideBar = () => {
 
   return (
     <div className={styles.container}>
-      <Main indexes={indexes} />
       <div className={styles.closeBtnAndStatusContainer}>
         <button onClick={() => dispatch(closeDevice())}>
           <FontAwesomeIcon icon={faTimes} size="lg" />
@@ -73,6 +72,7 @@ const SideBar = () => {
 
       {!error && (
         <div>
+          <Main indexes={indexes} location={location} />
           <div>Last Submission: {lastSubmissionShort}</div>
           <div>
             {categories.length > 0 && (
