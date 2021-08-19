@@ -11,8 +11,8 @@ import Gases from "./Categories/Gases/Gases";
 import Particulates from "./Categories/Particulates/Particulates";
 import Slugs from "./Categories/Slugs/Slugs";
 import HistoricalData from "./HistoricalData/HistoricalData";
-import Main from "./Layouts/Main/Main";
-import AQIChart from "./Layouts/AQIChart/AQIChart";
+import Main from "./Main/Main";
+import AQIChart from "./AQIChart/AQIChart";
 
 const _WEATHER = "Weather";
 const _GASES = "Gases";
@@ -22,6 +22,7 @@ const SideBar = () => {
   const dispatch = useDispatch();
 
   const { device, error } = useSelector((state) => state.currentDevice);
+  console.log(device);
 
   const { token, categories, status, indexes, location } = device;
   const { online, lastSubmission } = status;

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import { formatTime } from "../../../../utils/timeAndDate";
-import { indexColors, font } from "../../../../utils/utils";
+import { formatTime } from "../../../utils/timeAndDate";
+import { indexColors, font } from "../../../utils/utils";
 
 import styles from "./aqichart.module.scss";
 
@@ -99,8 +99,7 @@ const options = {
 };
 
 const AQIChart = ({ token, indexes }) => {
-  const [hourlyIndexValues, setHourlyIndexValues] = useState([]);
-  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState({ labels: [], hourlyIndexValues: [] });
   const [selectedSlug, setSelectedSlug] = useState(indexes[0].slug);
   const selectOptions = indexes.map(({ slug }) => (
     <option value={slug} key={slug}>
@@ -109,6 +108,8 @@ const AQIChart = ({ token, indexes }) => {
   ));
 
   const chartData = useMemo(() => {
+    const { labels, hourlyIndexValues } = data;
+
     return {
       labels: labels,
       datasets: [
@@ -120,11 +121,22 @@ const AQIChart = ({ token, indexes }) => {
         },
       ],
     };
-  }, [labels, hourlyIndexValues]);
+  }, [data]);
+
+  const slug = useMemo(() => {
+    const currSlug = indexes.find((index) => index.slug === selectedSlug);
+
+    if (!currSlug) {
+      const newSlug = indexes[0].slug;
+      return newSlug;
+    }
+
+    return selectedSlug;
+  }, [indexes, selectedSlug]);
 
   const getIndexData = useCallback(async () => {
     const response = await fetch(
-      `https://see.senstate.cloud/data/${token}/index?slug=${selectedSlug}`
+      `https://see.senstate.cloud/data/${token}/index?slug=${slug}`
     );
 
     if (!response.ok) {
@@ -134,11 +146,10 @@ const AQIChart = ({ token, indexes }) => {
     const data = await response.json();
 
     const loadedLabels = data.map(({ timeStamp }) => formatTime(timeStamp));
-    setLabels(loadedLabels);
-
     const loadedValues = data.map(({ value }) => value);
-    setHourlyIndexValues(loadedValues);
-  }, [token, selectedSlug]);
+
+    setData({ labels: loadedLabels, hourlyIndexValues: loadedValues });
+  }, [token, slug]);
 
   useEffect(() => {
     getIndexData().catch((e) => console.log(e.message));
@@ -155,6 +166,14 @@ const AQIChart = ({ token, indexes }) => {
       ? "European Air Quality Index (EAQI)"
       : "Senstate Air Quality Index (SBAQI)";
 
+  const chart = useMemo(() => {
+    return (
+      <div className={styles["chart-container"]}>
+        <Bar data={chartData} options={options} />
+      </div>
+    );
+  }, [chartData]);
+
   return (
     <div className={styles["container"]}>
       <p>Source: Senstate</p>
@@ -164,9 +183,7 @@ const AQIChart = ({ token, indexes }) => {
           {selectOptions}
         </select>
       </div>
-      <div className={styles["chart-container"]}>
-        <Bar data={chartData} options={options} />
-      </div>
+      {chart}
     </div>
   );
 };

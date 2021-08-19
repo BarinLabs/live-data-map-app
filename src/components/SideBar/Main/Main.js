@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import styles from "./main.module.scss";
 
-import { formatTime } from "../../../../utils/timeAndDate";
+import { formatTime } from "../../../utils/timeAndDate";
 
 import Index from "./Index/Index";
 
