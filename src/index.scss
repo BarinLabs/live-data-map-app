@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+@import "./utils/stylesVariables.scss";
 
 body {
   margin: 0;
-  color: rgba(22, 18, 63, 1);
+  color: $font-color;
   font-size: 14px;
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;

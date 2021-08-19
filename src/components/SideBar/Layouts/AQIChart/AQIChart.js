@@ -9,15 +9,6 @@ const FIRST_TICK_INDEX = 0;
 const MID_TICK_INDEX = 11;
 const LAST_TICK_INDEX = 23;
 
-const tickConfigs = {
-  color: font.color,
-  font: {
-    family: font.family,
-    size: 14,
-    weight: 600,
-  },
-};
-
 const setTooltipText = (context) => {
   const value = context[0].formattedValue;
 
@@ -34,6 +25,35 @@ const setTooltipText = (context) => {
     text = "Very high";
   }
   return text;
+};
+
+const setBarColor = (context) => {
+  var index = context.dataIndex;
+  var value = context.dataset.data[index];
+
+  let color = "";
+  if (value <= 25) {
+    color = indexColors.veryLow;
+  } else if (value <= 50) {
+    color = indexColors.low;
+  } else if (value <= 75) {
+    color = indexColors.medium;
+  } else if (value <= 100) {
+    color = indexColors.high;
+  } else {
+    color = indexColors.veryHigh;
+  }
+
+  return color;
+};
+
+const tickConfigs = {
+  color: font.color,
+  font: {
+    family: font.family,
+    size: 14,
+    weight: 600,
+  },
 };
 
 const options = {
@@ -96,25 +116,7 @@ const AQIChart = ({ token, indexes }) => {
           data: hourlyIndexValues,
           barThickness: 14,
           borderWidth: 0,
-          backgroundColor: function (context) {
-            var index = context.dataIndex;
-            var value = context.dataset.data[index];
-
-            let color = "";
-            if (value <= 25) {
-              color = indexColors.veryLow;
-            } else if (value <= 50) {
-              color = indexColors.low;
-            } else if (value <= 75) {
-              color = indexColors.medium;
-            } else if (value <= 100) {
-              color = indexColors.high;
-            } else {
-              color = indexColors.veryHigh;
-            }
-
-            return color;
-          },
+          backgroundColor: (context) => setBarColor(context),
         },
       ],
     };
