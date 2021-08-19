@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeDevice } from "../../redux/CurrentDevice/currentDeviceSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faTimes, faBan } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import styles from "./sideBar.module.scss";
 
 import Weather from "./Categories/Weather/Weather";
@@ -22,10 +22,9 @@ const SideBar = () => {
   const dispatch = useDispatch();
 
   const { device, error } = useSelector((state) => state.currentDevice);
-  console.log(device);
 
-  const { categories, status, indexes, location } = device;
-  const { online, lastSubmission, lastSubmissionShort } = status;
+  const { token, categories, status, indexes, location } = device;
+  const { online, lastSubmission } = status;
 
   const getCategoryChannels = useCallback(
     (categoryName) => {
@@ -48,13 +47,6 @@ const SideBar = () => {
     [getCategoryChannels]
   );
 
-  const statusCircleColor = error ? "red" : online ? "green" : "red";
-  const statusIcon = error ? (
-    <FontAwesomeIcon icon={faBan} style={{ color: statusCircleColor }} />
-  ) : (
-    <FontAwesomeIcon icon={faCircle} style={{ color: statusCircleColor }} />
-  );
-
   return (
     <div className={styles.container}>
       <div className={styles.closeBtnAndStatusContainer}>
@@ -74,7 +66,7 @@ const SideBar = () => {
             location={location}
             lastSubmission={lastSubmission}
           />
-          <AQIChart />
+          {indexes.length > 0 && <AQIChart token={token} indexes={indexes} />}
           <div>
             {categories.length > 0 && (
               <HistoricalData categories={categories} />

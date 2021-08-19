@@ -4,6 +4,7 @@ const initialState = {
   error: false,
   isDeviceOpen: false,
   device: {
+    token: "",
     deviceURL: "",
     channelDataURLTemplate: "",
     location: {},

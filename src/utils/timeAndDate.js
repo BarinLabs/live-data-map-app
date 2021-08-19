@@ -1,3 +1,25 @@
+export const formatTime = (timeStamp) => {
+  let ts = timeStamp;
+  if (ts[ts.length - 1] !== "Z") {
+    ts += "Z";
+  }
+
+  const localDate = new Date(ts);
+
+  let hours = localDate.getHours();
+  let minutes = localDate.getMinutes();
+
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+
+  return `${hours}:${minutes}`;
+};
+
 export const getLastNumOfDates = (numberOfDates) => {
   let result = [];
   for (let i = 0; i < numberOfDates; i++) {
@@ -5,8 +27,6 @@ export const getLastNumOfDates = (numberOfDates) => {
     d.setDate(d.getDate() - i);
     result.push(formatDate(d));
   }
-  const temp = new Date("2021-07-05T00:00:00");
-  console.log(temp);
 
   return result.reverse();
 };

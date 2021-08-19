@@ -41,6 +41,7 @@ const Pin = ({ device }) => {
     dispatch(
       openDevice({
         device: {
+          token,
           deviceURL,
           channelDataURLTemplate: channelDataURL,
           location: { ...location },

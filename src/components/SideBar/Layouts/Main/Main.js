@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import styles from "./main.module.scss";
 
+import { formatTime } from "../../../../utils/timeAndDate";
+
 import Index from "./Index/Index";
 
 import bgImageNoIndex from "./Assets/bg-image-no-index.svg";
@@ -58,13 +60,6 @@ const getBgDetails = (indexValue) => {
   };
 };
 
-const getTime = (lastSubmission) => {
-  const date = new Date(lastSubmission);
-  const hours = date.getUTCHours() - Math.floor(date.getTimezoneOffset() / 60);
-  const minutes = date.getUTCMinutes();
-  return `${hours}:${minutes}`;
-};
-
 const Main = ({ indexes, location, lastSubmission }) => {
   const { address, city, country } = location;
   const locationDetails = `${address}, ${city}, ${country}`;
@@ -82,7 +77,7 @@ const Main = ({ indexes, location, lastSubmission }) => {
     return null;
   }, [indexes]);
 
-  const time = getTime(lastSubmission);
+  const time = formatTime(lastSubmission);
 
   const { bgImage, bgColorClass, indexTextBgColorClass, indexDescText } =
     getBgDetails(indexValue);

@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useStore } from "react-redux";
-import { formatDate } from "../../../utils/generateDates";
+import { formatDate } from "../../../utils/timeAndDate";
 
 const SlugChart = (props) => {
   const store = useStore();
