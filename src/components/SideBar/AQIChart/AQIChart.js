@@ -115,7 +115,7 @@ const AQIChart = ({ token, indexes }) => {
       datasets: [
         {
           data: hourlyIndexValues,
-          barThickness: 14,
+          barThickness: "flex",
           borderWidth: 0,
           backgroundColor: (context) => setBarColor(context),
         },

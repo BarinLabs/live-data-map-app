@@ -1,0 +1,40 @@
+@import "../../../../utils/stylesVariables.scss";
+
+.container {
+  display: flex;
+  height: 48px;
+
+  button {
+    all: unset;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: $categories-bg-color;
+    font-size: 16px;
+    font-weight: 700;
+    border-bottom: 3px solid $categories-bg-color;
+
+    svg {
+      margin-right: 5px;
+
+      path {
+        fill: $font-color;
+      }
+    }
+  }
+
+  button:hover {
+    cursor: pointer;
+    background-color: #dadada;
+  }
+
+  .active-btn {
+    border-bottom: 3px solid $font-color;
+  }
+
+  .active-btn:hover {
+    background-color: $categories-bg-color;
+  }
+}

@@ -1,14 +1,14 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { useState } from "react";
+import { useStore } from "react-redux";
 import styles from "./channelItem.module.scss";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   faBraille,
   faArrowDown,
   faArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { useStore } from "react-redux";
 
 const ChannelItem = ({ channel }) => {
   const store = useStore();

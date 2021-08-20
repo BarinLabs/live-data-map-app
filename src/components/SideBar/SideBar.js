@@ -6,13 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import styles from "./sideBar.module.scss";
 
-import Weather from "./Categories/Weather/Weather";
-import Gases from "./Categories/Gases/Gases";
-import Particulates from "./Categories/Particulates/Particulates";
-import Slugs from "./Categories/Slugs/Slugs";
+import Weather from "./Main/Weather/Weather";
+import Gases from "./Main/Gases/Gases";
+import Particulates from "./Main/Particulates/Particulates";
+import Slugs from "./Main/Slugs/Slugs";
 import HistoricalData from "./HistoricalData/HistoricalData";
-import Main from "./Main/Main";
+import Header from "./Header/Header";
 import AQIChart from "./AQIChart/AQIChart";
+import Main from "./Main/Main";
 
 const _WEATHER = "Weather";
 const _GASES = "Gases";
@@ -48,6 +49,8 @@ const SideBar = () => {
     [getCategoryChannels]
   );
 
+  const mainKey = useMemo(() => Math.random().toString(), [token]);
+
   return (
     <div className={styles.container}>
       <div className={styles.closeBtnAndStatusContainer}>
@@ -62,23 +65,24 @@ const SideBar = () => {
 
       {!error && (
         <div>
-          <Main
+          <Header
             indexes={indexes}
             location={location}
             lastSubmission={lastSubmission}
           />
           {indexes.length > 0 && <AQIChart token={token} indexes={indexes} />}
-          <div>
+          <Main key={mainKey} categories={categories} />
+          {/* <div>
             {categories.length > 0 && (
               <HistoricalData categories={categories} />
-            )}
-            {/* {weatherChannels.length > 0 && <Weather channels={categories} />} */}
-            {indexes.length > 0 && <Slugs slugs={indexes} />}
+            )} */}
+          {/* {weatherChannels.length > 0 && <Weather channels={categories} />} */}
+          {/* {indexes.length > 0 && <Slugs slugs={indexes} />}
             {gasesChannels.length > 0 && <Gases channels={gasesChannels} />}
             {particulatesChannels.length > 0 && (
               <Particulates channels={particulatesChannels} />
             )}
-          </div>
+          </div> */}
         </div>
       )}
     </div>

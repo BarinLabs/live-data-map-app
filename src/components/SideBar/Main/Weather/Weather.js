@@ -1,9 +1,9 @@
-import ChannelItem from "../ChannelItem";
+import ChannelItem from "../ChannelItem/ChannelItem";
 
-const Particulates = ({ channels }) => {
+const Weather = ({ channels }) => {
   return (
     <div>
-      <h3>Particulates:</h3>
+      <h3>Weather:</h3>
       <div>
         {channels.map((channel) => (
           <ChannelItem key={channel.token} channel={channel} />
@@ -13,4 +13,4 @@ const Particulates = ({ channels }) => {
   );
 };
 
-export default Particulates;
+export default Weather;
