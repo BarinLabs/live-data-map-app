@@ -1,57 +1,116 @@
-.channelContainer {
-  padding: 5px;
+@import "../../../../utils/stylesVariables.scss";
+
+.container {
+  width: 100%;
+  padding: 5px 25px;
+  padding-bottom: 0;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #dbdbdb;
+  justify-content: center;
+  align-items: center;
+  background-color: $categories-bg-color;
+  border-radius: 27px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 
-  .mainContainer {
-    height: 40px;
+  .main-container {
+    width: 100%;
+    height: 71px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .statusContainer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
+    p {
+      font-size: 16px;
+      font-weight: 700;
+    }
 
-      height: 40px;
-      width: 40px;
+    .icon-container {
+      margin-right: 10px;
+      svg {
+        width: 45px;
+        height: 45px;
+      }
 
-      .iconContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: white;
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
+      svg path {
+        fill: $font-color;
       }
     }
 
-    .dataContainer {
+    .channel-name {
       flex-grow: 1;
-      padding: 5px;
-      display: flex;
-      justify-content: space-between;
+    }
+
+    button {
+      all: unset;
+      margin-left: 10px;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+  }
+
+  .fill-percentage {
+    width: 100%;
+    height: 5px;
+    display: flex;
+
+    span {
+      border-radius: 27px;
+      height: 100%;
     }
   }
 
   .descriptionContainer {
-    h6 {
-      margin: 10px 0 0 0;
-    }
+    width: 100%;
+    color: rgba(135, 158, 134, 1);
 
-    p {
-      font-size: 0.7rem;
-      margin-top: 5px;
-      overflow-wrap: anywhere;
+    p:first-of-type {
+      margin-top: 0;
     }
   }
 }
 
-.channelContainer:hover {
-  cursor: pointer;
-  background-color: white;
+.index-color-very-low {
+  background-color: $index-very-low;
+}
+
+.index-color-low {
+  background-color: $index-low;
+}
+
+.index-color-medium {
+  background-color: $index-medium;
+}
+
+.index-color-high {
+  background-color: $index-high;
+}
+.index-color-very-high {
+  background-color: $index-very-high;
+}
+
+.index-bg-no-index {
+  background-color: $bg-no-index;
+}
+
+.index-bg-very-low {
+  background-color: $bg-index-very-low;
+}
+
+.index-bg-low {
+  background-color: $bg-index-low;
+}
+
+.index-bg-medium {
+  background-color: $bg-index-medium;
+}
+
+.index-bg-high {
+  background-color: $bg-index-high;
+}
+
+.index-bg-very-high {
+  background-color: $bg-index-very-high;
 }
