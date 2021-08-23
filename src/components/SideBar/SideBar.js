@@ -49,7 +49,6 @@ const SideBar = () => {
     [getCategoryChannels]
   );
 
-  const headerKey = useMemo(() => Math.random().toString(), [token]);
   const mainKey = useMemo(() => Math.random().toString(), [token]);
 
   return (
@@ -67,7 +66,6 @@ const SideBar = () => {
       {!error && (
         <div>
           <Header
-            key={headerKey}
             indexes={indexes}
             location={location}
             lastSubmission={lastSubmission}

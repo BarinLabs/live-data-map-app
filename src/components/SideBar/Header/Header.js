@@ -80,10 +80,12 @@ const Header = ({ indexes, location, lastSubmission }) => {
   const { bgImage, bgColorClass, indexTextBgColorClass, indexDescText } =
     getBgDetails(indexValue);
 
+  const bgImageKey = useMemo(() => Math.random().toString(), [bgImage]);
+
   return (
     <>
       <div className={`${styles["container"]} ${styles[bgColorClass]}`}>
-        <div className={styles["bg-image-container"]}>
+        <div key={bgImageKey} className={styles["bg-image-container"]}>
           <img src={bgImage} alt="index background" />
         </div>
         <div className={styles["index-and-address-container"]}>
