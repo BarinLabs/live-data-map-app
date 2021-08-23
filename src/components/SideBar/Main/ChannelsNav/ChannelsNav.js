@@ -85,16 +85,16 @@ const ChannelsNav = ({
         let btnIcon = "";
         let index = "";
         if (name === "NO2") {
-          btnIcon = icons.pm1;
+          btnIcon = icons.no2;
           index = 0;
         } else if (name === "CO") {
-          btnIcon = icons.pm2;
+          btnIcon = icons.co;
           index = 1;
         } else if (name === "O3") {
-          btnIcon = icons.pm4;
+          btnIcon = icons.o3;
           index = 2;
         } else if (name === "SO2") {
-          btnIcon = icons.pm10;
+          btnIcon = icons.so2;
           index = 3;
         }
 

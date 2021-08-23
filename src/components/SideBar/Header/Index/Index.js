@@ -1,10 +1,6 @@
 import styles from "./index.module.scss";
 
-import iconIndexVeryLow from "../Assets/icon-index-very-low.svg";
-import iconIndexLow from "../Assets/icon-index-low.svg";
-import iconIndexMedium from "../Assets/icon-index-medium.svg";
-import iconIndexHigh from "../Assets/icon-index-high.svg";
-import iconIndexVeryHigh from "../Assets/icon-index-very-high.svg";
+import { icons } from "../Assets/icons";
 
 const getIndexDetails = (indexValue) => {
   let indexLevelName = "";
@@ -14,23 +10,23 @@ const getIndexDetails = (indexValue) => {
   if (indexValue <= 25) {
     indexLevelName = "Very low";
     indexNameClasses += "very-low";
-    indexIcon = iconIndexVeryLow;
+    indexIcon = icons.indexVeryLow;
   } else if (indexValue <= 50) {
     indexLevelName = "Low";
     indexNameClasses += "low";
-    indexIcon = iconIndexLow;
+    indexIcon = icons.indexLow;
   } else if (indexValue <= 75) {
     indexLevelName = "Medium";
     indexNameClasses += "medium";
-    indexIcon = iconIndexMedium;
+    indexIcon = icons.indexMedium;
   } else if (indexValue <= 100) {
     indexLevelName = "High";
     indexNameClasses += "high";
-    indexIcon = iconIndexHigh;
+    indexIcon = icons.indexHigh;
   } else {
     indexLevelName = "Very high";
     indexNameClasses += "very-high";
-    indexIcon = iconIndexVeryHigh;
+    indexIcon = icons.indexVeryHigh;
   }
 
   return {
@@ -46,9 +42,7 @@ const Index = ({ indexValue }) => {
 
   return (
     <div className={styles["index-container"]}>
-      <div className={styles["icon-container"]}>
-        <img src={indexIcon} alt="index icon" />
-      </div>
+      <div className={styles["icon-container"]}>{indexIcon}</div>
       <div className={styles["index-data-container"]}>
         <p className={styles[indexNameClasses]}>{indexLevelName}</p>
         <p>{indexValue}</p>

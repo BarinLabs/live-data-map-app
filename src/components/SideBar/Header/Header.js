@@ -5,16 +5,14 @@ import { formatTime } from "../../../utils/timeAndDate";
 
 import Index from "./Index/Index";
 
+import { icons } from "./Assets/icons";
+
 import bgImageNoIndex from "./Assets/bg-image-no-index.svg";
 import bgImageIndexVeryLow from "./Assets/bg-image-index-very-low.svg";
 import bgImageIndexLow from "./Assets/bg-image-index-low.svg";
 import bgImageIndexMedium from "./Assets/bg-image-index-medium.svg";
 import bgImageIndexHigh from "./Assets/bg-image-index-high.svg";
 import bgImageIndexVeryHigh from "./Assets/bg-image-index-very-high.svg";
-
-import iconClock from "./Assets/icon-clock.svg";
-import iconFacebook from "./Assets/icon-facebook.svg";
-import iconTwitter from "./Assets/icon-twitter.svg";
 
 const getBgDetails = (indexValue) => {
   let bgImage = "";
@@ -97,8 +95,8 @@ const Header = ({ indexes, location, lastSubmission }) => {
               </span>
             )}
             <div className={styles["social-icons-container"]}>
-              <img src={iconFacebook} alt="social media icon" />
-              <img src={iconTwitter} alt="social media icon" />
+              {icons.facebook}
+              {icons.twitter}
             </div>
           </div>
         </div>
@@ -111,7 +109,7 @@ const Header = ({ indexes, location, lastSubmission }) => {
         </div>
       )}
       <div className={styles["last-submission-container"]}>
-        <img src={iconClock} alt="clock icon" />
+        {icons.clock}
         <span>{`Last updated at ${time}`}</span>
       </div>
     </>
