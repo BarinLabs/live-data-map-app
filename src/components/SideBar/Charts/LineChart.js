@@ -13,34 +13,48 @@ const LineChart = (props) => {
     const { channelDataURLTemplate } = store.getState().currentDevice.device;
     return channelDataURLTemplate.replace("{channel}", channelToken);
   }, [channelToken, store]);
-
+  
   const chartData = useMemo(() => {
     const { labels, data } = chartState;
-
+    const datasets = [];
+    if (props.high) {
+      datasets.push({
+        label: "High",
+        data,
+        parsing: {
+          yAxisKey: "x",
+        },
+        borderColor: "#E7222E",
+        backgroundColor: "#E7222E",
+      })
+    }
+    if (props.low) {
+      datasets.push({
+        label: "Low",
+        data,
+        parsing: {
+          yAxisKey: "y",
+        },
+        borderColor: "#79BC6A",
+        backgroundColor: "#79BC6A",
+      })
+    }
+    if (props.average) {
+      datasets.push({
+        label: "Average",
+        data,
+        parsing: {
+          yAxisKey: "z",
+        },
+        borderColor: "#EEC20B",
+        backgroundColor: "#EEC20B",
+      })
+    }
     return {
       labels: labels,
-      datasets: [
-        {
-          label: "High",
-          data,
-          parsing: {
-            yAxisKey: "x",
-          },
-          borderColor: "red",
-          backgroundColor: "red",
-        },
-        {
-          label: "Low",
-          data,
-          parsing: {
-            yAxisKey: "y",
-          },
-          borderColor: "blue",
-          backgroundColor: "blue",
-        },
-      ],
+      datasets,
     };
-  }, [chartState]);
+  }, [chartState, props.high, props.low, props.average]);
 
   const getData = useCallback(async () => {
     const response = await fetch(channelDataURL, {
@@ -56,7 +70,7 @@ const LineChart = (props) => {
     const data = await response.json();
 
     const loadedLabels = [];
-    const currentValues = data.map(({ high, low, timeStamp }) => {
+    const currentValues = data.map(({ high, low, average, timeStamp }) => {
       const currentDate = new Date(timeStamp);
 
       if (period === "30 days") {
@@ -67,7 +81,7 @@ const LineChart = (props) => {
         loadedLabels.push(hour);
       }
 
-      return { x: high, y: low };
+      return { x: high, y: low, z: average };
     });
 
     setChartState({ labels: loadedLabels, data: currentValues });
@@ -85,8 +99,11 @@ const LineChart = (props) => {
           options={{
             responsive: true,
             plugins: {
+              legend: {
+                display: false,
+              },
               title: {
-                display: true,
+                display: false,
                 text: `${channelName} last ${period} in ${suffix}`,
               },
             },
@@ -94,9 +111,18 @@ const LineChart = (props) => {
               yAxes: {
                 ticks: {
                   beginAtZero: true,
+                  color: "#16123F",
+                  fontWeight: 700
                 },
               },
+              xAxes: {
+                ticks: {
+                  beginAtZero: true,
+                  color: "#16123F",
+                  fontWeight: 700
+                },
             },
+            }
           }}
         />
       </div>
