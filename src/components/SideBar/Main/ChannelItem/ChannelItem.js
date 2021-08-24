@@ -2,13 +2,51 @@ import { useState } from "react";
 import { useStore } from "react-redux";
 import styles from "./channelItem.module.scss";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icons } from "../Assets/icons";
 
-import {
-  faBraille,
-  faArrowDown,
-  faArrowUp,
-} from "@fortawesome/free-solid-svg-icons";
+const getIcon = (channelName) => {
+  let icon = "";
+  switch (channelName) {
+    case "Temperature":
+      icon = icons.temperature;
+      break;
+    case "Pressure":
+      icon = icons.pressure;
+      break;
+    case "Relative Humidity":
+      icon = icons.humidity;
+      break;
+    case "PM1.0":
+      icon = icons.pm1;
+      break;
+    case "PM2.5":
+      icon = icons.pm2;
+      break;
+    case "PM4.0":
+      icon = icons.pm4;
+      break;
+    case "PM10":
+      icon = icons.pm10;
+      break;
+    case "NO2":
+      icon = icons.no2;
+      break;
+    case "SO2":
+      icon = icons.so2;
+      break;
+    case "CO":
+      icon = icons.co;
+      break;
+    case "O3":
+      icon = icons.o3;
+      break;
+    default:
+      icon = "";
+      break;
+  }
+
+  return icon;
+};
 
 const ChannelItem = ({ channel }) => {
   const store = useStore();
@@ -21,64 +59,75 @@ const ChannelItem = ({ channel }) => {
     setIsCollapseOpen((prevState) => !prevState);
   };
 
-  let statusColor = "grey";
+  console.log(standard);
   let percentage = "";
   let standardName = "";
+  let bgColorClass = "index-bg-";
+  let percentageBarClass = "index-color-";
   if (standard) {
     const currPercentage = standard.percentage * 100;
-    statusColor =
-      currPercentage <= 50 ? "green" : currPercentage <= 75 ? "yellow" : "red";
+
+    if (currPercentage <= 25) {
+      bgColorClass += "very-low";
+      percentageBarClass += "very-low";
+    } else if (currPercentage <= 50) {
+      bgColorClass += "low";
+      percentageBarClass += "low";
+    } else if (currPercentage <= 75) {
+      bgColorClass += "medium";
+      percentageBarClass += "medium";
+    } else if (currPercentage <= 100) {
+      bgColorClass += "high";
+      percentageBarClass += "high";
+    } else {
+      bgColorClass += "very-high";
+      percentageBarClass += "very-high";
+    }
 
     percentage = Math.round(currPercentage) + "%";
+    console.log(percentage);
 
     const standardSlug = standard.standard;
     const backupStandardName = standardSlug + " regulations";
     const matchingStandard = definedStandards.find(
       (currStand) => currStand.slug === standardSlug
     );
+
     standardName = matchingStandard
       ? matchingStandard.name
       : backupStandardName;
   }
 
+  const icon = getIcon(name);
+
   return (
-    <div className={styles.channelContainer} onClick={toggleCollapse}>
-      <div className={styles.mainContainer}>
-        <div className={styles.iconAndStatusContainer}>
-          <div
-            className={styles.statusContainer}
-            style={{ backgroundColor: statusColor }}
-          >
-            <div className={styles.iconContainer}>
-              <FontAwesomeIcon icon={faBraille} size="lg" />
-            </div>
-          </div>
-        </div>
-        <div className={styles.dataContainer}>
-          <span>{name} </span>
-          {standard && <span>{percentage}</span>}
-          <span>
-            {value.toFixed(0)} {suffix}
-          </span>
-        </div>
+    <div className={`${styles["container"]} ${styles[bgColorClass]}`}>
+      <div className={styles["main-container"]}>
+        <div className={styles["icon-container"]}>{icon}</div>
+        <p className={styles["channel-name"]}>{name}</p>
+        <p>
+          {value.toFixed(0)} {suffix}
+        </p>
         {standard && (
-          <div className={styles.collapseBtn}>
-            {isCollapseOpen ? (
-              <FontAwesomeIcon icon={faArrowUp} size="sm" />
-            ) : (
-              <FontAwesomeIcon icon={faArrowDown} size="sm" />
-            )}
-          </div>
+          <button onClick={toggleCollapse}>
+            {isCollapseOpen ? icons.upArrow : icons.downArrow}
+          </button>
         )}
       </div>
       {standard && isCollapseOpen && (
         <div className={styles.descriptionContainer}>
-          <h6>
-            {standardName}: {standard.limit} {suffix}
-          </h6>
+          <p>
+            {standardName} ({standard.period}): {standard.limit} {suffix}
+          </p>
           <p>{standard.description}</p>
         </div>
       )}
+      <div className={styles["fill-percentage"]}>
+        <span
+          className={styles[percentageBarClass]}
+          style={{ width: `${percentage}` }}
+        ></span>
+      </div>
     </div>
   );
 };

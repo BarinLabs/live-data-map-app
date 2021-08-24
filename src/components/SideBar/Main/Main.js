@@ -2,6 +2,7 @@ import styles from "./main.module.scss";
 import CategoriesNav from "./CategoriesNav/CategoriesNav";
 import { useState } from "react";
 import ChannelsNav from "./ChannelsNav/ChannelsNav";
+import ChannelItem from "./ChannelItem/ChannelItem";
 
 const Main = ({ categories, categoryCallback, channelCallback }) => {
   const categoryNames = categories.map(({ name }) => name);
@@ -58,6 +59,12 @@ const Main = ({ categories, categoryCallback, channelCallback }) => {
           channelCallback(name);
         }}
       />
+      <div className={styles["channel-items-container"]}>
+        <p className={styles["category-name"]}>{selectedCategoryName}:</p>
+        {selectedChannels.map((channel) => (
+          <ChannelItem key={channel.token} channel={channel} />
+        ))}
+      </div>
     </div>
   );
 };

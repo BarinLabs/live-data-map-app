@@ -6,18 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import styles from "./sideBar.module.scss";
 
-import Weather from "./Main/Weather/Weather";
-import Gases from "./Main/Gases/Gases";
-import Particulates from "./Main/Particulates/Particulates";
 import Slugs from "./Main/Slugs/Slugs";
 import HistoricalData from "./HistoricalData/HistoricalData";
 import Header from "./Header/Header";
 import AQIChart from "./AQIChart/AQIChart";
 import Main from "./Main/Main";
-
-const _WEATHER = "Weather";
-const _GASES = "Gases";
-const _PARTICULATES = "Particulates";
 
 const SideBar = () => {
   const dispatch = useDispatch();
@@ -28,27 +21,6 @@ const SideBar = () => {
 
   const { token, categories, status, indexes, location } = device;
   const { online, lastSubmission } = status;
-
-  const getCategoryChannels = useCallback(
-    (categoryName) => {
-      const currCategory = categories.find(
-        (category) => category.name === categoryName
-      );
-
-      return currCategory ? currCategory.channels : [];
-    },
-    [categories]
-  );
-
-  const weatherChannels = getCategoryChannels(_WEATHER);
-  const gasesChannels = useMemo(
-    () => getCategoryChannels(_GASES),
-    [getCategoryChannels]
-  );
-  const particulatesChannels = useMemo(
-    () => getCategoryChannels(_PARTICULATES),
-    [getCategoryChannels]
-  );
 
   const mainKey = useMemo(() => Math.random().toString(), [token]);
 

@@ -2,7 +2,7 @@
 
 .container {
   box-sizing: border-box;
-  height: 300px;
+  height: 301px;
   display: flex;
   position: relative;
 
@@ -15,6 +15,17 @@
 
     img {
       width: 100%;
+      animation-name: indexBgImage;
+      animation-duration: 3s;
+    }
+
+    @keyframes indexBgImage {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
   }
 
@@ -44,7 +55,7 @@
       .social-icons-container {
         margin-top: 15px;
 
-        img:first-of-type {
+        svg:first-of-type {
           margin-right: 10px;
         }
       }
@@ -69,7 +80,7 @@
 .last-submission-container {
   background-color: $font-color;
 
-  img {
+  svg {
     margin-right: 10px;
   }
 }
