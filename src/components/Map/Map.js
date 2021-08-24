@@ -27,7 +27,6 @@ const Map = () => {
     }
 
     const data = await response.json();
-    console.log(data);
 
     const loadedDevices = [];
     for (const key in data) {
