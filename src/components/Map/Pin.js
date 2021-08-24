@@ -42,8 +42,8 @@ const getPinColor = (indexValue) => {
 };
 
 const Pin = ({ device }) => {
-  const currDeviceURL = useSelector(
-    (state) => state.currentDevice.device.deviceURL
+  const openedDeviceToken = useSelector(
+    (state) => state.currentDevice.device.token
   );
 
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ const Pin = ({ device }) => {
   const channelDataURL = channelDataURLTemplate.replace("{Token}", token);
 
   const onDeviceOpen = () => {
-    if (currDeviceURL !== deviceURL) {
+    if (openedDeviceToken !== token) {
       fetchDeviceData().catch((e) => dispatch(setError()));
     }
   };
@@ -123,7 +123,7 @@ const Pin = ({ device }) => {
   </svg>`;
 
   const pinInsideIcon =
-    currDeviceURL === deviceURL ? selectedPinIcon : notSelectedPinIcon;
+    openedDeviceToken === token ? selectedPinIcon : notSelectedPinIcon;
 
   const icon = new L.divIcon({
     html: `
