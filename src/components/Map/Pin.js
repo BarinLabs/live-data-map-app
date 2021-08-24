@@ -30,12 +30,16 @@ const getPinSize = (zoomLevel) => {
 
 const getPinColor = (indexValue) => {
   let color = "";
-  if (indexValue <= 50) {
-    color = "#8FDF53";
+  if (indexValue <= 25) {
+    color = "#79BC6A";
+  } else if (indexValue <= 50) {
+    color = "#BBCF4C";
   } else if (indexValue <= 75) {
-    color = "#EFBB11";
+    color = "#EEC20B";
+  } else if (indexValue <= 100) {
+    color = "#F29305";
   } else {
-    color = "#E7222E";
+    color = "#E8416F";
   }
 
   return color;
