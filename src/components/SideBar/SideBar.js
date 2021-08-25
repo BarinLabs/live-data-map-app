@@ -11,6 +11,7 @@ import HistoricalData from "./HistoricalData/HistoricalData";
 import Header from "./Header/Header";
 import AQIChart from "./AQIChart/AQIChart";
 import Main from "./Main/Main";
+import ChannelItem from "./Main/ChannelItem/ChannelItem";
 
 const SideBar = () => {
   const dispatch = useDispatch();
@@ -57,7 +58,14 @@ const SideBar = () => {
               category={selectedCategory}
               channel={selectedChannel}
               />
+             
             )} 
+             <div className={styles["channel-items-container"]}>
+              <p className={styles["category-name"]}>{selectedCategory}:</p>
+              {categories.find(c => c.name === selectedCategory).channels.map((channel) => (
+                <ChannelItem key={channel.token} channel={channel} />
+              ))}
+            </div>
           {/* {weatherChannels.length > 0 && <Weather channels={categories} />} */}
           {/* {indexes.length > 0 && <Slugs slugs={indexes} />}
             {gasesChannels.length > 0 && <Gases channels={gasesChannels} />}
