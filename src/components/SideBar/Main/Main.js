@@ -2,9 +2,8 @@ import styles from "./main.module.scss";
 import CategoriesNav from "./CategoriesNav/CategoriesNav";
 import { useState } from "react";
 import ChannelsNav from "./ChannelsNav/ChannelsNav";
-import ChannelItem from "./ChannelItem/ChannelItem";
 
-const Main = ({ categories }) => {
+const Main = ({ categories, categoryCallback, channelCallback }) => {
   const categoryNames = categories.map(({ name }) => name);
   const [selectedCategoryName, setSelectedCategoryName] = useState(() => {
     if (categoryNames.includes("Weather")) {
@@ -45,20 +44,21 @@ const Main = ({ categories }) => {
       <CategoriesNav
         categoryNames={categoryNames}
         selectedCategoryName={selectedCategoryName}
-        setSelectedCategoryName={setSelectedCategoryName}
+        setSelectedCategoryName={(name) => {
+          setSelectedCategoryName(name);
+          categoryCallback(name)
+        }}
       />
       <ChannelsNav
         selectedCategoryName={selectedCategoryName}
         channelsNames={channelsNames}
         selectedChannelName={selectedChannelName}
-        setSelectedChannelName={setSelectedChannelName}
+        setSelectedChannelName={(name) => {
+          setSelectedChannelName(name);
+          channelCallback(name);
+        }}
       />
-      <div className={styles["channel-items-container"]}>
-        <p className={styles["category-name"]}>{selectedCategoryName}:</p>
-        {selectedChannels.map((channel) => (
-          <ChannelItem key={channel.token} channel={channel} />
-        ))}
-      </div>
+     
     </div>
   );
 };

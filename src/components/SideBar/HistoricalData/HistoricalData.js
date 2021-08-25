@@ -1,118 +1,94 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import LineChart from "../Charts/LineChart";
 import styles from "./historicalData.module.scss";
+import Switch from '@material-ui/core/Switch';
+import CustomSwitch from "../../CustomSwitch";
 
 const _WEATHER = "Weather";
 
-const HistoricalData = ({ categories }) => {
+const HistoricalData = ({ categories, category, channel }) => {
   const [selectedPeriod, setSelectedPeriod] = useState("24 hours");
+  const [selectedChannel, setSelectedChannel] = useState(null);
 
-  const [selectedCategoryName, setSelectedCategoryName] = useState(() => {
-    const weatherCategory = categories.find(
-      (category) => category.name === _WEATHER
-    );
-
-    return weatherCategory ? _WEATHER : categories[0].name;
+  const [state, setState] = useState({
+    low: true,
+    high: true,
+    average: false
   });
 
-  const selectedCategory = useMemo(() => {
-    const currCategory = categories.find(
-      (category) => category.name === selectedCategoryName
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  useEffect(() => {
+    let currCategory = categories.find(
+      (t) => t.name === category
     );
 
     if (!currCategory) {
-      const weatherCategory = categories.find(
-        (category) => category.name === _WEATHER
+      currCategory = categories.find(
+        (t) => t.name === _WEATHER
       );
 
-      if (weatherCategory) {
-        setSelectedCategoryName(_WEATHER);
-        return weatherCategory;
-      }
-
-      setSelectedCategoryName(categories[0].name);
-      return categories[0];
+      currCategory = categories[0];
     }
-
-    return currCategory;
-  }, [categories, selectedCategoryName]);
-
-  const { channels, name } = selectedCategory;
-
-  const [selectedChannelName, setSelectedChannelName] = useState(() => {
-    if (
-      name === _WEATHER &&
-      channels.find((channel) => channel.name === "Temperature")
-    ) {
-      return "Temperature";
-    } else {
-      return channels[0].name;
-    }
-  });
-
-  const selectedChannel = useMemo(() => {
+    const { channels } = currCategory;
     const currChannel = channels.find(
-      (channel) => channel.name === selectedChannelName
+      (t) => t.name === channel
     );
-
+    console.log(currChannel);
     if (currChannel) {
-      return currChannel;
+      setSelectedChannel(currChannel);
+    } else if (category === "Particulates"){
+      setSelectedChannel(channels.find(c => c.name === "PM1.0"));
+    } else if (category === "Gases"){
+      setSelectedChannel(channels.find(c => c.name === "NO2"));
+    } else if (category === "Weather") {
+      setSelectedChannel(channels.find(c => c.name === "Temperature"));
     }
 
-    setSelectedChannelName(channels[0].name);
-    return channels[0];
-  }, [channels, selectedChannelName]);
-
-  const categorySelectOptions = useMemo(() => {
-    return categories.map((category) => {
-      return (
-        <option key={Math.random(100)} value={category.name}>
-          {category.name}
-        </option>
-      );
-    });
-  }, [categories]);
-
-  const channelsSelectOptions = useMemo(() => {
-    return channels.map(({ name, token }) => {
-      return (
-        <option key={token} value={name}>
-          {name}
-        </option>
-      );
-    });
-  }, [channels]);
-
-  const handleCategorySelection = (event) => {
-    setSelectedCategoryName(event.target.value);
-  };
-
-  const hanldeChannelSelection = (event) => {
-    setSelectedChannelName(event.target.value);
-  };
+  },[categories, category, channel])
 
   const handlePeriodSelection = (event) => {
     setSelectedPeriod(event.target.value);
   };
 
   return (
-    <div>
+    <div style={{padding: 10}}>
       <h3>Historical Data:</h3>
-      <div className={styles.selectMenusContainer}>
-        <select value={selectedCategoryName} onChange={handleCategorySelection}>
-          {categorySelectOptions}
-        </select>
-        <select value={selectedChannelName} onChange={hanldeChannelSelection}>
-          {channelsSelectOptions}
-        </select>
+      <div style={{display: "flex", justifyContent: "space-evenly", alignItems: "center"}}>
+        <label>High</label>
+        <CustomSwitch
+         checked={state.high}
+         onChange={handleChange}
+         name="high"
+        />
+        <label>Low</label>
+        <CustomSwitch
+         checked={state.low}
+         onChange={handleChange}
+         name="low"
+        />
+        <label>Average</label>
+        <CustomSwitch
+         checked={state.average}
+         onChange={handleChange}
+         name="average"
+        />
         <select onChange={handlePeriodSelection}>
           <option>24 hours</option>
           <option>30 days</option>
         </select>
       </div>
+      
       <div>
         {selectedChannel && (
-          <LineChart channel={selectedChannel} period={selectedPeriod} />
+          <LineChart 
+          channel={selectedChannel} 
+          high={state.high}
+          low={state.low}
+          average={state.average}
+          period={selectedPeriod} />
         )}
       </div>
     </div>

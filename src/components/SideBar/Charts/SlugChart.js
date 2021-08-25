@@ -15,7 +15,7 @@ const SlugChart = (props) => {
 
   const chartData = useMemo(() => {
     const { labels, data } = chartState;
-
+    console.log(data);
     return {
       labels: labels,
       datasets: [
