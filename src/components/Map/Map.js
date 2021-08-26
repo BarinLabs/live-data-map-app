@@ -6,6 +6,8 @@ import styles from "./map.module.scss";
 import ThemeContext from "../../context/theme-context";
 import Loader from "react-loader-spinner";
 
+const updateMapFrequencySeconds = 60;
+
 const Map = () => {
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
@@ -14,10 +16,14 @@ const Map = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchData().catch((e) => console.log("error", e.message));
+    fetchDevices().catch((e) => console.log("error", e.message));
+
+    setInterval(() => {
+      fetchDevices().catch((e) => console.log("error", e.message));
+    }, 1000 * updateMapFrequencySeconds);
   }, []);
 
-  const fetchData = async () => {
+  const fetchDevices = async () => {
     setIsLoading(true);
     const response = await fetch("https://open-data.senstate.cloud/devices");
 
