@@ -6,13 +6,18 @@
   background-color: $sideMenuContent-bg-color;
   box-shadow: $sideMenuContent-box-shadow;
   padding: 20px;
+  margin-left: 10px;
+  height: 500px;
+  position: relative;
 
   .closeBtnContainer {
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    right: 30px;
 
     button {
       all: unset;
+      position: fixed;
+      background-color: white;
     }
 
     button:hover {

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import SideMenuNav from "./SideMenuNav";
 import SideMenuContent from "./SideMenuContent";
 
@@ -6,7 +7,6 @@ import EAQI from "../../assets/EAQI.png";
 import SBAQI from "../../assets/SBAQI.png";
 
 import styles from "./sideMenu.module.scss";
-import { useState } from "react";
 
 const SideMenu = () => {
   const [isItemSelected, setIsItemSelected] = useState(false);
