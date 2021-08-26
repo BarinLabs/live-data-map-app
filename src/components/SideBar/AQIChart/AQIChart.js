@@ -109,7 +109,6 @@ const AQIChart = ({ token, indexes }) => {
 
   const chartData = useMemo(() => {
     const { labels, hourlyIndexValues } = data;
-    console.log(hourlyIndexValues);
     return {
       labels: labels,
       datasets: [
@@ -169,7 +168,15 @@ const AQIChart = ({ token, indexes }) => {
   const chart = useMemo(() => {
     return (
       <div className={styles["chart-container"]}>
-        <Bar data={chartData} options={{...options, scales: {y: {max: Math.max(...data.hourlyIndexValues || [0]) + 5}}}} />
+        <Bar
+          data={chartData}
+          options={{
+            ...options,
+            scales: {
+              y: { max: Math.max(...(data.hourlyIndexValues || [0])) + 5 },
+            },
+          }}
+        />
       </div>
     );
   }, [chartData]);

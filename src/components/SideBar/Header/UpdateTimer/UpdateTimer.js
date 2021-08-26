@@ -3,37 +3,48 @@ import { formatTime } from "../../../../utils/timeAndDate";
 import { icons } from "../Assets/icons";
 import styles from "./updateTimer.module.scss";
 
-const tenMinutesSecodns = 600;
+const updateDeviceIndexMinute = 10;
+const updateDeviceIndexSeconds = updateDeviceIndexMinute * 60;
 
-const UpdateTimer = ({ lastSubmission }) => {
-  const minutes = new Date(lastSubmission).getMinutes();
-  let precedingRoundMinute = Math.floor(minutes / 10) * 10;
+const UpdateTimer = ({ updateHeader }) => {
+  const date = new Date();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const precedingRoundMinute = Math.floor(minutes / 10) * 10;
+  let roundMinutes = precedingRoundMinute;
+  if (roundMinutes === 0) {
+    roundMinutes = "0" + roundMinutes;
+  }
+
+  const [time, setTime] = useState(`${hours}:${roundMinutes}`);
 
   const singularMinute = minutes - precedingRoundMinute;
+
   const initalSeconds = singularMinute * 60;
   const [seconds, setSeconds] = useState(initalSeconds);
 
-  const secondsLeftToNextUpdate = tenMinutesSecodns - seconds;
-  const percentToFill =
-    100 - (secondsLeftToNextUpdate / tenMinutesSecodns) * 100;
+  const secondsLeftToNextUpdate = updateDeviceIndexSeconds - seconds;
+  const percentToFill = (
+    100 -
+    (secondsLeftToNextUpdate / updateDeviceIndexSeconds) * 100
+  ).toFixed(1);
 
   useEffect(() => {
-    let timer = setTimeout(() => {
+    let timerID = setTimeout(() => {
       setSeconds((prevState) => prevState + 1);
     }, 1000);
-    if (seconds + 1 === tenMinutesSecodns) {
-      console.log("update");
-      clearTimeout(timer);
+
+    if (seconds + 1 === updateDeviceIndexSeconds) {
+      clearTimeout(timerID);
+      setTime(`${hours}:${roundMinutes}`);
+      updateHeader();
     }
+
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timerID);
     };
   }, [seconds]);
-
-  if (precedingRoundMinute === 0) {
-    precedingRoundMinute = "0" + precedingRoundMinute;
-  }
-  const time = formatTime(lastSubmission).slice(0, 3) + precedingRoundMinute;
 
   return (
     <div className={styles["container"]}>

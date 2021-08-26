@@ -59,7 +59,6 @@ const ChannelItem = ({ channel }) => {
     setIsCollapseOpen((prevState) => !prevState);
   };
 
-  console.log(standard);
   let percentage = "";
   let standardName = "";
   let bgColorClass = "index-bg-";
@@ -85,7 +84,6 @@ const ChannelItem = ({ channel }) => {
     }
 
     percentage = Math.round(currPercentage) + "%";
-    console.log(percentage);
 
     const standardSlug = standard.standard;
     const backupStandardName = standardSlug + " regulations";

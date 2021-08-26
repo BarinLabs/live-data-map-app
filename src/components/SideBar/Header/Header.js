@@ -57,7 +57,7 @@ const getBgDetails = (indexValue) => {
   };
 };
 
-const Header = ({ indexes, location, lastSubmission }) => {
+const Header = ({ indexes, location, updateHeader }) => {
   const { address, city, country } = location;
   const locationDetails = `${address}, ${city}, ${country}`;
 
@@ -107,7 +107,7 @@ const Header = ({ indexes, location, lastSubmission }) => {
           <span>{indexDescText}</span>
         </div>
       )}
-      <UpdateTimer lastSubmission={lastSubmission} />
+      <UpdateTimer updateHeader={updateHeader} />
     </>
   );
 };

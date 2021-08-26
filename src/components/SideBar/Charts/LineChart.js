@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useStore } from "react-redux";
-import { formatDate } from "../../../utils/timeAndDate";
+import { formatDate, formatTime } from "../../../utils/timeAndDate";
 
 const LineChart = (props) => {
   const store = useStore();
@@ -13,7 +13,7 @@ const LineChart = (props) => {
     const { channelDataURLTemplate } = store.getState().currentDevice.device;
     return channelDataURLTemplate.replace("{channel}", channelToken);
   }, [channelToken, store]);
-  
+
   const chartData = useMemo(() => {
     const { labels, data } = chartState;
     const datasets = [];
@@ -26,7 +26,7 @@ const LineChart = (props) => {
         },
         borderColor: "#E7222E",
         backgroundColor: "#E7222E",
-      })
+      });
     }
     if (props.low) {
       datasets.push({
@@ -37,7 +37,7 @@ const LineChart = (props) => {
         },
         borderColor: "#79BC6A",
         backgroundColor: "#79BC6A",
-      })
+      });
     }
     if (props.average) {
       datasets.push({
@@ -48,7 +48,7 @@ const LineChart = (props) => {
         },
         borderColor: "#EEC20B",
         backgroundColor: "#EEC20B",
-      })
+      });
     }
     return {
       labels: labels,
@@ -71,13 +71,12 @@ const LineChart = (props) => {
 
     const loadedLabels = [];
     const currentValues = data.map(({ high, low, average, timeStamp }) => {
-      const currentDate = new Date(timeStamp);
-
       if (period === "30 days") {
+        const currentDate = new Date(timeStamp);
         const day = formatDate(currentDate);
         loadedLabels.push(day);
       } else if (period === "24 hours") {
-        const hour = currentDate.getHours() + ":00";
+        const hour = formatTime(timeStamp);
         loadedLabels.push(hour);
       }
 
@@ -112,17 +111,17 @@ const LineChart = (props) => {
                 ticks: {
                   beginAtZero: true,
                   color: "#16123F",
-                  fontWeight: 700
+                  fontWeight: 700,
                 },
               },
               xAxes: {
                 ticks: {
                   beginAtZero: true,
                   color: "#16123F",
-                  fontWeight: 700
+                  fontWeight: 700,
                 },
+              },
             },
-            }
           }}
         />
       </div>
