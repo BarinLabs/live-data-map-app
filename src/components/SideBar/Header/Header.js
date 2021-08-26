@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 import styles from "./header.module.scss";
 
-import { formatTime } from "../../../utils/timeAndDate";
-
 import Index from "./Index/Index";
 
 import { icons } from "./Assets/icons";
@@ -13,6 +11,7 @@ import bgImageIndexLow from "./Assets/bg-image-index-low.svg";
 import bgImageIndexMedium from "./Assets/bg-image-index-medium.svg";
 import bgImageIndexHigh from "./Assets/bg-image-index-high.svg";
 import bgImageIndexVeryHigh from "./Assets/bg-image-index-very-high.svg";
+import UpdateTimer from "./UpdateTimer/UpdateTimer";
 
 const getBgDetails = (indexValue) => {
   let bgImage = "";
@@ -75,8 +74,6 @@ const Header = ({ indexes, location, lastSubmission }) => {
     return null;
   }, [indexes]);
 
-  const time = formatTime(lastSubmission);
-
   const { bgImage, bgColorClass, indexTextBgColorClass, indexDescText } =
     getBgDetails(indexValue);
 
@@ -110,10 +107,7 @@ const Header = ({ indexes, location, lastSubmission }) => {
           <span>{indexDescText}</span>
         </div>
       )}
-      <div className={styles["last-submission-container"]}>
-        {icons.clock}
-        <span>{`Last updated at ${time}`}</span>
-      </div>
+      <UpdateTimer lastSubmission={lastSubmission} />
     </>
   );
 };
