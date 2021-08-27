@@ -61,21 +61,21 @@ const Header = ({ indexes, location, updateHeader }) => {
   const { address, city, country } = location;
   const locationDetails = `${address}, ${city}, ${country}`;
 
-  const indexValue = useMemo(() => {
+  const index = useMemo(() => {
     if (indexes.length > 0) {
       let index = indexes.find((index) => index.slug === "sbaqi");
       if (!index) {
         index = indexes[0];
       }
 
-      const { value } = index;
-      return value;
+      const { value, slug } = index;
+      return { value, slug };
     }
     return null;
   }, [indexes]);
 
   const { bgImage, bgColorClass, indexTextBgColorClass, indexDescText } =
-    getBgDetails(indexValue);
+    getBgDetails(index?.value);
 
   const bgImageKey = useMemo(() => Math.random().toString(), [bgImage]);
 
@@ -86,7 +86,7 @@ const Header = ({ indexes, location, updateHeader }) => {
           <img src={bgImage} alt="index background" />
         </div>
         <div className={styles["index-and-address-container"]}>
-          {indexValue && <Index indexValue={indexValue} />}
+          {index && <Index index={index} />}
           <div className={styles["address-and-social-icons-container"]}>
             {address && (
               <span className={styles["address-container"]}>
@@ -100,7 +100,7 @@ const Header = ({ indexes, location, updateHeader }) => {
           </div>
         </div>
       </div>
-      {indexValue && (
+      {index && (
         <div
           className={`${styles["index-description-container"]} ${styles[indexTextBgColorClass]}`}
         >

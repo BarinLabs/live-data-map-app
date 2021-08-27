@@ -36,17 +36,19 @@ const getIndexDetails = (indexValue) => {
   };
 };
 
-const Index = ({ indexValue }) => {
+const Index = ({ index }) => {
+  console.log(index);
+  const { value, slug } = index;
   const { indexLevelName, indexNameClasses, indexIcon } =
-    getIndexDetails(indexValue);
+    getIndexDetails(value);
 
   return (
     <div className={styles["index-container"]}>
       <div className={styles["icon-container"]}>{indexIcon}</div>
       <div className={styles["index-data-container"]}>
         <p className={styles[indexNameClasses]}>{indexLevelName}</p>
-        <p>{indexValue}</p>
-        <p>Senstate CAQI</p>
+        <p>{value}</p>
+        <p>Senstate {slug.toUpperCase()}</p>
       </div>
     </div>
   );
