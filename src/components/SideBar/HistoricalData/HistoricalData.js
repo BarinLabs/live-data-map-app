@@ -48,13 +48,7 @@ const HistoricalData = ({ categories, category, channel }) => {
   return (
     <div style={{ padding: 10 }}>
       <h3>Historical Data:</h3>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-        }}
-      >
+      <div className={styles["container"]}>
         <label>High</label>
         <CustomSwitch
           checked={state.high}

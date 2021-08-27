@@ -88,3 +88,9 @@
     fill: $dark-theme-color;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .tooltiptext {
+    visibility: hidden;
+  }
+}
