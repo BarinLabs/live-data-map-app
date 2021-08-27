@@ -26,6 +26,56 @@
       animation: darkMode 1.2s forwards;
     }
   }
+
+  .index-colors-container {
+    position: absolute;
+    bottom: 23px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .index-name-container {
+      background-color: white;
+      color: #16123f;
+      padding-left: 10px;
+      padding-right: 10px;
+      font-weight: 700;
+    }
+
+    div:not(:first-of-type) {
+      width: 90px;
+      height: 19px;
+    }
+  }
+
+  @media screen and (max-width: 592px) {
+    .index-colors-container {
+      div:not(:first-of-type) {
+        width: 60px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 442px) {
+    .index-colors-container {
+      div:first-of-type {
+        width: 60px;
+      }
+
+      div:not(:first-of-type) {
+        width: 45px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .index-colors-container {
+      div:not(:first-of-type) {
+        width: 36px;
+      }
+    }
+  }
 }
 
 @keyframes darkMode {
