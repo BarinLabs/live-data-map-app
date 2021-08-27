@@ -9,8 +9,8 @@ import Loader from "react-loader-spinner";
 const updateMapFrequencySeconds = 60;
 
 const Map = () => {
-  const ctx = useContext(ThemeContext);
-  let { isDarkTheme } = ctx;
+  const themeCtx = useContext(ThemeContext);
+  const { isDarkTheme } = themeCtx;
   const tileLayerRef = useRef();
   const [devices, setDevices] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

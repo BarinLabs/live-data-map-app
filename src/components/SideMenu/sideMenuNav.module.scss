@@ -3,6 +3,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  position: relative;
 
   button {
     all: unset;
@@ -11,12 +12,79 @@
 
   button:hover {
     cursor: pointer;
+  }
 
-    svg circle {
-      fill: rgba(236, 236, 236, 1);
+  .tooltiptext {
+    display: none;
+    font-weight: 600;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    left: 125%;
+  }
+
+  .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+  }
+
+  .theme-btn-container:hover {
+    .tooltiptext {
+      display: block;
     }
   }
 
-  button:first-of-type {
+  .about-btn-container {
+    .tooltiptext {
+      top: 75px;
+    }
+  }
+
+  .about-btn-container:hover {
+    .tooltiptext {
+      display: block;
+    }
+  }
+
+  .faq-btn-container {
+    .tooltiptext {
+      top: 140px;
+    }
+  }
+
+  .faq-btn-container:hover {
+    .tooltiptext {
+      display: block;
+    }
+  }
+}
+
+.dark-theme {
+  .tooltiptext {
+    background-color: #fff;
+    color: black;
+  }
+
+  .tooltiptext::after {
+    border-color: transparent #fff transparent transparent;
+  }
+
+  svg circle {
+    fill: $dark-theme-bg-color;
+  }
+
+  svg path {
+    fill: $dark-theme-color;
   }
 }

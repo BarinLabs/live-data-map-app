@@ -30,10 +30,11 @@ const SideMenu = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles["container"]}>
       <SideMenuNav
         selectItem={handleItemSelection}
         closeContent={closeContent}
+        isItemSelected={isItemSelected}
       />
       {isItemSelected && (
         <SideMenuContent item={currItem} closeContent={closeContent} />
