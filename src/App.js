@@ -6,6 +6,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import { fetchDefinedStandards } from "./redux/DefinedStandards/definedStandardsSlice";
 import { fetchDefinedIndexes } from "./redux/DefinedIndexes/definedIndexesSlice";
 import { ThemeContextProvider } from "./context/theme-context";
+import Header from "./components/Header/Header";
 
 function App() {
   const store = useStore();
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <ThemeContextProvider>
+      <Header />
       <SideMenu />
       {isDeviceOpen && <SideBar />}
       <Map />

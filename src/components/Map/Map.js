@@ -61,6 +61,7 @@ const Map = () => {
         center={[42.753, 25.291]}
         zoom={8}
         scrollWheelZoom={true}
+        zoomControl={false}
       >
         <TileLayer
           ref={tileLayerRef}
