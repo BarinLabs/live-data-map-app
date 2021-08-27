@@ -1,9 +1,14 @@
-import React, { useEffect, useCallback, useMemo, useState } from "react";
+import React, { useEffect, useCallback, useMemo, useState, useContext } from "react";
 import { Line } from "react-chartjs-2";
 import { useStore } from "react-redux";
 import { formatDate, formatTime } from "../../../utils/timeAndDate";
+import ThemeContext from "../../../context/theme-context";
 
 const LineChart = (props) => {
+
+  const ctx = useContext(ThemeContext);
+  let { isDarkTheme } = ctx;
+
   const store = useStore();
   const [chartState, setChartState] = useState({ labels: [], data: [] });
   const { period } = props;
@@ -17,44 +22,52 @@ const LineChart = (props) => {
   const chartData = useMemo(() => {
     const { labels, data } = chartState;
     const datasets = [];
-    if (props.high) {
+    if (props.highLow) {
       datasets.push({
         label: "High",
         data,
         parsing: {
           yAxisKey: "x",
         },
-        borderColor: "#E7222E",
-        backgroundColor: "#E7222E",
-      });
-    }
-    if (props.low) {
+        borderColor: "#4FC4CA",
+        backgroundColor: "#4FC4CA",
+        pointRadius: 1,
+        fill: "-1",
+        order: 10
+      })
       datasets.push({
         label: "Low",
         data,
         parsing: {
           yAxisKey: "y",
         },
-        borderColor: "#79BC6A",
-        backgroundColor: "#79BC6A",
-      });
+        borderColor: "#4FC4CA",
+        backgroundColor: "#4FC4CA",
+        pointRadius: 0.5,
+        fill: "-1",
+        order: 10
+      })
     }
-    if (props.average) {
-      datasets.push({
-        label: "Average",
-        data,
-        parsing: {
-          yAxisKey: "z",
-        },
-        borderColor: "#EEC20B",
-        backgroundColor: "#EEC20B",
-      });
-    }
+
+    datasets.push({
+      label: "Average",
+      data,
+      parsing: {
+        yAxisKey: "z",
+      },
+      borderColor: "#16123F",
+      backgroundColor: "#16123F",
+      borderDash: [5, 5],
+      pointRadius: 0,
+      borderWidth: 1,
+      order: 1
+    })
+
     return {
       labels: labels,
       datasets,
     };
-  }, [chartState, props.high, props.low, props.average]);
+  }, [chartState, props.highLow, props.average]);
 
   const getData = useCallback(async () => {
     const response = await fetch(channelDataURL, {
@@ -100,6 +113,7 @@ const LineChart = (props) => {
             plugins: {
               legend: {
                 display: false,
+                
               },
               title: {
                 display: false,
@@ -110,18 +124,18 @@ const LineChart = (props) => {
               yAxes: {
                 ticks: {
                   beginAtZero: true,
-                  color: "#16123F",
-                  fontWeight: 700,
+                  color: isDarkTheme ? "white" : "#16123F",
+                  fontWeight: 700
                 },
               },
               xAxes: {
                 ticks: {
                   beginAtZero: true,
-                  color: "#16123F",
-                  fontWeight: 700,
+                  color: isDarkTheme ? "white" : "#16123F",
+                  fontWeight: 700
                 },
               },
-            },
+            }
           }}
         />
       </div>

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useStore } from "react-redux";
 import styles from "./channelItem.module.scss";
-
+import ThemeContext from "../../../../context/theme-context";
 import { icons } from "../Assets/icons";
 
 const getIcon = (channelName) => {
@@ -49,6 +49,8 @@ const getIcon = (channelName) => {
 };
 
 const ChannelItem = ({ channel }) => {
+  const ctx = useContext(ThemeContext);
+  let { isDarkTheme } = ctx;
   const store = useStore();
   const { definedStandards } = store.getState();
   const { name, value, suffix, standards } = channel;
@@ -94,6 +96,10 @@ const ChannelItem = ({ channel }) => {
     standardName = matchingStandard
       ? matchingStandard.name
       : backupStandardName;
+  } else {
+    if (isDarkTheme) {
+      bgColorClass = "index-bg-no-index-dark"
+    }
   }
 
   const icon = getIcon(name);
@@ -101,9 +107,9 @@ const ChannelItem = ({ channel }) => {
   return (
     <div className={`${styles["container"]} ${styles[bgColorClass]}`}>
       <div className={styles["main-container"]}>
-        <div className={styles["icon-container"]}>{icon}</div>
-        <p className={styles["channel-name"]}>{name}</p>
-        <p>
+        <div className={(isDarkTheme && !standard) ? styles["icon-container-dark"] : styles["icon-container"]}>{icon}</div>
+        <p className={(isDarkTheme && !standard) ? styles["channel-name-dark"] : styles["channel-name"]}>{name}</p>
+        <p className={(isDarkTheme && !standard) ? styles["p-dark"] : null}>
           {value.toFixed(0)} {suffix}
         </p>
         {standard && (

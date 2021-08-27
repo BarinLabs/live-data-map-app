@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useContext } from "react";
 import { Bar } from "react-chartjs-2";
 import { formatTime } from "../../../utils/timeAndDate";
 import { indexColors, font } from "../../../utils/utils";
-
+import ThemeContext from "../../../context/theme-context";
 import styles from "./aqichart.module.scss";
 
 const FIRST_TICK_INDEX = 0;
@@ -99,6 +99,8 @@ const options = {
 };
 
 const AQIChart = ({ token, indexes }) => {
+  const ctx = useContext(ThemeContext);
+  let { isDarkTheme } = ctx;
   const [data, setData] = useState({ labels: [], hourlyIndexValues: [] });
   const [selectedSlug, setSelectedSlug] = useState(indexes[0].slug);
   const selectOptions = indexes.map(({ slug }) => (
@@ -183,10 +185,10 @@ const AQIChart = ({ token, indexes }) => {
 
   return (
     <div className={styles["container"]}>
-      <p>Source: Senstate</p>
+      <p className={isDarkTheme ? styles.p_dark : styles.p}>Source: Senstate</p>
       <div className={styles["title-and-select-container"]}>
-        <span>{title}</span>
-        <select value={selectedSlug} onChange={handleSlugSelection}>
+        <span className={isDarkTheme ? styles.span_dark : styles.span}>{title}</span>
+        <select className={isDarkTheme ? styles.select_dark : styles.select} value={selectedSlug} onChange={handleSlugSelection}>
           {selectOptions}
         </select>
       </div>

@@ -82,6 +82,14 @@ const Map = () => {
           pins
         )}
       </MapContainer>
+      <div style={{position: "absolute", bottom: 23, right: 10, display: 'flex', alignItems: "center", justifyContent: "center"}}>
+        <div style={{backgroundColor: "white", color: "#16123F", paddingLeft: 10, paddingRight: 10, fontWeight: 700}}>Senstate CAQI</div>
+        <div style={{backgroundColor: "#79BC6A", width: 90, height: 19}}></div>
+        <div style={{backgroundColor: "#BBCF4C", width: 90, height: 19}}></div>
+        <div style={{backgroundColor: "#EEC20B", width: 90, height: 19}}></div>
+        <div style={{backgroundColor: "#F29305", width: 90, height: 19}}></div>
+        <div style={{backgroundColor: "#E8416F", width: 90, height: 19}}></div>
+      </div>
     </div>
   );
 };
