@@ -5,6 +5,7 @@ import Pin from "./Pin";
 import styles from "./map.module.scss";
 import ThemeContext from "../../context/theme-context";
 import Loader from "react-loader-spinner";
+import ErrorModal from "../ErrorModal/ErrorModal";
 
 const updateMapFrequencySeconds = 60;
 
@@ -14,12 +15,13 @@ const Map = () => {
   const tileLayerRef = useRef();
   const [devices, setDevices] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetchDevices().catch((e) => console.log("error", e.message));
+    fetchDevices().catch((e) => setError(true));
 
     setInterval(() => {
-      fetchDevices().catch((e) => console.log("error", e.message));
+      fetchDevices().catch((e) => setError(true));
     }, 1000 * updateMapFrequencySeconds);
   }, []);
 
@@ -31,6 +33,7 @@ const Map = () => {
       setIsLoading(false);
       throw new Error("Something went wrong.");
     }
+    error && setError(false);
 
     const data = await response.json();
 
@@ -55,42 +58,74 @@ const Map = () => {
   }, [isDarkTheme]);
 
   return (
-    <div className={styles.container}>
-      <MapContainer
-        className={styles.mapContainer}
-        center={[42.753, 25.291]}
-        zoom={8}
-        scrollWheelZoom={true}
-        zoomControl={false}
-      >
-        <TileLayer
-          ref={tileLayerRef}
-          key={tileLayerKey}
-          className={tileLayerClasses}
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {isLoading ? (
-          <Loader
-            className={styles.loader}
-            type="Oval"
-            color="rgb(0 120 255)"
-            height={30}
-            width={30}
+    <>
+      {error && <ErrorModal />}
+      <div className={styles.container}>
+        <MapContainer
+          className={styles.mapContainer}
+          center={[42.753, 25.291]}
+          zoom={8}
+          scrollWheelZoom={true}
+          zoomControl={false}
+        >
+          <TileLayer
+            ref={tileLayerRef}
+            key={tileLayerKey}
+            className={tileLayerClasses}
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-        ) : (
-          pins
-        )}
-      </MapContainer>
-      <div style={{position: "absolute", bottom: 23, right: 10, display: 'flex', alignItems: "center", justifyContent: "center"}}>
-        <div style={{backgroundColor: "white", color: "#16123F", paddingLeft: 10, paddingRight: 10, fontWeight: 700}}>Senstate CAQI</div>
-        <div style={{backgroundColor: "#79BC6A", width: 90, height: 19}}></div>
-        <div style={{backgroundColor: "#BBCF4C", width: 90, height: 19}}></div>
-        <div style={{backgroundColor: "#EEC20B", width: 90, height: 19}}></div>
-        <div style={{backgroundColor: "#F29305", width: 90, height: 19}}></div>
-        <div style={{backgroundColor: "#E8416F", width: 90, height: 19}}></div>
+          {isLoading ? (
+            <Loader
+              className={styles.loader}
+              type="Oval"
+              color="rgb(0 120 255)"
+              height={30}
+              width={30}
+            />
+          ) : (
+            pins
+          )}
+        </MapContainer>
+        <div
+          style={{
+            position: "absolute",
+            bottom: 23,
+            right: 10,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              color: "#16123F",
+              paddingLeft: 10,
+              paddingRight: 10,
+              fontWeight: 700,
+            }}
+          >
+            Senstate CAQI
+          </div>
+          <div
+            style={{ backgroundColor: "#79BC6A", width: 90, height: 19 }}
+          ></div>
+          <div
+            style={{ backgroundColor: "#BBCF4C", width: 90, height: 19 }}
+          ></div>
+          <div
+            style={{ backgroundColor: "#EEC20B", width: 90, height: 19 }}
+          ></div>
+          <div
+            style={{ backgroundColor: "#F29305", width: 90, height: 19 }}
+          ></div>
+          <div
+            style={{ backgroundColor: "#E8416F", width: 90, height: 19 }}
+          ></div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
