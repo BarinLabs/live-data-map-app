@@ -21,6 +21,28 @@
   }
 }
 
+.container-dark {
+  overflow-y: scroll;
+  width: 700px;
+  background-color: $bg-color-dark;
+  box-shadow: $sideMenuContent-box-shadow;
+  padding: 20px;
+  color: white;
+
+  .closeBtnContainer {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      all: unset;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+  }
+}
+
 @media screen and (max-width: 800px) {
   .container {
     width: 100%;

@@ -25,11 +25,46 @@
     }
   }
 
+  .button_dark {
+    all: unset;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: $bg-color-dark;
+    color: $font-color-dark;
+    opacity: 33%;
+    font-size: 16px;
+    font-weight: 700;
+    
+
+    svg {
+      margin-right: 5px;
+
+      path {
+        fill: $font-color-dark;
+      }
+    }
+  }
+
   button:hover {
     cursor: pointer;
     background-color: #dadada;
   }
 
+  .active-btn-dark {
+    background-color: $bg-color-dark;
+    color: $font-color-dark;
+    border-bottom: 3px solid $font-color-dark;
+    svg {
+      margin-right: 5px;
+
+      path {
+        fill: $font-color-dark;
+      }
+    }
+  }
   .active-btn {
     border-bottom: 3px solid $font-color;
   }

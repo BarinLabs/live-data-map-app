@@ -1,5 +1,17 @@
 @import "../../utils/stylesVariables.scss";
 
+.container_dark {
+  background-color: $bg-color-dark;
+  height: 100%;
+  width: 493px;
+  box-sizing: border-box;
+  box-shadow: $sideMenuContent-box-shadow;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  overflow-y: auto;
+}
+
 .container {
   height: 100%;
   width: 493px;
@@ -10,6 +22,7 @@
   z-index: 1;
   right: 0;
   overflow-y: auto;
+}
 
   .error {
     color: red;
@@ -47,8 +60,15 @@
       font-weight: 700;
       text-align: left;
     }
+    .category-name-dark {
+      width: 100%;
+      font-size: 16px;
+      font-weight: 700;
+      text-align: left;
+      color: white;
+    }
   }
-}
+
 
 @media screen and (max-width: 800px) {
   .container {

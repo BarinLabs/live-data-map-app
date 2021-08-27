@@ -12,7 +12,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+  }
+  .btns-container-dark {
+    background-color: $bg-color-dark;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
     button {
       all: unset;
       height: 100%;
@@ -30,6 +37,29 @@
 
         path {
           fill: $font-color;
+        }
+      }
+    }
+
+    .button_dark {
+      all: unset;
+      height: 100%;
+      padding: 9px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $bg-color-dark;
+      color: $font-color-dark;
+      opacity: 33%;
+     
+      svg {
+        margin-right: 5px;
+  
+        path {
+          fill: $font-color-dark;
         }
       }
     }
@@ -59,7 +89,6 @@
       }
     }
   }
-}
 
 @media screen and (max-width: 420px) {
   .btns-container {

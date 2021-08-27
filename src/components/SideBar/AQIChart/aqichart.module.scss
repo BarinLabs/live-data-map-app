@@ -1,5 +1,10 @@
+@import "../../../utils/stylesVariables.scss";
 .container {
   padding: 5px 10px;
+
+  .p_dark {
+    color: $font-color-dark;
+  }
 
   .title-and-select-container {
     display: flex;
@@ -16,6 +21,19 @@
       height: 34px;
       width: 99px;
       border-radius: 5px;
+    }
+    .select_dark {
+      color: #BBBBBB;
+      height: 34px;
+      width: 99px;
+      border-radius: 5px;
+      background-color: $bg-color-dark;
+    }
+    
+    .span_dark {
+      color: $font-color-dark;
+      font-size: 16px;
+      font-weight: 700;
     }
   }
 

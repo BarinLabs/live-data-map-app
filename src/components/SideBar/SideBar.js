@@ -1,6 +1,7 @@
-import { useCallback, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeDevice } from "../../redux/CurrentDevice/currentDeviceSlice";
+import ThemeContext from "../../context/theme-context";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -25,10 +26,12 @@ const SideBar = () => {
 
   const mainKey = useMemo(() => Math.random().toString(), [token]);
 
-  return (
-    <div className={styles.container}>
-      
+  const ctx = useContext(ThemeContext);
+  let { isDarkTheme } = ctx;
 
+  return (
+    <div className={isDarkTheme ? styles.container_dark : styles.container}>
+      
       {error && (
         <p className={styles.error}>Something went wrong. Please try again.</p>
       )}
@@ -61,7 +64,7 @@ const SideBar = () => {
              
             )} 
              <div className={styles["channel-items-container"]}>
-              <p className={styles["category-name"]}>{selectedCategory}:</p>
+              <p className={isDarkTheme ? styles["category-name-dark"] : styles["category-name"]}>{selectedCategory}:</p>
               {categories.find(c => c.name === selectedCategory).channels.map((channel) => (
                 <ChannelItem key={channel.token} channel={channel} />
               ))}

@@ -25,6 +25,13 @@
       font-weight: 700;
     }
 
+    .p-dark {
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      
+    }
+
     .icon-container {
       margin-right: 10px;
       svg {
@@ -37,7 +44,26 @@
       }
     }
 
+    .icon-container-dark {
+      margin-right: 10px;
+      svg {
+        width: 45px;
+        height: 45px;
+      }
+
+      svg path {
+        fill: white;
+        
+      }
+    }
+
     .channel-name {
+      flex-grow: 1;
+    }
+
+    .channel-name-dark {
+      color: white;
+      
       flex-grow: 1;
     }
 
@@ -93,6 +119,9 @@
 
 .index-bg-no-index {
   background-color: $bg-no-index;
+}
+.index-bg-no-index-dark {
+  background-color: #676767;
 }
 
 .index-bg-very-low {

@@ -1,5 +1,7 @@
 import { icons } from "../Assets/icons";
 import styles from "./channelsNav.module.scss";
+import {useContext} from "react";
+import ThemeContext from "../../../../context/theme-context";
 
 const ChannelsNav = ({
   selectedCategoryName,
@@ -7,12 +9,14 @@ const ChannelsNav = ({
   selectedChannelName,
   setSelectedChannelName,
 }) => {
+  const ctx = useContext(ThemeContext);
+  let { isDarkTheme } = ctx;
   const createBtns = () => {
     const btns = [];
     if (selectedCategoryName === "Weather") {
       channelsNames.forEach((name) => {
         const classes =
-          selectedChannelName === name ? styles["active-btn"] : null;
+          selectedChannelName === name ? styles["active-btn"] : isDarkTheme ? styles["button_dark"] : null;
         let btnIcon = "";
         let index = "";
         if (name === "Temperature") {
@@ -51,7 +55,7 @@ const ChannelsNav = ({
     } else if (selectedCategoryName === "Particulates") {
       channelsNames.forEach((name) => {
         const classes =
-          selectedChannelName === name ? styles["active-btn"] : null;
+        selectedChannelName === name ? styles["active-btn"] : isDarkTheme ? styles["button_dark"] : null;
         let btnIcon = "";
         let index = "";
         if (name === "PM1.0") {
@@ -81,7 +85,7 @@ const ChannelsNav = ({
     } else if (selectedCategoryName === "Gases") {
       channelsNames.forEach((name) => {
         const classes =
-          selectedChannelName === name ? styles["active-btn"] : null;
+        selectedChannelName === name ? styles["active-btn"] : isDarkTheme ? styles["button_dark"] : null;
         let btnIcon = "";
         let index = "";
         if (name === "NO2") {
@@ -117,12 +121,8 @@ const ChannelsNav = ({
 
   return (
     <div className={styles["container"]}>
-      <div className={styles["btns-container"]}>
+      <div className={isDarkTheme ? styles["btns-container-dark"] : styles["btns-container"]}>
         {buttons}
-        {/* <button className={styles["active-btn"]}>{icons.pm1}PM 1.0</button>
-        <button>{icons.pm2}PM 2.5</button>
-        <button>{icons.pm4}PM 4.0</button>
-        <button>{icons.pm10}PM 10.0</button> */}
       </div>
     </div>
   );
