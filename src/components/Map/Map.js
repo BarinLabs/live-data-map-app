@@ -20,9 +20,9 @@ const Map = () => {
   useEffect(() => {
     fetchDevices().catch((e) => setError(true));
 
-    setInterval(() => {
-      fetchDevices().catch((e) => setError(true));
-    }, 1000 * updateMapFrequencySeconds);
+    // setInterval(() => {
+    //   fetchDevices().catch((e) => setError(true));
+    // }, 1000 * updateMapFrequencySeconds);
   }, []);
 
   const fetchDevices = async () => {

@@ -1,5 +1,6 @@
-import { Marker, useMap, useMapEvent } from "react-leaflet";
+import { CircleMarker, Marker, useMap, useMapEvent } from "react-leaflet";
 import * as L from "leaflet";
+import * as G from "leaflet-geometryutil";
 import { useDispatch, useSelector } from "react-redux";
 import {
   openDevice,
@@ -8,25 +9,6 @@ import {
 
 import styles from "./pin.module.scss";
 import { useState } from "react";
-
-const getPinSize = (zoomLevel) => {
-  let size = 0;
-  if (zoomLevel <= 6) {
-    size = 10;
-  } else if (zoomLevel <= 9) {
-    size = 15;
-  } else if (zoomLevel <= 11) {
-    size = 25;
-  } else if (zoomLevel <= 14) {
-    size = 34;
-  } else if (zoomLevel <= 16) {
-    size = 64;
-  } else {
-    size = 94;
-  }
-
-  return size;
-};
 
 const getPinColor = (indexValue) => {
   let color = "";
@@ -52,6 +34,8 @@ const Pin = ({ device }) => {
 
   const dispatch = useDispatch();
   const { token, dataEndpoint, indexes, location } = device;
+
+  const { latitude, longtitude, radius } = location;
 
   let { deviceURL: deviceURLTemplate, channelDataURL: channelDataURLTemplate } =
     dataEndpoint;
@@ -81,7 +65,7 @@ const Pin = ({ device }) => {
           token,
           deviceURL,
           channelDataURLTemplate: channelDataURL,
-          location: { ...location },
+          location,
           categories,
           ...deviceData,
         },
@@ -89,14 +73,56 @@ const Pin = ({ device }) => {
     );
   };
 
+  const getPinParams = (zoomLevel) => {
+    console.log(zoomLevel);
+    let size = 0;
+    let translateValue = 0;
+    if (zoomLevel <= 6) {
+      size = 10;
+      translateValue = 1;
+    } else if (zoomLevel <= 9) {
+      size = 15;
+      translateValue = -1;
+    } else if (zoomLevel <= 11) {
+      size = 25;
+      translateValue = -6;
+    } else if (zoomLevel <= 14) {
+      size = 34;
+      translateValue = -11;
+    } else if (zoomLevel <= 16) {
+      size = 64;
+      translateValue = -26;
+    } else if (zoomLevel === 17) {
+      size = 104;
+      translateValue = -46;
+    } else {
+      translateValue = -115;
+      if (zoomLevel === 18) {
+        const metersPerPx =
+          (156543.03392 * Math.cos((latitude * Math.PI) / 180)) /
+          Math.pow(2, zoomLevel);
+
+        size = metersPerPx * radius * 2;
+      }
+    }
+
+    return { size, translateValue };
+  };
+
   const map = useMap();
-  const [size, setSize] = useState(() => getPinSize(map.getZoom()));
+  const [size, setSize] = useState(() => getPinParams(map.getZoom()).size);
+  const [translateValue, setTranslateValue] = useState(
+    () => getPinParams(map.getZoom()).translateValue
+  );
 
   const mapEvents = useMapEvent({
     zoom: () => {
       const currZoomLevel = map.getZoom();
-      const currSize = getPinSize(currZoomLevel);
-      setSize(currSize);
+
+      const { size, translateValue } = getPinParams(currZoomLevel);
+
+      setSize(size);
+      setTranslateValue(translateValue);
     },
   });
 
@@ -131,14 +157,14 @@ const Pin = ({ device }) => {
 
   const icon = new L.divIcon({
     html: `
-      <svg width="${size}" height="${size}" viewBox="0 0 94 94" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="${size}" height="${size}" transform='translate(${translateValue}, ${translateValue})' viewBox="0 0 94 94" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="47" cy="47" r="47" fill=${pinColor} fill-opacity="0.2"/>
       <svg width="94" height="94" viewBox="-5 -10 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="35" cy="35" r="35" fill=${pinColor} fill-opacity="0.4"/>
        ${pinInsideIcon}
       </svg>
     </svg>`,
-    className: styles.divIcon,
+    className: styles["div-icon"],
   });
 
   return (
@@ -150,7 +176,7 @@ const Pin = ({ device }) => {
           click: onDeviceOpen,
         }}
         key={device.token}
-        position={[device.location.latitude, device.location.longtitude]}
+        position={[latitude, longtitude]}
       />
     </>
   );
