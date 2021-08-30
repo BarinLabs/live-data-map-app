@@ -1,6 +1,5 @@
-import { CircleMarker, Marker, useMap, useMapEvent } from "react-leaflet";
+import { Marker, useMap, useMapEvent } from "react-leaflet";
 import * as L from "leaflet";
-import * as G from "leaflet-geometryutil";
 import { useDispatch, useSelector } from "react-redux";
 import {
   openDevice,
