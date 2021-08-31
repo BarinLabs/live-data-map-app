@@ -37,7 +37,6 @@ const getIndexDetails = (indexValue) => {
 };
 
 const Index = ({ index }) => {
-  console.log(index);
   const { value, slug } = index;
   const { indexLevelName, indexNameClasses, indexIcon } =
     getIndexDetails(value);

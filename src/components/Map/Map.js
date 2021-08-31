@@ -20,9 +20,9 @@ const Map = () => {
   useEffect(() => {
     fetchDevices().catch((e) => setError(true));
 
-    // setInterval(() => {
-    //   fetchDevices().catch((e) => setError(true));
-    // }, 1000 * updateMapFrequencySeconds);
+    setInterval(() => {
+      fetchDevices().catch((e) => setError(true));
+    }, 1000 * updateMapFrequencySeconds);
   }, []);
 
   const fetchDevices = async () => {
@@ -64,6 +64,8 @@ const Map = () => {
         <MapContainer
           className={styles.mapContainer}
           center={[42.753, 25.291]}
+          maxZoom={17}
+          minZoom={2}
           zoom={8}
           scrollWheelZoom={true}
           zoomControl={false}
