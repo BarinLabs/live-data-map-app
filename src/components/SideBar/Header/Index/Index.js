@@ -46,7 +46,10 @@ const Index = ({ index }) => {
       <div className={styles["icon-container"]}>{indexIcon}</div>
       <div className={styles["index-data-container"]}>
         <p className={styles[indexNameClasses]}>{indexLevelName}</p>
-        <p>{value}</p>
+        
+        <p>{value}<label> / 100</label></p>
+        
+          
         <p>Senstate {slug.toUpperCase()}</p>
       </div>
     </div>

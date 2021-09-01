@@ -55,8 +55,8 @@ const LineChart = (props) => {
       parsing: {
         yAxisKey: "z",
       },
-      borderColor: "#16123F",
-      backgroundColor: "#16123F",
+      borderColor: isDarkTheme && !props.highLow ? "#4FC4CA" : "#16123F",
+      backgroundColor: isDarkTheme && !props.highLow ? "#4FC4CA" : "#16123F",
       borderDash: [5, 5],
       pointRadius: 0,
       borderWidth: 1,
@@ -113,7 +113,11 @@ const LineChart = (props) => {
             plugins: {
               legend: {
                 display: false,
-                
+              },
+              tooltip: {
+                callbacks: {
+                  label: (item) => `${item.formattedValue} ${suffix}`,
+                },
               },
               title: {
                 display: false,
@@ -123,6 +127,9 @@ const LineChart = (props) => {
             scales: {
               yAxes: {
                 ticks: {
+                  callback: function(value, index, values) {
+                    return `${value} ${suffix}`;
+                },
                   beginAtZero: true,
                   color: isDarkTheme ? "white" : "#16123F",
                   fontWeight: 700
@@ -135,7 +142,8 @@ const LineChart = (props) => {
                   fontWeight: 700
                 },
               },
-            }
+            },
+            
           }}
         />
       </div>

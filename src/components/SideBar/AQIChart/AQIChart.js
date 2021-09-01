@@ -98,7 +98,7 @@ const options = {
   },
 };
 
-const AQIChart = ({ token, indexes }) => {
+const AQIChart = ({ token, indexes, source }) => {
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
   const [data, setData] = useState({ labels: [], hourlyIndexValues: [] });
@@ -185,7 +185,7 @@ const AQIChart = ({ token, indexes }) => {
 
   return (
     <div className={styles["container"]}>
-      <p className={isDarkTheme ? styles.p_dark : styles.p}>Source: Senstate</p>
+      <p className={isDarkTheme ? styles.p_dark : styles.p}>Source: <a href={source.url} target={"_blank"}>{source.name}</a></p>
       <div className={styles["title-and-select-container"]}>
         <span className={isDarkTheme ? styles.span_dark : styles.span}>{title}</span>
         <select className={isDarkTheme ? styles.select_dark : styles.select} value={selectedSlug} onChange={handleSlugSelection}>

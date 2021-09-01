@@ -94,8 +94,8 @@ const Header = ({ indexes, location, updateHeader }) => {
               </span>
             )}
             <div className={styles["social-icons-container"]}>
-              {icons.facebook}
-              {icons.twitter}
+                <a href={"https://www.facebook.com/SenstateTech"} target="_blank">{icons.facebook}</a>
+                <a href={"https://www.linkedin.com/company/senstate-technologies"} target="_blank">{icons.linkedin}</a>
             </div>
           </div>
         </div>

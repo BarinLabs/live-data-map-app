@@ -36,6 +36,7 @@ const Pin = ({ device }) => {
     dataEndpoint;
   const deviceURL = deviceURLTemplate.replace("{Token}", token);
   const channelDataURL = channelDataURLTemplate.replace("{Token}", token);
+  const dataSource = device.dataSource;
 
   const onDeviceOpen = () => {
     if (openedDeviceToken !== token) {
@@ -62,6 +63,7 @@ const Pin = ({ device }) => {
           channelDataURLTemplate: channelDataURL,
           location,
           categories,
+          dataSource,
           ...deviceData,
         },
       })

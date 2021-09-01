@@ -14,7 +14,7 @@ const Header = () => {
 
   return (
     <div className={classes.join(" ")}>
-      <button>{icons.close}</button>
+      {/* <button>{icons.close}</button> */}
       <div className={styles["senstate-logo-container"]}>
         {icons.senstateLogo}
       </div>

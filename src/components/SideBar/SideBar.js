@@ -37,6 +37,7 @@ const SideBar = () => {
     indexes,
     location,
     deviceURL,
+    dataSource,
     channelDataURLTemplate,
   } = device;
   const { online, lastSubmission } = status;
@@ -60,6 +61,7 @@ const SideBar = () => {
           channelDataURLTemplate,
           location: { ...location },
           categories,
+          dataSource,
           ...deviceData,
         },
       })
@@ -100,7 +102,7 @@ const SideBar = () => {
         channel={selectedChannel}
       />
     ),
-    [token]
+    [token, selectedCategory, selectedChannel]
   );
 
   const mainKey = useMemo(() => Math.random().toString(), [token]);
@@ -121,7 +123,7 @@ const SideBar = () => {
             </button>
           </div>
           {header}
-          {indexes.length > 0 && <AQIChart token={token} indexes={indexes} />}
+          {indexes.length > 0 && <AQIChart source={device.dataSource} token={token} indexes={indexes} />}
           <Main
             key={mainKey}
             categories={categories}

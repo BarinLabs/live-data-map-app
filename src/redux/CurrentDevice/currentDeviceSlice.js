@@ -9,6 +9,7 @@ const initialState = {
     channelDataURLTemplate: "",
     location: {},
     categories: [],
+    dataSource: {},
     status: { online: false, lastSubmissionShort: "" },
   },
 };
