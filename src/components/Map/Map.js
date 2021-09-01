@@ -65,7 +65,7 @@ const Map = () => {
           className={styles.mapContainer}
           center={[42.753, 25.291]}
           maxZoom={17}
-          minZoom={2}
+          minZoom={3}
           zoom={8}
           scrollWheelZoom={true}
           zoomControl={false}
