@@ -18,6 +18,7 @@ import Header from "./Header/Header";
 import AQIChart from "./AQIChart/AQIChart";
 import Main from "./Main/Main";
 import ChannelItem from "./Main/ChannelItem/ChannelItem";
+import ChannelItemsList from "./Main/ChannelItemsList/ChannelItemsList";
 
 const updateDeviceDataSeconds = 30;
 const updateDeviceIndexMinute = 10;
@@ -70,7 +71,6 @@ const SideBar = () => {
     const updateDeviceDataIntervalID = setInterval(() => {
       fetchDeviceData().catch((e) => dispatch(setError()));
     }, 1000 * updateDeviceDataSeconds);
-
     return () => {
       clearInterval(updateDeviceDataIntervalID);
     };
@@ -109,11 +109,32 @@ const SideBar = () => {
 
   return (
     <div className={isDarkTheme ? styles.container_dark : styles.container}>
+      {!online && (
+        <>
+          <div className={styles.closeBtnAndStatusContainer}>
+            <button onClick={() => dispatch(closeDevice())}>
+              <FontAwesomeIcon icon={faTimes} size="lg" />
+            </button>
+          </div>
+          <p className={styles.error}>
+            The device is offline. Please try again in few minutes.
+          </p>
+        </>
+      )}
       {error && (
-        <p className={styles.error}>Something went wrong. Please try again.</p>
+        <>
+          <div className={styles.closeBtnAndStatusContainer}>
+            <button onClick={() => dispatch(closeDevice())}>
+              <FontAwesomeIcon icon={faTimes} size="lg" />
+            </button>
+          </div>
+          <p className={styles.error}>
+            Something went wrong. Please try again in few minutes.
+          </p>{" "}
+        </>
       )}
 
-      {!error && (
+      {!error && online && (
         <div>
           <div className={styles.closeBtnAndStatusContainer}>
             <button onClick={() => dispatch(closeDevice())}>
@@ -130,12 +151,18 @@ const SideBar = () => {
           />
           {categories.length > 0 && historicalData}
           <div className={styles["channel-items-container"]}>
-            <p className={isDarkTheme ? styles["category-name-dark"] : styles["category-name"]}>{selectedCategory}:</p>
-            {categories
-              .find((c) => c.name === selectedCategory)
-              .channels.map((channel) => (
-                <ChannelItem key={channel.token} channel={channel} />
-              ))}
+            <p
+              className={
+                isDarkTheme
+                  ? styles["category-name-dark"]
+                  : styles["category-name"]
+              }
+            >
+              {selectedCategory}:
+            </p>
+            <ChannelItemsList
+              category={categories.find((c) => c.name === selectedCategory)}
+            />
           </div>
         </div>
       )}
