@@ -1,7 +1,6 @@
 import { useEffect, useContext, useState } from "react";
 import LineChart from "../Charts/LineChart";
 import styles from "./historicalData.module.scss";
-import Switch from "@material-ui/core/Switch";
 import CustomSwitch from "../../CustomSwitch";
 import CustomSwitchDark from "../../CustomSwitchDark";
 import ThemeContext from "../../../context/theme-context";
