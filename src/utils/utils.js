@@ -1,8 +1,8 @@
 export const isDataRecent = (timeStamp, timeLimitInMinutes) => {
   const currTimeStamp = timeStamp.includes("Z") ? timeStamp : timeStamp + "Z";
   const timeStampDate = new Date(currTimeStamp);
-  const currentMinutes = new Date();
-  const diff = (currentMinutes - timeStampDate) / 60000;
+  const currentTime = new Date();
+  const diff = (currentTime - timeStampDate) / 60000;
 
   return diff <= timeLimitInMinutes;
 };

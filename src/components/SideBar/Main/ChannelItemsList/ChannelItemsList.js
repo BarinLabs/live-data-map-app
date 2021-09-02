@@ -8,7 +8,7 @@ const ChannelItemsList = ({ category }) => {
   const { channels } = category;
   const { lastTick } = channels[0];
 
-  const isDataNotRecent = isDataRecent(lastTick, recentDataLimitMinutes);
+  const isDataNotRecent = !isDataRecent(lastTick, recentDataLimitMinutes);
   return (
     <div className={styles["container"]}>
       {isDataNotRecent && (

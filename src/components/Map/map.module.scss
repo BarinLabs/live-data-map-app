@@ -47,6 +47,52 @@
       width: 90px;
       height: 19px;
     }
+
+    .tooltiptext {
+      display: none;
+      font-weight: 600;
+      width: 16%;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      position: absolute;
+      z-index: 1;
+      top: -37px;
+      overflow-wrap: anywhere;
+    }
+
+    .tooltiptext::after {
+      content: " ";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: black transparent transparent transparent;
+    }
+
+    .index-very-low-container:hover,
+    .index-low-container:hover,
+    .index-medium-container:hover,
+    .index-high-container:hover,
+    .index-very-high-container:hover {
+      .tooltiptext {
+        display: block;
+      }
+    }
+  }
+
+  .i-c-c-dark-theme {
+    .tooltiptext {
+      background-color: #fff;
+      color: black;
+    }
+
+    .tooltiptext::after {
+      border-color: #fff transparent transparent transparent;
+    }
   }
 
   @media screen and (max-width: 592px) {
