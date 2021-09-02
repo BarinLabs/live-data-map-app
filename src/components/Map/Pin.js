@@ -76,6 +76,7 @@ const Pin = ({ device }) => {
   };
 
   let pinColor = "#979997";
+  let isOnline = true;
   if (indexes.length > 0) {
     let index = indexes.find((index) => index.slug === "sbaqi");
     if (!index) {
@@ -88,6 +89,8 @@ const Pin = ({ device }) => {
 
     if (isCurrDataRecent) {
       pinColor = getPinColor(value);
+    } else {
+      isOnline = false;
     }
   }
 
@@ -95,7 +98,7 @@ const Pin = ({ device }) => {
     [
       [latitude - 0.0015, longtitude],
       [latitude - 0.0015, longtitude],
-      [latitude - 0.0009, longtitude - 0.0009],
+      [latitude - 0.00088, longtitude - 0.0009],
       [latitude - 0.0009, longtitude + 0.0009],
     ],
   ];
@@ -104,7 +107,7 @@ const Pin = ({ device }) => {
     [
       [latitude - 0.0025, longtitude],
       [latitude - 0.0014, longtitude - 0.0001],
-      [latitude - 0.0003, longtitude + 0.00128],
+      [latitude - 0.0003, longtitude + 0.00126],
     ],
   ];
 
@@ -112,70 +115,105 @@ const Pin = ({ device }) => {
     [
       [latitude - 0.0025, longtitude],
       [latitude - 0.0014, longtitude - 0.00012],
-      [latitude - 0.0003, longtitude - 0.00127],
+      [latitude - 0.0003, longtitude - 0.00126],
     ],
   ];
 
   const isDeviceOpen = openedDeviceToken === token;
+  const onlinePin = (
+    <>
+      <Circle
+        center={[latitude, longtitude]}
+        pathOptions={{
+          fillColor: pinColor,
+          fillOpacity: 0.2,
+        }}
+        radius={radius}
+        stroke={false}
+        eventHandlers={{
+          click: onDeviceOpen,
+        }}
+      />
+      <Circle
+        center={[latitude, longtitude]}
+        pathOptions={{ fillColor: pinColor, fillOpacity: 0.4 }}
+        radius={0.8 * radius}
+        stroke={false}
+        eventHandlers={{
+          click: onDeviceOpen,
+        }}
+      />
+      <Circle
+        center={[latitude, longtitude]}
+        pathOptions={{ fillColor: pinColor, fillOpacity: 0.6 }}
+        radius={0.6 * radius}
+        stroke={false}
+        eventHandlers={{
+          click: onDeviceOpen,
+        }}
+      />
+      <Circle
+        center={[latitude, longtitude]}
+        pathOptions={{
+          color: isDeviceOpen ? "#16123F" : pinColor,
+          fillColor: isDeviceOpen ? "#16123F" : pinColor,
+          fillOpacity: 1,
+        }}
+        radius={0.4 * radius}
+        stroke={true}
+        eventHandlers={{
+          click: onDeviceOpen,
+        }}
+      />
+      <Circle
+        center={[latitude, longtitude]}
+        pathOptions={{
+          fillColor: pinColor,
+          fillOpacity: 1,
+        }}
+        radius={0.3 * radius}
+        stroke={false}
+        eventHandlers={{
+          click: onDeviceOpen,
+        }}
+      />
+    </>
+  );
+
+  const offlinePin = (
+    <>
+      <Circle
+        center={[latitude, longtitude]}
+        pathOptions={{
+          color: "#16123F",
+          fillColor: "#16123F",
+          fillOpacity: 1,
+        }}
+        radius={0.4 * radius}
+        stroke={true}
+        eventHandlers={{
+          click: onDeviceOpen,
+        }}
+      />
+      <Circle
+        center={[latitude, longtitude]}
+        pathOptions={{
+          fillColor: "#16123F",
+          fillOpacity: 1,
+        }}
+        radius={0.3 * radius}
+        stroke={false}
+        eventHandlers={{
+          click: onDeviceOpen,
+        }}
+      />
+    </>
+  );
 
   return (
     <div>
       <LayerGroup>
-        <Circle
-          center={[latitude, longtitude]}
-          pathOptions={{
-            fillColor: pinColor,
-            fillOpacity: 0.2,
-          }}
-          radius={radius}
-          stroke={false}
-          eventHandlers={{
-            click: onDeviceOpen,
-          }}
-        />
-        <Circle
-          center={[latitude, longtitude]}
-          pathOptions={{ fillColor: pinColor, fillOpacity: 0.4 }}
-          radius={0.8 * radius}
-          stroke={false}
-          eventHandlers={{
-            click: onDeviceOpen,
-          }}
-        />
-        <Circle
-          center={[latitude, longtitude]}
-          pathOptions={{ fillColor: pinColor, fillOpacity: 0.6 }}
-          radius={0.6 * radius}
-          stroke={false}
-          eventHandlers={{
-            click: onDeviceOpen,
-          }}
-        />
-        <Circle
-          center={[latitude, longtitude]}
-          pathOptions={{
-            color: isDeviceOpen ? "#16123F" : pinColor,
-            fillColor: isDeviceOpen ? "#16123F" : pinColor,
-            fillOpacity: 1,
-          }}
-          radius={0.4 * radius}
-          stroke={true}
-          eventHandlers={{
-            click: onDeviceOpen,
-          }}
-        />
-        <Circle
-          center={[latitude, longtitude]}
-          pathOptions={{
-            fillColor: pinColor,
-            fillOpacity: 1,
-          }}
-          radius={0.3 * radius}
-          stroke={false}
-          eventHandlers={{
-            click: onDeviceOpen,
-          }}
-        />
+        {isOnline ? onlinePin : offlinePin}
         {isDeviceOpen && (
           <>
             <Polygon
