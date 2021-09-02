@@ -1,3 +1,4 @@
+import { isDataRecent } from "../../../../utils/utils";
 import ChannelItem from "../ChannelItem/ChannelItem";
 import styles from "./channelItemsList.module.scss";
 
@@ -7,11 +8,7 @@ const ChannelItemsList = ({ category }) => {
   const { channels } = category;
   const { lastTick } = channels[0];
 
-  const lastTickMinutes = new Date(lastTick).getMinutes();
-  const currentMinutes = new Date().getMinutes();
-  const diff = currentMinutes - lastTickMinutes;
-
-  const isDataNotRecent = diff > recentDataLimitMinutes;
+  const isDataNotRecent = isDataRecent(lastTick, recentDataLimitMinutes);
   return (
     <div className={styles["container"]}>
       {isDataNotRecent && (

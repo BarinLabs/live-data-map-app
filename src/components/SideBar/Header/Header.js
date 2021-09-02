@@ -12,6 +12,10 @@ import bgImageIndexMedium from "./Assets/bg-image-index-medium.svg";
 import bgImageIndexHigh from "./Assets/bg-image-index-high.svg";
 import bgImageIndexVeryHigh from "./Assets/bg-image-index-very-high.svg";
 import UpdateTimer from "./UpdateTimer/UpdateTimer";
+import { isDataRecent } from "../../../utils/utils";
+
+const updateDeviceIndexMinutes = 10;
+const updateDeviceIndexLimitInMinutes = updateDeviceIndexMinutes * 3;
 
 const getBgDetails = (indexValue) => {
   let bgImage = "";
@@ -68,14 +72,19 @@ const Header = ({ indexes, location, updateHeader }) => {
         index = indexes[0];
       }
 
-      const { value, slug } = index;
-      return { value, slug };
+      const { value, slug, timeStamp } = index;
+      return { value, slug, timeStamp };
     }
     return null;
   }, [indexes]);
 
+  let error = false;
+  if (index) {
+    error = !isDataRecent(index.timeStamp, updateDeviceIndexLimitInMinutes);
+  }
+
   const { bgImage, bgColorClass, indexTextBgColorClass, indexDescText } =
-    getBgDetails(index?.value);
+    getBgDetails(!error ? index?.value : null);
 
   const bgImageKey = useMemo(() => Math.random().toString(), [bgImage]);
 
@@ -86,7 +95,12 @@ const Header = ({ indexes, location, updateHeader }) => {
           <img src={bgImage} alt="index background" />
         </div>
         <div className={styles["index-and-address-container"]}>
-          {index && <Index index={index} />}
+          {error && (
+            <div className={styles["error-container"]}>
+              <p>No recent index data</p>
+            </div>
+          )}
+          {!error && index && <Index index={index} />}
           <div className={styles["address-and-social-icons-container"]}>
             {address && (
               <span className={styles["address-container"]}>
@@ -100,7 +114,7 @@ const Header = ({ indexes, location, updateHeader }) => {
           </div>
         </div>
       </div>
-      {index && (
+      {!error && index && (
         <div
           className={`${styles["index-description-container"]} ${styles[indexTextBgColorClass]}`}
         >

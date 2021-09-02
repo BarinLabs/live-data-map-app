@@ -4,6 +4,7 @@ import {
   openDevice,
   setError,
 } from "../../redux/CurrentDevice/currentDeviceSlice";
+import { isDataRecent } from "../../utils/utils";
 
 const getPinColor = (indexValue) => {
   let color = "";
@@ -21,6 +22,10 @@ const getPinColor = (indexValue) => {
 
   return color;
 };
+
+const updateDeviceIndexMinutes = 10;
+const markOfflineTreshold = 3;
+const recentDataLimitMinutes = updateDeviceIndexMinutes * markOfflineTreshold;
 
 const Pin = ({ device }) => {
   const openedDeviceToken = useSelector(
@@ -75,9 +80,13 @@ const Pin = ({ device }) => {
       index = indexes[0];
     }
 
-    const { value } = index;
+    const { value, timeStamp } = index;
 
-    pinColor = getPinColor(value);
+    const isCurrDataRecent = isDataRecent(timeStamp, recentDataLimitMinutes);
+
+    if (isCurrDataRecent) {
+      pinColor = getPinColor(value);
+    }
   }
 
   const polygon1 = [

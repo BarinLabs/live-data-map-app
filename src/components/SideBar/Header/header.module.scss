@@ -6,6 +6,19 @@
   display: flex;
   position: relative;
 
+  .error-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+      color: red;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
   .bg-image-container {
     display: flex;
     align-items: flex-end;

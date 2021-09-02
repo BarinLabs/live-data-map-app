@@ -1,3 +1,12 @@
+export const isDataRecent = (timeStamp, timeLimitInMinutes) => {
+  const currTimeStamp = timeStamp.includes("Z") ? timeStamp : timeStamp + "Z";
+  const timeStampDate = new Date(currTimeStamp);
+  const currentMinutes = new Date();
+  const diff = (currentMinutes - timeStampDate) / 60000;
+
+  return diff <= timeLimitInMinutes;
+};
+
 export const indexColors = {
   veryLow: "rgba(121, 188, 106, 1)",
   low: "rgba(187, 207, 76, 1)",

@@ -9,7 +9,6 @@ import ThemeContext from "../../../context/theme-context";
 const _WEATHER = "Weather";
 
 const HistoricalData = ({ categories, category, channel }) => {
-
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
 
@@ -37,14 +36,13 @@ const HistoricalData = ({ categories, category, channel }) => {
     if (currChannel) {
       setSelectedChannel(currChannel);
     } else if (category === "Particulates") {
-      setSelectedChannel(channels.find(c => c.name === "PM1.0"));
+      setSelectedChannel(channels.find((c) => c.name === "PM1.0"));
     } else if (category === "Gases") {
-      setSelectedChannel(channels.find(c => c.name === "NO2"));
+      setSelectedChannel(channels.find((c) => c.name === "NO2"));
     } else if (category === "Weather") {
       setSelectedChannel(channels.find((c) => c.name === "Temperature"));
     }
-
-  }, [categories, category, channel])
+  }, [categories, category, channel]);
 
   const handlePeriodSelection = (event) => {
     setSelectedPeriod(event.target.value);
@@ -52,24 +50,40 @@ const HistoricalData = ({ categories, category, channel }) => {
 
   return (
     <div style={{ padding: 10 }}>
-      <h3 className={isDarkTheme ? styles["h3-dark"] : null}>Historical Data:</h3>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingLeft: "10%", paddingRight: "10%" }}>
+      <h3 className={isDarkTheme ? styles["h3-dark"] : null}>
+        Historical Data:
+      </h3>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingLeft: "10%",
+          paddingRight: "10%",
+        }}
+      >
         <div>
-          <label className={isDarkTheme ? styles["label-dark"] : null}>High/Low</label>
-          {isDarkTheme ?
-          <CustomSwitchDark
-            checked={state.highLow}
-            onChange={handleChange}
-            name="highLow"
-          /> :
-          <CustomSwitch
-            checked={state.highLow}
-            onChange={handleChange}
-            name="highLow"
-          />}
+          <label className={isDarkTheme ? styles["label-dark"] : null}>
+            High/Low
+          </label>
+          {isDarkTheme ? (
+            <CustomSwitchDark
+              checked={state.highLow}
+              onChange={handleChange}
+              name="highLow"
+            />
+          ) : (
+            <CustomSwitch
+              checked={state.highLow}
+              onChange={handleChange}
+              name="highLow"
+            />
+          )}
         </div>
-        <select className={isDarkTheme ? styles["select-dark"] : null}
-          onChange={handlePeriodSelection}>
+        <select
+          className={isDarkTheme ? styles["select-dark"] : null}
+          onChange={handlePeriodSelection}
+        >
           <option>24 hours</option>
           <option>30 days</option>
         </select>
@@ -80,7 +94,8 @@ const HistoricalData = ({ categories, category, channel }) => {
           <LineChart
             channel={selectedChannel}
             highLow={state.highLow}
-            period={selectedPeriod} />
+            period={selectedPeriod}
+          />
         )}
       </div>
     </div>

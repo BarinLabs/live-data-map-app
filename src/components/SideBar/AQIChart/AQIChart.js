@@ -4,10 +4,13 @@ import { formatTime } from "../../../utils/timeAndDate";
 import { indexColors, font } from "../../../utils/utils";
 import ThemeContext from "../../../context/theme-context";
 import styles from "./aqichart.module.scss";
+import { isDataRecent } from "../../../utils/utils";
 
 const FIRST_TICK_INDEX = 0;
 const MID_TICK_INDEX = 11;
 const LAST_TICK_INDEX = 23;
+
+const indexHistoricalDataTresholdInMinutes = 180;
 
 const setTooltipText = (context) => {
   const value = context[0].formattedValue;
@@ -101,6 +104,7 @@ const options = {
 const AQIChart = ({ token, indexes }) => {
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
+  const [error, setError] = useState(false);
   const [data, setData] = useState({ labels: [], hourlyIndexValues: [] });
   const [selectedSlug, setSelectedSlug] = useState(indexes[0].slug);
   const selectOptions = indexes.map(({ slug }) => (
@@ -149,6 +153,16 @@ const AQIChart = ({ token, indexes }) => {
     const loadedLabels = data.map(({ timeStamp }) => formatTime(timeStamp));
     const loadedValues = data.map(({ value }) => value);
 
+    const lastTimeStamp = data[data.length - 1].timeStamp;
+    const dataNotRecent = isDataRecent(
+      lastTimeStamp,
+      indexHistoricalDataTresholdInMinutes
+    );
+    if (dataNotRecent) {
+      setError(true);
+    }
+
+    setError(false);
     setData({ labels: loadedLabels, hourlyIndexValues: loadedValues });
   }, [token, slug]);
 
@@ -169,7 +183,7 @@ const AQIChart = ({ token, indexes }) => {
 
   const chart = useMemo(() => {
     return (
-      <div className={styles["chart-container"]}>
+      <div className={styles["chart"]}>
         <Bar
           data={chartData}
           options={{
@@ -187,12 +201,25 @@ const AQIChart = ({ token, indexes }) => {
     <div className={styles["container"]}>
       <p className={isDarkTheme ? styles.p_dark : styles.p}>Source: Senstate</p>
       <div className={styles["title-and-select-container"]}>
-        <span className={isDarkTheme ? styles.span_dark : styles.span}>{title}</span>
-        <select className={isDarkTheme ? styles.select_dark : styles.select} value={selectedSlug} onChange={handleSlugSelection}>
+        <span className={isDarkTheme ? styles.span_dark : styles.span}>
+          {title}
+        </span>
+        <select
+          className={isDarkTheme ? styles.select_dark : styles.select}
+          value={selectedSlug}
+          onChange={handleSlugSelection}
+        >
           {selectOptions}
         </select>
       </div>
-      {chart}
+      <div className={styles["chart-container"]}>
+        {error && (
+          <div className={styles["no-recent-data-overlay"]}>
+            <p>Index historical data not updated recently</p>
+          </div>
+        )}
+        {chart}
+      </div>
     </div>
   );
 };
