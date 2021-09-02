@@ -23,13 +23,13 @@
       border-radius: 5px;
     }
     .select_dark {
-      color: #BBBBBB;
+      color: #bbbbbb;
       height: 34px;
       width: 99px;
       border-radius: 5px;
       background-color: $bg-color-dark;
     }
-    
+
     .span_dark {
       color: $font-color-dark;
       font-size: 16px;
@@ -38,7 +38,31 @@
   }
 
   .chart-container {
-    height: 140px;
-    padding-bottom: 10px;
+    position: relative;
+    margin-top: 5px;
+
+    .chart {
+      height: 140px;
+      padding-bottom: 10px;
+    }
+
+    .no-recent-data-overlay {
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      z-index: 1;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+        color: white;
+      }
+    }
   }
 }

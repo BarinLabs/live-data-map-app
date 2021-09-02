@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, useContext } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeDevice,
@@ -8,16 +8,15 @@ import {
 
 import ThemeContext from "../../context/theme-context";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import styles from "./sideBar.module.scss";
 
-import Slugs from "./Main/Slugs/Slugs";
 import HistoricalData from "./HistoricalData/HistoricalData";
 import Header from "./Header/Header";
 import AQIChart from "./AQIChart/AQIChart";
 import Main from "./Main/Main";
-import ChannelItem from "./Main/ChannelItem/ChannelItem";
+import ChannelItemsList from "./Main/ChannelItemsList/ChannelItemsList";
+import Loader from "react-loader-spinner";
+import { icons } from "../../assets/appIcons";
 
 const updateDeviceDataSeconds = 30;
 const updateDeviceIndexMinute = 10;
@@ -72,7 +71,6 @@ const SideBar = () => {
     const updateDeviceDataIntervalID = setInterval(() => {
       fetchDeviceData().catch((e) => dispatch(setError()));
     }, 1000 * updateDeviceDataSeconds);
-
     return () => {
       clearInterval(updateDeviceDataIntervalID);
     };
@@ -111,17 +109,28 @@ const SideBar = () => {
 
   return (
     <div className={isDarkTheme ? styles.container_dark : styles.container}>
-      {error && (
-        <p className={styles.error}>Something went wrong. Please try again.</p>
+      <div
+        className={`${styles.closeBtnContainer} ${
+          isDarkTheme && styles.closeBtnContainerDarkTheme
+        }`}
+      >
+        <button onClick={() => dispatch(closeDevice())}>{icons.close}</button>
+      </div>
+
+      {(error || !online) && (
+        <div className={styles.errorContainer}>
+          <Loader
+            type="Rings"
+            color={isDarkTheme ? "white" : "#16123f"}
+            height={100}
+            width={100}
+          />
+          <p>The device is offline. Please try again in few minutes.</p>
+        </div>
       )}
 
-      {!error && (
+      {!error && online && (
         <div>
-          <div className={styles.closeBtnAndStatusContainer}>
-            <button onClick={() => dispatch(closeDevice())}>
-              <FontAwesomeIcon icon={faTimes} size="lg" />
-            </button>
-          </div>
           {header}
           {indexes.length > 0 && <AQIChart source={device.dataSource} token={token} indexes={indexes} />}
           <Main
@@ -132,12 +141,18 @@ const SideBar = () => {
           />
           {categories.length > 0 && historicalData}
           <div className={styles["channel-items-container"]}>
-            <p className={isDarkTheme ? styles["category-name-dark"] : styles["category-name"]}>{selectedCategory}:</p>
-            {categories
-              .find((c) => c.name === selectedCategory)
-              .channels.map((channel) => (
-                <ChannelItem key={channel.token} channel={channel} />
-              ))}
+            <p
+              className={
+                isDarkTheme
+                  ? styles["category-name-dark"]
+                  : styles["category-name"]
+              }
+            >
+              {selectedCategory}:
+            </p>
+            <ChannelItemsList
+              category={categories.find((c) => c.name === selectedCategory)}
+            />
           </div>
         </div>
       )}

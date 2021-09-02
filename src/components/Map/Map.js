@@ -89,13 +89,42 @@ const Map = () => {
             pins
           )}
         </MapContainer>
-        <div className={styles["index-colors-container"]}>
+        <div
+          className={`${styles["index-colors-container"]} ${
+            isDarkTheme && styles["i-c-c-dark-theme"]
+          }`}
+        >
           <div className={styles["index-name-container"]}>Senstate CAQI</div>
-          <div style={{ backgroundColor: "#79BC6A" }}></div>
-          <div style={{ backgroundColor: "#BBCF4C" }}></div>
-          <div style={{ backgroundColor: "#EEC20B" }}></div>
-          <div style={{ backgroundColor: "#F29305" }}></div>
-          <div style={{ backgroundColor: "#E8416F" }}></div>
+          <div
+            className={styles["index-very-low-container"]}
+            style={{ backgroundColor: "#79BC6A" }}
+          >
+            <span className={styles["tooltiptext"]}>Very Low</span>
+          </div>
+          <div
+            className={styles["index-low-container"]}
+            style={{ backgroundColor: "#BBCF4C" }}
+          >
+            <span className={styles["tooltiptext"]}>Low</span>
+          </div>
+          <div
+            className={styles["index-medium-container"]}
+            style={{ backgroundColor: "#EEC20B" }}
+          >
+            <span className={styles["tooltiptext"]}>Medium</span>
+          </div>
+          <div
+            className={styles["index-high-container"]}
+            style={{ backgroundColor: "#F29305" }}
+          >
+            <span className={styles["tooltiptext"]}>High</span>
+          </div>
+          <div
+            className={styles["index-very-high-container"]}
+            style={{ backgroundColor: "#E8416F" }}
+          >
+            <span className={styles["tooltiptext"]}>Very High</span>
+          </div>
         </div>
       </div>
     </>
