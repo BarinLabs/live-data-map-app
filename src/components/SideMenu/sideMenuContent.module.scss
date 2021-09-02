@@ -53,7 +53,8 @@
 }
 
 @media screen and (max-width: 800px) {
-  .container {
+  .container,
+  .container-dark {
     width: 100%;
 
     img {

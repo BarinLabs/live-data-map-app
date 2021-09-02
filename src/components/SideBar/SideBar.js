@@ -111,7 +111,7 @@ const SideBar = () => {
     <div className={isDarkTheme ? styles.container_dark : styles.container}>
       <div
         className={`${styles.closeBtnContainer} ${
-          isDarkTheme && styles.closeBtnContainerDarkTheme
+          isDarkTheme && error && styles.closeBtnContainerDarkTheme
         }`}
       >
         <button onClick={() => dispatch(closeDevice())}>{icons.close}</button>
@@ -132,7 +132,13 @@ const SideBar = () => {
       {!error && online && (
         <div>
           {header}
-          {indexes.length > 0 && <AQIChart source={device.dataSource} token={token} indexes={indexes} />}
+          {indexes.length > 0 && (
+            <AQIChart
+              source={device.dataSource}
+              token={token}
+              indexes={indexes}
+            />
+          )}
           <Main
             key={mainKey}
             categories={categories}
