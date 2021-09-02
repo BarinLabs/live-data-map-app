@@ -111,7 +111,7 @@ const SideBar = () => {
     <div className={isDarkTheme ? styles.container_dark : styles.container}>
       <div
         className={`${styles.closeBtnContainer} ${
-          isDarkTheme && error && styles.closeBtnContainerDarkTheme
+          isDarkTheme && !online && styles.closeBtnContainerDarkTheme
         }`}
       >
         <button onClick={() => dispatch(closeDevice())}>{icons.close}</button>
