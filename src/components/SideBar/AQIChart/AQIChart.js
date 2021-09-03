@@ -199,7 +199,12 @@ const AQIChart = ({ token, indexes, source }) => {
 
   return (
     <div className={styles["container"]}>
-      <p className={isDarkTheme ? styles.p_dark : styles.p}>Source: <a href={source.url} target={"_blank"}>{source.name}</a></p>
+      <p className={isDarkTheme ? styles.p_dark : styles.p}>
+        Source:{" "}
+        <a href={source.url} target={"_blank"}>
+          {source.name}
+        </a>
+      </p>
       <div className={styles["title-and-select-container"]}>
         <span className={isDarkTheme ? styles.span_dark : styles.span}>
           {title}

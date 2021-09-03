@@ -1,11 +1,16 @@
-import React, { useEffect, useCallback, useMemo, useState, useContext } from "react";
+import React, {
+  useEffect,
+  useCallback,
+  useMemo,
+  useState,
+  useContext,
+} from "react";
 import { Line } from "react-chartjs-2";
 import { useStore } from "react-redux";
 import { formatDate, formatTime } from "../../../utils/timeAndDate";
 import ThemeContext from "../../../context/theme-context";
 
 const LineChart = (props) => {
-
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
 
@@ -33,8 +38,8 @@ const LineChart = (props) => {
         backgroundColor: "#4FC4CA",
         pointRadius: 1,
         fill: "-1",
-        order: 10
-      })
+        order: 10,
+      });
       datasets.push({
         label: "Low",
         data,
@@ -45,8 +50,8 @@ const LineChart = (props) => {
         backgroundColor: "#4FC4CA",
         pointRadius: 0.5,
         fill: "-1",
-        order: 10
-      })
+        order: 10,
+      });
     }
 
     datasets.push({
@@ -60,8 +65,8 @@ const LineChart = (props) => {
       borderDash: [5, 5],
       pointRadius: 0,
       borderWidth: 1,
-      order: 1
-    })
+      order: 1,
+    });
 
     return {
       labels: labels,
@@ -116,7 +121,8 @@ const LineChart = (props) => {
               },
               tooltip: {
                 callbacks: {
-                  label: (item) => `${item.formattedValue} ${suffix}`,
+                  label: (item) =>
+                    `${Number(item.formattedValue).toFixed(2)} ${suffix}`,
                 },
               },
               title: {
@@ -127,23 +133,22 @@ const LineChart = (props) => {
             scales: {
               yAxes: {
                 ticks: {
-                  callback: function(value, index, values) {
-                    return `${value} ${suffix}`;
-                },
+                  callback: function (value, index, values) {
+                    return `${Number(value).toFixed(0)} ${suffix}`;
+                  },
                   beginAtZero: true,
                   color: isDarkTheme ? "white" : "#16123F",
-                  fontWeight: 700
+                  fontWeight: 700,
                 },
               },
               xAxes: {
                 ticks: {
                   beginAtZero: true,
                   color: isDarkTheme ? "white" : "#16123F",
-                  fontWeight: 700
+                  fontWeight: 700,
                 },
               },
             },
-            
           }}
         />
       </div>

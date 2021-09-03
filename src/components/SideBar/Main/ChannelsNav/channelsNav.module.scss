@@ -93,7 +93,8 @@
 }
 
 @media screen and (max-width: 420px) {
-  .btns-container {
+  .btns-container,
+  .btns-container-dark {
     flex-direction: column;
     button {
       padding: 9px 10px;

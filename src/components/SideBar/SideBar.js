@@ -10,24 +10,18 @@ import ThemeContext from "../../context/theme-context";
 
 import styles from "./sideBar.module.scss";
 
-import HistoricalData from "./HistoricalData/HistoricalData";
 import Header from "./Header/Header";
 import AQIChart from "./AQIChart/AQIChart";
 import Main from "./Main/Main";
-import ChannelItemsList from "./Main/ChannelItemsList/ChannelItemsList";
 import Loader from "react-loader-spinner";
 import { icons } from "../../assets/appIcons";
 
 const updateDeviceDataSeconds = 30;
-const updateDeviceIndexMinute = 10;
-const updateDeviceIndexSeconds = updateDeviceIndexMinute * 60;
 
 const SideBar = () => {
   const dispatch = useDispatch();
 
   const { device, error } = useSelector((state) => state.currentDevice);
-  const [selectedCategory, setSelectedCategory] = useState("Weather");
-  const [selectedChannel, setSelectedChannel] = useState("Temperature");
 
   const {
     token,
@@ -92,18 +86,12 @@ const SideBar = () => {
     );
   }, [token, headerKey]);
 
-  const historicalData = useMemo(
-    () => (
-      <HistoricalData
-        categories={categories}
-        category={selectedCategory}
-        channel={selectedChannel}
-      />
-    ),
-    [token, selectedCategory, selectedChannel]
-  );
+  const airQualityIndexChart = useMemo(() => {
+    return (
+      <AQIChart source={device.dataSource} token={token} indexes={indexes} />
+    );
+  }, [token]);
 
-  const mainKey = useMemo(() => Math.random().toString(), [token]);
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
 
@@ -132,34 +120,8 @@ const SideBar = () => {
       {!error && online && (
         <div>
           {header}
-          {indexes.length > 0 && (
-            <AQIChart
-              source={device.dataSource}
-              token={token}
-              indexes={indexes}
-            />
-          )}
-          <Main
-            key={mainKey}
-            categories={categories}
-            categoryCallback={setSelectedCategory}
-            channelCallback={setSelectedChannel}
-          />
-          {categories.length > 0 && historicalData}
-          <div className={styles["channel-items-container"]}>
-            <p
-              className={
-                isDarkTheme
-                  ? styles["category-name-dark"]
-                  : styles["category-name"]
-              }
-            >
-              {selectedCategory}:
-            </p>
-            <ChannelItemsList
-              category={categories.find((c) => c.name === selectedCategory)}
-            />
-          </div>
+          {indexes.length > 0 && airQualityIndexChart}
+          <Main token={token} categories={categories} />
         </div>
       )}
     </div>

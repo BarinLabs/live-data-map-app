@@ -7,12 +7,12 @@ import ThemeContext from "../../../context/theme-context";
 
 const _WEATHER = "Weather";
 
-const HistoricalData = ({ categories, category, channel }) => {
+const HistoricalData = ({ channel }) => {
+  console.log(channel);
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
 
   const [selectedPeriod, setSelectedPeriod] = useState("24 hours");
-  const [selectedChannel, setSelectedChannel] = useState(null);
 
   const [state, setState] = useState({
     highLow: true,
@@ -21,27 +21,6 @@ const HistoricalData = ({ categories, category, channel }) => {
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
-
-  useEffect(() => {
-    let currCategory = categories.find((t) => t.name === category);
-
-    if (!currCategory) {
-      currCategory = categories.find((t) => t.name === _WEATHER);
-
-      currCategory = categories[0];
-    }
-    const { channels } = currCategory;
-    const currChannel = channels.find((t) => t.name === channel);
-    if (currChannel) {
-      setSelectedChannel(currChannel);
-    } else if (category === "Particulates") {
-      setSelectedChannel(channels.find((c) => c.name === "PM1.0"));
-    } else if (category === "Gases") {
-      setSelectedChannel(channels.find((c) => c.name === "NO2"));
-    } else if (category === "Weather") {
-      setSelectedChannel(channels.find((c) => c.name === "Temperature"));
-    }
-  }, [categories, category, channel]);
 
   const handlePeriodSelection = (event) => {
     setSelectedPeriod(event.target.value);
@@ -89,13 +68,11 @@ const HistoricalData = ({ categories, category, channel }) => {
       </div>
 
       <div>
-        {selectedChannel && (
-          <LineChart
-            channel={selectedChannel}
-            highLow={state.highLow}
-            period={selectedPeriod}
-          />
-        )}
+        <LineChart
+          channel={channel}
+          highLow={state.highLow}
+          period={selectedPeriod}
+        />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { icons } from "../Assets/icons";
 import styles from "./categoriesNav.module.scss";
-import {useContext} from "react";
+import { useContext } from "react";
 import ThemeContext from "../../../../context/theme-context";
 
 const CategoriesNav = ({
@@ -28,7 +28,15 @@ const CategoriesNav = ({
     buttons[index] = (
       <button
         key={index}
-        className={name === selectedCategoryName ? isDarkTheme ? styles["active-btn-dark"] : styles["active-btn"] : isDarkTheme ? styles.button_dark : null}
+        className={
+          name === selectedCategoryName
+            ? isDarkTheme
+              ? styles["active-btn-dark"]
+              : styles["active-btn"]
+            : isDarkTheme
+            ? styles.button_dark
+            : null
+        }
         onClick={() => setSelectedCategoryName(name)}
       >
         {btnIcon}

@@ -37,7 +37,6 @@
     opacity: 0.33;
     font-size: 16px;
     font-weight: 700;
-    
 
     svg {
       margin-right: 5px;
@@ -50,7 +49,7 @@
 
   button:hover {
     cursor: pointer;
-    background-color: #dadada;
+    background-color: $bg-color-dark;
   }
 
   .active-btn-dark {
@@ -67,9 +66,5 @@
   }
   .active-btn {
     border-bottom: 3px solid $font-color;
-  }
-
-  .active-btn:hover {
-    background-color: $categories-bg-color;
   }
 }

@@ -1,9 +1,11 @@
 import styles from "./main.module.scss";
 import CategoriesNav from "./CategoriesNav/CategoriesNav";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ChannelsNav from "./ChannelsNav/ChannelsNav";
+import HistoricalData from "../HistoricalData/HistoricalData";
+import ChannelItemsList from "./ChannelItemsList/ChannelItemsList";
 
-const Main = ({ categories, categoryCallback, channelCallback }) => {
+const Main = ({ token, categories }) => {
   const categoryNames = categories.map(({ name }) => name);
   const [selectedCategoryName, setSelectedCategoryName] = useState(() => {
     if (categoryNames.includes("Weather")) {
@@ -39,6 +41,16 @@ const Main = ({ categories, categoryCallback, channelCallback }) => {
     }
   }
 
+  const historicalData = useMemo(() => {
+    return (
+      <HistoricalData
+        channel={selectedChannels.find(
+          (channel) => channel.name === selectedChannelName
+        )}
+      />
+    );
+  }, [token, selectedChannelName, selectedChannels]);
+
   return (
     <div className={styles["container"]}>
       <CategoriesNav
@@ -46,7 +58,6 @@ const Main = ({ categories, categoryCallback, channelCallback }) => {
         selectedCategoryName={selectedCategoryName}
         setSelectedCategoryName={(name) => {
           setSelectedCategoryName(name);
-          categoryCallback(name)
         }}
       />
       <ChannelsNav
@@ -55,10 +66,10 @@ const Main = ({ categories, categoryCallback, channelCallback }) => {
         selectedChannelName={selectedChannelName}
         setSelectedChannelName={(name) => {
           setSelectedChannelName(name);
-          channelCallback(name);
         }}
       />
-     
+      {historicalData}
+      <ChannelItemsList category={selectedCategory} />
     </div>
   );
 };
