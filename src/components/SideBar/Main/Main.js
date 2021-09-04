@@ -49,7 +49,7 @@ const Main = ({ token, categories }) => {
         )}
       />
     );
-  }, [token, selectedChannelName, selectedChannels]);
+  }, [token, selectedCategoryName, selectedChannelName]);
 
   return (
     <div className={styles["container"]}>

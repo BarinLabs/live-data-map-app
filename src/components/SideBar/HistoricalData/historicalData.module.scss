@@ -1,45 +1,38 @@
 @import "../../../utils/stylesVariables.scss";
-.selectMenusContainer {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
 
-@media screen and (max-width: 330px) {
-  .container {
-    flex-direction: column;
+.container {
+  padding: 0 10px 10px 10px;
 
-    label + span {
-      margin-bottom: 10px;
-    }
+  h3 {
+    margin-top: 0;
   }
-}
 
-select {
-  color: rgba(187, 187, 187, 1);
-  height: 34px;
-  width: 99px;
-  border-radius: 5px;
-}
+  select {
+    color: rgba(187, 187, 187, 1);
+    height: 34px;
+    width: 99px;
+    border-radius: 5px;
+  }
 
-.select-dark {
-  color: #BBBBBB;
-  height: 34px;
-  width: 99px;
-  border-radius: 5px;
-  background-color: $bg-color-dark;
-}
+  .select-dark {
+    color: #bbbbbb;
+    height: 34px;
+    width: 99px;
+    border-radius: 5px;
+    background-color: $bg-color-dark;
+  }
 
-label {
-  color: $font-color;
-  font-weight: 700;
-}
+  label {
+    color: $font-color;
+    font-weight: 700;
+  }
 
-.label-dark {
-  color: $font-color-dark;
-  font-weight: 700;
-}
+  .label-dark {
+    color: $font-color-dark;
+    font-weight: 700;
+  }
 
-.h3-dark {
-  color: $font-color-dark;
+  .h3-dark {
+    color: $font-color-dark;
+  }
 }

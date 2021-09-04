@@ -128,16 +128,8 @@ const AQIChart = ({ token, indexes, source }) => {
     };
   }, [data]);
 
-  const slug = useMemo(() => {
-    const currSlug = indexes.find((index) => index.slug === selectedSlug);
-
-    if (!currSlug) {
-      const newSlug = indexes[0].slug;
-      return newSlug;
-    }
-
-    return selectedSlug;
-  }, [indexes, selectedSlug]);
+  let currSlug = indexes.find((index) => index.slug === selectedSlug);
+  let slug = currSlug ? currSlug.slug : indexes[0].slug;
 
   const getIndexData = useCallback(async () => {
     const response = await fetch(
@@ -175,9 +167,9 @@ const AQIChart = ({ token, indexes, source }) => {
   };
 
   const title =
-    selectedSlug === "caqi"
+    slug === "caqi"
       ? "Air Quality Index (CAQI)"
-      : selectedSlug === "eaqi"
+      : slug === "eaqi"
       ? "European Air Quality Index (EAQI)"
       : "Senstate Air Quality Index (SBAQI)";
 

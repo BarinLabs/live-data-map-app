@@ -1,14 +1,11 @@
-import { useEffect, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import LineChart from "../Charts/LineChart";
 import styles from "./historicalData.module.scss";
 import CustomSwitch from "../../CustomSwitch";
 import CustomSwitchDark from "../../CustomSwitchDark";
 import ThemeContext from "../../../context/theme-context";
 
-const _WEATHER = "Weather";
-
 const HistoricalData = ({ channel }) => {
-  console.log(channel);
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
 
@@ -27,7 +24,7 @@ const HistoricalData = ({ channel }) => {
   };
 
   return (
-    <div style={{ padding: 10 }}>
+    <div className={styles["container"]}>
       <h3 className={isDarkTheme ? styles["h3-dark"] : null}>
         Historical Data:
       </h3>

@@ -11,6 +11,7 @@ const CategoriesNav = ({
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
   const buttons = [];
+
   categoryNames.forEach((name) => {
     let btnIcon = "";
     let index = "";
