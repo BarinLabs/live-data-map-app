@@ -6,12 +6,24 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 150px;
+    height: 225px;
 
     p {
       text-align: center;
       color: red;
       font-size: 16px;
     }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .chart-container div {
+    height: 180px;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .chart-container div {
+    height: 150px;
   }
 }
