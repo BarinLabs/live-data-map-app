@@ -1,16 +1,14 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
+import { withStyles } from "@material-ui/core/styles";
+import Switch from "@material-ui/core/Switch";
 
 const CustomSwitchDark = withStyles({
   switchBase: {
-    
-    '&$checked': {
+    "&$checked": {
       color: "#4FC4CA",
     },
-    '&$checked + $track': {
+    "&$checked + $track": {
       backgroundColor: "#000000",
-      opacity: 0.38
+      opacity: 0.38,
     },
   },
   checked: {},

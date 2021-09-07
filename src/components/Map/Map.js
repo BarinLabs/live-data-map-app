@@ -18,33 +18,33 @@ const Map = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    const fetchDevices = async () => {
+      setIsLoading(true);
+      const response = await fetch("https://open-data.senstate.cloud/devices");
+
+      if (!response.ok) {
+        setIsLoading(false);
+        throw new Error("Something went wrong.");
+      }
+
+      const data = await response.json();
+
+      const loadedDevices = [];
+      for (const key in data) {
+        loadedDevices.push(data[key]);
+      }
+
+      error && setError(false);
+      setDevices(loadedDevices);
+      setIsLoading(false);
+    };
+
     fetchDevices().catch((e) => setError(true));
 
     setInterval(() => {
       fetchDevices().catch((e) => setError(true));
     }, 1000 * updateMapFrequencySeconds);
-  }, []);
-
-  const fetchDevices = async () => {
-    setIsLoading(true);
-    const response = await fetch("https://open-data.senstate.cloud/devices");
-
-    if (!response.ok) {
-      setIsLoading(false);
-      throw new Error("Something went wrong.");
-    }
-    error && setError(false);
-
-    const data = await response.json();
-
-    const loadedDevices = [];
-    for (const key in data) {
-      loadedDevices.push(data[key]);
-    }
-
-    setDevices(loadedDevices);
-    setIsLoading(false);
-  };
+  }, [error]);
 
   const pins = devices.map((device) => {
     return <Pin key={device.token} device={device} />;

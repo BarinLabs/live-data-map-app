@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Bar } from "react-chartjs-2";
 import { formatTime } from "../../../utils/timeAndDate";
 import { indexColors, font } from "../../../utils/utils";
@@ -107,60 +107,47 @@ const AQIChart = ({ token, indexes, source }) => {
   const [error, setError] = useState(false);
   const [data, setData] = useState({ labels: [], hourlyIndexValues: [] });
   const [selectedSlug, setSelectedSlug] = useState(indexes[0].slug);
+
   const selectOptions = indexes.map(({ slug }) => (
     <option value={slug} key={slug}>
       {slug.toUpperCase()}
     </option>
   ));
 
-  const chartData = useMemo(() => {
-    const { labels, hourlyIndexValues } = data;
-    return {
-      labels: labels,
-      datasets: [
-        {
-          data: hourlyIndexValues,
-          barThickness: "flex",
-          borderWidth: 0,
-          backgroundColor: (context) => setBarColor(context),
-        },
-      ],
-    };
-  }, [data]);
-
   let currSlug = indexes.find((index) => index.slug === selectedSlug);
   let slug = currSlug ? currSlug.slug : indexes[0].slug;
 
-  const getIndexData = useCallback(async () => {
-    const response = await fetch(
-      `https://see.senstate.cloud/data/${token}/index?slug=${slug}`
-    );
-
-    if (!response.ok) {
-      throw new Error("Something went wrong.");
-    }
-
-    const data = await response.json();
-
-    const loadedLabels = data.map(({ timeStamp }) => formatTime(timeStamp));
-    const loadedValues = data.map(({ value }) => value);
-
-    const lastTimeStamp = data[data.length - 1].timeStamp;
-    const dataNotRecent = isDataRecent(
-      lastTimeStamp,
-      indexHistoricalDataTresholdInMinutes
-    );
-    if (dataNotRecent) {
-      setError(true);
-    }
-
-    setError(false);
-    setData({ labels: loadedLabels, hourlyIndexValues: loadedValues });
-  }, [token, slug]);
-
   useEffect(() => {
+    const getIndexData = async () => {
+      const response = await fetch(
+        `https://see.senstate.cloud/data/${token}/index?slug=${slug}`
+      );
+
+      if (!response.ok) {
+        console.log(response);
+        throw new Error("Something went wrong.");
+      }
+
+      const data = await response.json();
+
+      const loadedLabels = data.map(({ timeStamp }) => formatTime(timeStamp));
+      const loadedValues = data.map(({ value }) => value);
+
+      const lastTimeStamp = data[data.length - 1].timeStamp;
+      const dataNotRecent = !isDataRecent(
+        lastTimeStamp,
+        indexHistoricalDataTresholdInMinutes
+      );
+      if (dataNotRecent) {
+        setError(true);
+      }
+
+      error && setError(false);
+      setData({ labels: loadedLabels, hourlyIndexValues: loadedValues });
+    };
+
     getIndexData().catch((e) => console.log(e.message));
-  }, [getIndexData]);
+  }, [token, slug, error]);
 
   const handleSlugSelection = (ev) => {
     setSelectedSlug(ev.target.value);
@@ -173,21 +160,17 @@ const AQIChart = ({ token, indexes, source }) => {
       ? "European Air Quality Index (EAQI)"
       : "Senstate Air Quality Index (SBAQI)";
 
-  const chart = useMemo(() => {
-    return (
-      <div className={styles["chart"]}>
-        <Bar
-          data={chartData}
-          options={{
-            ...options,
-            scales: {
-              y: { max: Math.max(...(data.hourlyIndexValues || [0])) + 5 },
-            },
-          }}
-        />
-      </div>
-    );
-  }, [chartData]);
+  const chartData = {
+    labels: data.labels,
+    datasets: [
+      {
+        data: data.hourlyIndexValues,
+        barThickness: "flex",
+        borderWidth: 0,
+        backgroundColor: (context) => setBarColor(context),
+      },
+    ],
+  };
 
   return (
     <div className={styles["container"]}>
@@ -215,7 +198,17 @@ const AQIChart = ({ token, indexes, source }) => {
             <p>Index historical data not updated recently</p>
           </div>
         )}
-        {chart}
+        <div className={styles["chart"]}>
+          <Bar
+            data={chartData}
+            options={{
+              ...options,
+              scales: {
+                y: { max: Math.max(...(data.hourlyIndexValues || [0])) + 5 },
+              },
+            }}
+          />
+        </div>
       </div>
     </div>
   );
