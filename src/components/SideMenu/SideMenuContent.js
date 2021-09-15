@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import {icons} from '../../assets/appIcons'
 import { useContext } from "react";
 import ThemeContext from "../../context/theme-context";
 
@@ -12,7 +11,7 @@ const SideMenuContent = ({ item, closeContent }) => {
     <div className={isDarkTheme ? styles["container-dark"] : styles.container}>
       <div className={styles.closeBtnContainer}>
         <button onClick={closeContent}>
-          <FontAwesomeIcon icon={faTimes} size="lg" />
+          {icons.close}
         </button>
       </div>
       {item}

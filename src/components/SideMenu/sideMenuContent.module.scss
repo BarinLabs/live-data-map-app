@@ -44,6 +44,10 @@
     button {
       all: unset;
       position: fixed;
+
+      rect {
+        fill: white;
+      }
     }
 
     button:hover {
