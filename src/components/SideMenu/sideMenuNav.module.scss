@@ -68,6 +68,30 @@
       display: block;
     }
   }
+
+  .lang-btn-container {
+    .tooltiptext {
+      top: 205px;
+    }
+
+    button {
+      position: relative;
+
+      span {
+        position: absolute;
+        font-size: 20px;
+        font-weight: 500;
+        left: 21%;
+        top: 26%;
+      }
+    }
+  }
+
+  .lang-btn-container:hover {
+    .tooltiptext {
+      display: block;
+    }
+  }
 }
 
 .dark-theme {

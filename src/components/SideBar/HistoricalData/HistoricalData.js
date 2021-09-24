@@ -4,8 +4,11 @@ import styles from "./historicalData.module.scss";
 import CustomSwitch from "../../CustomSwitch";
 import CustomSwitchDark from "../../CustomSwitchDark";
 import ThemeContext from "../../../context/theme-context";
+import LangContext from "../../../context/lang-context";
 
 const HistoricalData = ({ channel }) => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
 
@@ -20,13 +23,15 @@ const HistoricalData = ({ channel }) => {
   };
 
   const handlePeriodSelection = (event) => {
-    setSelectedPeriod(event.target.value);
+    setSelectedPeriod((prevState) =>
+      prevState === "24 hours" ? "30 days" : "24 hours"
+    );
   };
 
   return (
     <div className={styles["container"]}>
       <h3 className={isDarkTheme ? styles["h3-dark"] : null}>
-        Historical Data:
+        {lang === "bg" ? "Исторически данни:" : "Historical Data:"}
       </h3>
       <div
         style={{
@@ -39,7 +44,7 @@ const HistoricalData = ({ channel }) => {
       >
         <div>
           <label className={isDarkTheme ? styles["label-dark"] : null}>
-            High/Low
+            {lang === "bg" ? "Високо/Слабо" : "High/Low"}
           </label>
           {isDarkTheme ? (
             <CustomSwitchDark
@@ -59,8 +64,8 @@ const HistoricalData = ({ channel }) => {
           className={isDarkTheme ? styles["select-dark"] : null}
           onChange={handlePeriodSelection}
         >
-          <option>24 hours</option>
-          <option>30 days</option>
+          <option>{lang === "bg" ? "24 часа" : "24 hours"}</option>
+          <option>{lang === "bg" ? "30 дни" : "30 days"}</option>
         </select>
       </div>
 

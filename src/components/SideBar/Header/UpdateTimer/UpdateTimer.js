@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { formatTime } from "../../../../utils/timeAndDate";
+import { translator } from "../../../../utils/translator";
 import { icons } from "../Assets/icons";
 import styles from "./updateTimer.module.scss";
 
 const updateDeviceIndexMinute = 10;
 const updateDeviceIndexSeconds = updateDeviceIndexMinute * 60;
 
-const UpdateTimer = ({ updateHeader }) => {
+const UpdateTimer = ({ updateHeader, lang }) => {
   const date = new Date();
   const hours = date.getHours();
   const minutes = date.getMinutes();
@@ -54,7 +55,7 @@ const UpdateTimer = ({ updateHeader }) => {
       ></div>
       <div className={styles["time-container"]}>
         {icons.clock}
-        <span>{`Last updated at ${time}`}</span>
+        <span>{`${translator.textVarious[lang].lastCalculated} ${time}`}</span>
       </div>
     </div>
   );

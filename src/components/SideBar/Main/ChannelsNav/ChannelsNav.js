@@ -1,7 +1,9 @@
 import { icons } from "../Assets/icons";
 import styles from "./channelsNav.module.scss";
-import {useContext} from "react";
+import { useContext } from "react";
 import ThemeContext from "../../../../context/theme-context";
+import LangContext from "../../../../context/lang-context";
+import { translator } from "../../../../utils/translator";
 
 const ChannelsNav = ({
   selectedCategoryName,
@@ -9,6 +11,8 @@ const ChannelsNav = ({
   selectedChannelName,
   setSelectedChannelName,
 }) => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
   const createBtns = () => {
@@ -16,30 +20,40 @@ const ChannelsNav = ({
     if (selectedCategoryName === "Weather") {
       channelsNames.forEach((name) => {
         const classes =
-          selectedChannelName === name ? styles["active-btn"] : isDarkTheme ? styles["button_dark"] : null;
+          selectedChannelName === name
+            ? styles["active-btn"]
+            : isDarkTheme
+            ? styles["button_dark"]
+            : null;
+
         let btnIcon = "";
         let index = "";
+        let btnTitle = "";
+
         if (name === "Temperature") {
+          btnTitle = translator.textWidgets[lang].temperatureTitle;
           btnIcon = icons.temperature;
           index = 0;
         } else if (name === "Pressure") {
+          btnTitle = translator.textWidgets[lang].pressureTitle;
           btnIcon = icons.pressure;
           index = 1;
         } else {
+          btnTitle = translator.textWidgets[lang].humidityTitle;
           btnIcon = icons.humidity;
           index = 2;
 
-          btns[index] = (
-            <button
-              key={index}
-              className={classes}
-              onClick={() => setSelectedChannelName(name)}
-            >
-              {btnIcon} Humidity
-            </button>
-          );
+          // btns[index] = (
+          //   <button
+          //     key={index}
+          //     className={classes}
+          //     onClick={() => setSelectedChannelName(name)}
+          //   >
+          //     {btnIcon} {btnTitle}
+          //   </button>
+          // );
 
-          return;
+          // return;
         }
 
         btns[index] = (
@@ -48,14 +62,18 @@ const ChannelsNav = ({
             className={classes}
             onClick={() => setSelectedChannelName(name)}
           >
-            {btnIcon} {name}
+            {btnIcon} {btnTitle}
           </button>
         );
       });
     } else if (selectedCategoryName === "Particulates") {
       channelsNames.forEach((name) => {
         const classes =
-        selectedChannelName === name ? styles["active-btn"] : isDarkTheme ? styles["button_dark"] : null;
+          selectedChannelName === name
+            ? styles["active-btn"]
+            : isDarkTheme
+            ? styles["button_dark"]
+            : null;
         let btnIcon = "";
         let index = "";
         if (name === "PM1.0") {
@@ -85,7 +103,11 @@ const ChannelsNav = ({
     } else if (selectedCategoryName === "Gases") {
       channelsNames.forEach((name) => {
         const classes =
-        selectedChannelName === name ? styles["active-btn"] : isDarkTheme ? styles["button_dark"] : null;
+          selectedChannelName === name
+            ? styles["active-btn"]
+            : isDarkTheme
+            ? styles["button_dark"]
+            : null;
         let btnIcon = "";
         let index = "";
         if (name === "NO2") {
@@ -121,7 +143,11 @@ const ChannelsNav = ({
 
   return (
     <div className={styles["container"]}>
-      <div className={isDarkTheme ? styles["btns-container-dark"] : styles["btns-container"]}>
+      <div
+        className={
+          isDarkTheme ? styles["btns-container-dark"] : styles["btns-container"]
+        }
+      >
         {buttons}
       </div>
     </div>

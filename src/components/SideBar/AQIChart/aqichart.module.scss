@@ -2,8 +2,16 @@
 .container {
   padding: 5px 10px;
 
+  a {
+    text-decoration: none;
+  }
+
   .p_dark {
     color: $font-color-dark;
+
+    a {
+      color: white;
+    }
   }
 
   .title-and-select-container {

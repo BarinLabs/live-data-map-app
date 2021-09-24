@@ -2,19 +2,25 @@ import { useState, useContext } from "react";
 import { useStore } from "react-redux";
 import styles from "./channelItem.module.scss";
 import ThemeContext from "../../../../context/theme-context";
+import LangContext from "../../../../context/lang-context";
 import { icons } from "../Assets/icons";
+import { translator } from "../../../../utils/translator";
 
-const getIcon = (channelName) => {
+const getIconAndDescKey = (channelName) => {
   let icon = "";
+  let descriptionKey = "";
   switch (channelName) {
     case "Temperature":
       icon = icons.temperature;
+      descriptionKey = "temperatureDescription";
       break;
     case "Pressure":
       icon = icons.pressure;
+      descriptionKey = "pressureDescription";
       break;
     case "Relative Humidity":
       icon = icons.humidity;
+      descriptionKey = "humidityDescription";
       break;
     case "PM1.0":
       icon = icons.pm1;
@@ -30,25 +36,31 @@ const getIcon = (channelName) => {
       break;
     case "NO2":
       icon = icons.no2;
+      descriptionKey = "no2Description";
       break;
     case "SO2":
       icon = icons.so2;
+      descriptionKey = "so2Description";
       break;
     case "CO":
       icon = icons.co;
+      descriptionKey = "coDescription";
       break;
     case "O3":
       icon = icons.o3;
+      descriptionKey = "о3Description";
       break;
     default:
       icon = "";
       break;
   }
 
-  return icon;
+  return { icon, descriptionKey };
 };
 
 const ChannelItem = ({ channel }) => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
   const store = useStore();
@@ -98,18 +110,35 @@ const ChannelItem = ({ channel }) => {
       : backupStandardName;
   } else {
     if (isDarkTheme) {
-      bgColorClass = "index-bg-no-index-dark"
+      bgColorClass = "index-bg-no-index-dark";
     }
   }
 
-  const icon = getIcon(name);
+  const { icon, descriptionKey } = getIconAndDescKey(name);
+  const description = translator.textWidgets[lang][descriptionKey];
 
   return (
     <div className={`${styles["container"]} ${styles[bgColorClass]}`}>
       <div className={styles["main-container"]}>
-        <div className={(isDarkTheme && !standard) ? styles["icon-container-dark"] : styles["icon-container"]}>{icon}</div>
-        <p className={(isDarkTheme && !standard) ? styles["channel-name-dark"] : styles["channel-name"]}>{name}</p>
-        <p className={(isDarkTheme && !standard) ? styles["p-dark"] : null}>
+        <div
+          className={
+            isDarkTheme && !standard
+              ? styles["icon-container-dark"]
+              : styles["icon-container"]
+          }
+        >
+          {icon}
+        </div>
+        <p
+          className={
+            isDarkTheme && !standard
+              ? styles["channel-name-dark"]
+              : styles["channel-name"]
+          }
+        >
+          {description ? description : name}
+        </p>
+        <p className={isDarkTheme && !standard ? styles["p-dark"] : null}>
           {value.toFixed(0)} {suffix}
         </p>
         {standard && (
@@ -120,10 +149,13 @@ const ChannelItem = ({ channel }) => {
       </div>
       {standard && isCollapseOpen && (
         <div className={styles.descriptionContainer}>
+          <p>{standardName}</p>
           <p>
-            {standardName} ({standard.period}): {standard.limit} {suffix}
+            {standard.period === "One hour" &&
+              translator.textWidgets[lang].limitHText}
+            : {standard.limit} {suffix}{" "}
           </p>
-          <p>{standard.description}</p>
+          {/* <p>{standard.description}</p> */}
         </div>
       )}
       <div className={styles["fill-percentage"]}>

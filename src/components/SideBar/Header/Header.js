@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import styles from "./header.module.scss";
 
 import Index from "./Index/Index";
@@ -14,6 +14,9 @@ import bgImageIndexVeryHigh from "./Assets/bg-image-index-very-high.svg";
 import UpdateTimer from "./UpdateTimer/UpdateTimer";
 import { isDataRecent } from "../../../utils/utils";
 
+import LangContext from "../../../context/lang-context";
+import { translator } from "../../../utils/translator";
+
 const updateDeviceIndexMinutes = 10;
 const updateDeviceIndexLimitInMinutes = updateDeviceIndexMinutes * 3;
 
@@ -21,7 +24,7 @@ const getBgDetails = (indexValue) => {
   let bgImage = "";
   let bgColorClass = "index-bg-";
   let indexTextBgColorClass = "index-color-";
-  let indexDescText = "";
+  let indexDescTextNumber = null;
 
   if (!indexValue && indexValue !== 0) {
     bgImage = bgImageNoIndex;
@@ -30,38 +33,41 @@ const getBgDetails = (indexValue) => {
     bgImage = bgImageIndexVeryLow;
     bgColorClass += "very-low";
     indexTextBgColorClass += "very-low";
-    indexDescText = "Enjoy all outdoor activities";
+    indexDescTextNumber = 1;
   } else if (indexValue <= 50) {
     bgImage = bgImageIndexLow;
     bgColorClass += "low";
     indexTextBgColorClass += "low";
-    indexDescText = "Enjoy your usual outdoor activities";
+    indexDescTextNumber = 2;
   } else if (indexValue <= 75) {
     bgImage = bgImageIndexMedium;
     bgColorClass += "medium";
     indexTextBgColorClass += "medium";
-    indexDescText = "Avoid strenuous outdoor activities";
+    indexDescTextNumber = 3;
   } else if (indexValue <= 100) {
     bgImage = bgImageIndexHigh;
     bgColorClass += "high";
     indexTextBgColorClass += "high";
-    indexDescText = "Avoid all outdoor physical activities";
+    indexDescTextNumber = 4;
   } else {
     bgImage = bgImageIndexVeryHigh;
     bgColorClass += "very-high";
     indexTextBgColorClass += "very-high";
-    indexDescText = "Stay indoor and avoid physical exertion";
+    indexDescTextNumber = 5;
   }
 
   return {
     bgImage,
     bgColorClass,
     indexTextBgColorClass,
-    indexDescText,
+    indexDescTextNumber,
   };
 };
 
 const Header = ({ indexes, location, updateHeader }) => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
+
   const { address, city, country } = location;
   const locationDetails = `${address}, ${city}, ${country}`;
 
@@ -83,7 +89,7 @@ const Header = ({ indexes, location, updateHeader }) => {
     error = !isDataRecent(index.timeStamp, updateDeviceIndexLimitInMinutes);
   }
 
-  const { bgImage, bgColorClass, indexTextBgColorClass, indexDescText } =
+  const { bgImage, bgColorClass, indexTextBgColorClass, indexDescTextNumber } =
     getBgDetails(!error ? index?.value : null);
 
   const bgImageKey = useMemo(() => Math.random().toString(), [bgImage]);
@@ -100,7 +106,7 @@ const Header = ({ indexes, location, updateHeader }) => {
               <p>No recent index data</p>
             </div>
           )}
-          {!error && index && <Index index={index} />}
+          {!error && index && <Index index={index} lang={lang} />}
           <div className={styles["address-and-social-icons-container"]}>
             {address && (
               <span className={styles["address-container"]}>
@@ -108,8 +114,15 @@ const Header = ({ indexes, location, updateHeader }) => {
               </span>
             )}
             <div className={styles["social-icons-container"]}>
-                <a href={"https://www.facebook.com/SenstateTech"} target="_blank">{icons.facebook}</a>
-                <a href={"https://www.linkedin.com/company/senstate-technologies"} target="_blank">{icons.linkedin}</a>
+              <a href={"https://www.facebook.com/SenstateTech"} target="_blank">
+                {icons.facebook}
+              </a>
+              <a
+                href={"https://www.linkedin.com/company/senstate-technologies"}
+                target="_blank"
+              >
+                {icons.linkedin}
+              </a>
             </div>
           </div>
         </div>
@@ -118,10 +131,10 @@ const Header = ({ indexes, location, updateHeader }) => {
         <div
           className={`${styles["index-description-container"]} ${styles[indexTextBgColorClass]}`}
         >
-          <span>{indexDescText}</span>
+          <span>{translator.CAQMDescriptions[lang][indexDescTextNumber]}</span>
         </div>
       )}
-      <UpdateTimer updateHeader={updateHeader} />
+      <UpdateTimer lang={lang} updateHeader={updateHeader} />
     </>
   );
 };

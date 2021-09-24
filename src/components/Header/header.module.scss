@@ -9,18 +9,24 @@
   display: flex;
   align-items: center;
 
-  button {
-    all: unset;
-    margin-left: 25px;
-    margin-top: 8px;
-  }
-
-  button:hover {
-    cursor: pointer;
-  }
-
   .senstate-logo-container {
     margin-left: 50px;
+  }
+
+  .select-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    select {
+      margin-right: 50px;
+      background-color: #ececec;
+      padding: 5px;
+      border-radius: 5px;
+      border-color: #ececec;
+      font-family: "Montserrat";
+      font-weight: 600;
+    }
   }
 }
 

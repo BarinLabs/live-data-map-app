@@ -7,6 +7,7 @@ import { fetchDefinedStandards } from "./redux/DefinedStandards/definedStandards
 import { fetchDefinedIndexes } from "./redux/DefinedIndexes/definedIndexesSlice";
 import { ThemeContextProvider } from "./context/theme-context";
 import Header from "./components/Header/Header";
+import { LangContextProvider } from "./context/lang-context";
 
 function App() {
   const store = useStore();
@@ -26,10 +27,12 @@ function App() {
 
   return (
     <ThemeContextProvider>
-      <Header />
-      <SideMenu />
-      {isDeviceOpen && <SideBar />}
-      <Map />
+      <LangContextProvider>
+        <Header />
+        <SideMenu />
+        {isDeviceOpen && <SideBar />}
+        <Map />
+      </LangContextProvider>
     </ThemeContextProvider>
   );
 }

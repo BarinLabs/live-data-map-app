@@ -6,10 +6,14 @@ import styles from "./map.module.scss";
 import ThemeContext from "../../context/theme-context";
 import Loader from "react-loader-spinner";
 import ErrorModal from "../ErrorModal/ErrorModal";
+import LangContext from "../../context/lang-context";
+import { translator } from "../../utils/translator";
 
 const updateMapFrequencySeconds = 60;
 
 const Map = () => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
   const themeCtx = useContext(ThemeContext);
   const { isDarkTheme } = themeCtx;
   const tileLayerRef = useRef();
@@ -99,31 +103,41 @@ const Map = () => {
             className={styles["index-very-low-container"]}
             style={{ backgroundColor: "#79BC6A" }}
           >
-            <span className={styles["tooltiptext"]}>Very Low</span>
+            <span className={styles["tooltiptext"]}>
+              {translator.statesText[lang].veryLow}
+            </span>
           </div>
           <div
             className={styles["index-low-container"]}
             style={{ backgroundColor: "#BBCF4C" }}
           >
-            <span className={styles["tooltiptext"]}>Low</span>
+            <span className={styles["tooltiptext"]}>
+              {translator.statesText[lang].low}
+            </span>
           </div>
           <div
             className={styles["index-medium-container"]}
             style={{ backgroundColor: "#EEC20B" }}
           >
-            <span className={styles["tooltiptext"]}>Medium</span>
+            <span className={styles["tooltiptext"]}>
+              {translator.statesText[lang].medium}
+            </span>
           </div>
           <div
             className={styles["index-high-container"]}
             style={{ backgroundColor: "#F29305" }}
           >
-            <span className={styles["tooltiptext"]}>High</span>
+            <span className={styles["tooltiptext"]}>
+              {translator.statesText[lang].high}
+            </span>
           </div>
           <div
             className={styles["index-very-high-container"]}
             style={{ backgroundColor: "#E8416F" }}
           >
-            <span className={styles["tooltiptext"]}>Very High</span>
+            <span className={styles["tooltiptext"]}>
+              {translator.statesText[lang].veryHigh}
+            </span>
           </div>
         </div>
       </div>

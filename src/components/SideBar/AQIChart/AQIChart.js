@@ -5,6 +5,8 @@ import { indexColors, font } from "../../../utils/utils";
 import ThemeContext from "../../../context/theme-context";
 import styles from "./aqichart.module.scss";
 import { isDataRecent } from "../../../utils/utils";
+import { translator } from "../../../utils/translator";
+import LangContext from "../../../context/lang-context";
 
 const FIRST_TICK_INDEX = 0;
 const MID_TICK_INDEX = 11;
@@ -102,6 +104,9 @@ const options = {
 };
 
 const AQIChart = ({ token, indexes, source }) => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
+
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
   const [error, setError] = useState(false);
@@ -153,12 +158,7 @@ const AQIChart = ({ token, indexes, source }) => {
     setSelectedSlug(ev.target.value);
   };
 
-  const title =
-    slug === "caqi"
-      ? "Air Quality Index (CAQI)"
-      : slug === "eaqi"
-      ? "European Air Quality Index (EAQI)"
-      : "Senstate Air Quality Index (SBAQI)";
+  const title = translator.textIndexes[lang][slug];
 
   const chartData = {
     labels: data.labels,
@@ -175,9 +175,9 @@ const AQIChart = ({ token, indexes, source }) => {
   return (
     <div className={styles["container"]}>
       <p className={isDarkTheme ? styles.p_dark : styles.p}>
-        Source:{" "}
-        <a href={source.url} target={"_blank"}>
-          {source.name}
+        {translator.textVarious[lang].moreInformation}:{" "}
+        <a href={source.url} target={"_blank"} rel="noreferrer">
+          https://senstate.com
         </a>
       </p>
       <div className={styles["title-and-select-container"]}>
