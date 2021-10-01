@@ -1,11 +1,6 @@
-import { useContext, useEffect } from "react";
 import { Circle, LayerGroup, Polygon } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
-import LangContext from "../../context/lang-context";
-import {
-  openDevice,
-  setError,
-} from "../../redux/CurrentDevice/currentDeviceSlice";
+import { openDevice } from "../../redux/CurrentDevice/currentDeviceSlice";
 import { isDataRecent } from "../../utils/utils";
 
 const getPinColor = (indexValue) => {
@@ -30,57 +25,19 @@ const markOfflineTreshold = 3;
 const recentDataLimitMinutes = updateDeviceIndexMinutes * markOfflineTreshold;
 
 const Pin = ({ device }) => {
-  const langCtx = useContext(LangContext);
-  const { lang } = langCtx;
-
   const openedDeviceToken = useSelector(
     (state) => state.currentDevice.device.token
   );
 
   const dispatch = useDispatch();
-  const { token, dataEndpoint, indexes, location } = device;
+  const { token, indexes, location } = device;
 
   const { latitude, longtitude, radius } = location;
 
-  let { deviceURL: deviceURLTemplate, channelDataURL: channelDataURLTemplate } =
-    dataEndpoint;
-  let deviceURL = deviceURLTemplate.replace("{Token}", token);
-  const channelDataURL = channelDataURLTemplate.replace("{Token}", token);
-  const dataSource = device.dataSource;
-
   const onDeviceOpen = () => {
     if (openedDeviceToken !== token) {
-      fetchDeviceData().catch((e) => dispatch(setError()));
+      dispatch(openDevice({ device }));
     }
-  };
-
-  const fetchDeviceData = async () => {
-    if (lang === "bg") {
-      deviceURL += "?lang=bg";
-    }
-    const res = await fetch(deviceURL);
-
-    if (!res.ok) {
-      throw new Error("Something went wrong");
-    }
-
-    const deviceData = await res.json();
-    const { data: categories } = deviceData;
-    delete deviceData.data;
-
-    dispatch(
-      openDevice({
-        device: {
-          token,
-          deviceURL,
-          channelDataURLTemplate: channelDataURL,
-          location,
-          categories,
-          dataSource,
-          ...deviceData,
-        },
-      })
-    );
   };
 
   let pinColor = "#979997";

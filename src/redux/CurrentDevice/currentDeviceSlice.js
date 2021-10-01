@@ -8,9 +8,7 @@ const initialState = {
     deviceURL: "",
     channelDataURLTemplate: "",
     location: {},
-    categories: [],
     dataSource: {},
-    status: { online: false, lastSubmissionShort: "" },
   },
 };
 
@@ -20,7 +18,17 @@ export const currentDeviceSlice = createSlice({
   reducers: {
     openDevice: (state, action) => {
       state.isDeviceOpen = true;
-      state.device = action.payload.device;
+      const currDevice = action.payload.device;
+
+      const { token, dataEndpoint } = currDevice;
+
+      let { deviceURL, channelDataURL } = dataEndpoint;
+
+      deviceURL = deviceURL.replace("{Token}", token);
+      const channelDataURLTemplate = channelDataURL.replace("{Token}", token);
+
+      state.device = { ...currDevice, deviceURL, channelDataURLTemplate };
+
       state.error = false;
     },
     closeDevice: (state) => {

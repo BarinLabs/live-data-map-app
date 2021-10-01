@@ -1,15 +1,13 @@
 import styles from "./main.module.scss";
 import CategoriesNav from "./CategoriesNav/CategoriesNav";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import ChannelsNav from "./ChannelsNav/ChannelsNav";
 import HistoricalData from "../HistoricalData/HistoricalData";
 import ChannelItemsList from "./ChannelItemsList/ChannelItemsList";
 import LangContext from "../../../context/lang-context";
 
+let lastLang = "";
 const Main = ({ token, categories }) => {
-  const langCtx = useContext(LangContext);
-  const { lang } = langCtx;
-
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
   const channels = selectedCategory.channels;
@@ -42,6 +40,11 @@ const Main = ({ token, categories }) => {
     setSelectedCategory(currCategory);
     setSelectedChannelName(currCategory.channels[0].name);
   };
+
+  useEffect(() => {
+    setSelectedCategory(categories[0]);
+    setSelectedChannelName(categories[0].channels[0].name);
+  }, [categories]);
 
   const categoryNames = categories.map(({ name }) => name);
   const channelsNames = channels.map(({ name }) => name);

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useContext } from "react";
+import { useEffect, useMemo, useState, useContext, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeDevice,
@@ -20,66 +20,48 @@ import LangContext from "../../context/lang-context";
 const updateDeviceDataSeconds = 30;
 
 const SideBar = () => {
-  const langCtx = useContext(LangContext);
-  const { lang } = langCtx;
   const dispatch = useDispatch();
 
-  const { device, error } = useSelector((state) => state.currentDevice);
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
 
-  let {
-    token,
-    categories: initialCategories,
-    status,
-    indexes,
-    location,
-    deviceURL,
-    dataSource,
-    channelDataURLTemplate,
-  } = device;
+  const [categories, setCategories] = useState([]);
+  const [status, setStatus] = useState({ online: false });
+  const [error, setError] = useState(false);
 
-  const [categories, setCategories] = useState(initialCategories);
+  let online = true;
+  // const { online, lastSubmission } = status;
 
-  console.log(device);
-
-  const { online, lastSubmission } = status;
+  const { device } = useSelector((state) => state.currentDevice);
+  const { token, indexes, location } = device;
 
   //NOT Updating channels!!!!
 
-  const fetchDeviceData = async () => {
-    const res = await fetch(deviceURL);
+  const fetchDeviceData = useCallback(async () => {
+    let { deviceURL } = device;
+    const res = await fetch(`${deviceURL}${lang === "bg" ? "?lang=bg" : ""}`);
 
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
 
     const deviceData = await res.json();
-    const { data: categories } = deviceData;
-    setCategories(categories);
-    delete deviceData.data;
-
-    dispatch(
-      openDevice({
-        device: {
-          token,
-          deviceURL,
-          channelDataURLTemplate,
-          location: { ...location },
-          categories,
-          dataSource,
-          ...deviceData,
-        },
-      })
-    );
-  };
+    const { data, status } = deviceData;
+    setCategories(data);
+    setStatus(status);
+    setError(false);
+  }, [lang, device]);
 
   useEffect(() => {
+    fetchDeviceData().catch((e) => setError(true));
+
     const updateDeviceDataIntervalID = setInterval(() => {
-      fetchDeviceData().catch((e) => dispatch(setError()));
+      fetchDeviceData().catch((e) => setError());
     }, 1000 * updateDeviceDataSeconds);
     return () => {
       clearInterval(updateDeviceDataIntervalID);
     };
-  }, [token, lang]);
+  }, [fetchDeviceData]);
 
   const [headerKey, setHeaderKey] = useState(Math.random().toString());
   const updateHeaderKey = () => {
@@ -132,7 +114,9 @@ const SideBar = () => {
         <div>
           {header}
           {indexes.length > 0 && airQualityIndexChart}
-          <Main token={token} categories={categories} />
+          {categories.length > 0 && (
+            <Main token={token} categories={categories} />
+          )}
         </div>
       )}
     </div>
