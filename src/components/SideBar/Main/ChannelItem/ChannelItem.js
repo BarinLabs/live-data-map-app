@@ -11,14 +11,17 @@ const getIconAndDescKey = (channelName) => {
   let descriptionKey = "";
   switch (channelName) {
     case "Temperature":
+    case "Температура":
       icon = icons.temperature;
       descriptionKey = "temperatureDescription";
       break;
     case "Pressure":
+    case "Налягане":
       icon = icons.pressure;
       descriptionKey = "pressureDescription";
       break;
     case "Relative Humidity":
+    case "Относителна влажност":
       icon = icons.humidity;
       descriptionKey = "humidityDescription";
       break;

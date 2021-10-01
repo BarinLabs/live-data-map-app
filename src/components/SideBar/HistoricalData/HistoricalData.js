@@ -12,6 +12,8 @@ const HistoricalData = ({ channel }) => {
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
 
+  // console.log("historical data channel", channel);
+
   const [selectedPeriod, setSelectedPeriod] = useState("24 hours");
 
   const [state, setState] = useState({

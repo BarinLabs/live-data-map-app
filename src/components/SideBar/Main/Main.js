@@ -1,72 +1,62 @@
 import styles from "./main.module.scss";
 import CategoriesNav from "./CategoriesNav/CategoriesNav";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import ChannelsNav from "./ChannelsNav/ChannelsNav";
 import HistoricalData from "../HistoricalData/HistoricalData";
 import ChannelItemsList from "./ChannelItemsList/ChannelItemsList";
+import LangContext from "../../../context/lang-context";
 
 const Main = ({ token, categories }) => {
-  const categoryNames = categories.map(({ name }) => name);
-  const [selectedCategoryName, setSelectedCategoryName] = useState(() => {
-    if (categoryNames.includes("Weather")) {
-      return "Weather";
-    }
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
 
-    return categoryNames[0];
-  });
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
-  const selectedCategory = categories.find(
-    ({ name }) => name === selectedCategoryName
+  const channels = selectedCategory.channels;
+
+  const [selectedChannelName, setSelectedChannelName] = useState(
+    channels[0].name
   );
-
-  const selectedChannels = selectedCategory.channels;
-
-  const channelsNames = selectedChannels.map(({ name }) => name);
-
-  const [selectedChannelName, setSelectedChannelName] = useState(() => {
-    if (selectedCategoryName === "Weather") {
-      return "Temperature";
-    }
-
-    return channelsNames[0];
-  });
-
-  if (!channelsNames.includes(selectedChannelName)) {
-    if (selectedCategoryName === "Weather") {
-      setSelectedChannelName("Temperature");
-    } else if (selectedCategoryName === "Particulates") {
-      setSelectedChannelName("PM1.0");
-    } else {
-      setSelectedChannelName("NO2");
-    }
-  }
 
   const historicalData = useMemo(() => {
     return (
       <HistoricalData
-        channel={selectedChannels.find(
+        channel={channels.find(
           (channel) => channel.name === selectedChannelName
         )}
       />
     );
-  }, [token, selectedCategoryName, selectedChannelName]);
+  }, [token, selectedChannelName]);
+
+  const handleCategorySelection = (name) => {
+    let currCategory = categories.find((category) => category.name === name);
+    if (
+      currCategory.name === "Particulates" ||
+      currCategory.name === "Прахови частици"
+    ) {
+      const newChannels = currCategory.channels.filter(
+        (channel) => channel.name !== "Particle Size"
+      );
+      currCategory = { ...currCategory, channels: newChannels };
+    }
+    setSelectedCategory(currCategory);
+    setSelectedChannelName(currCategory.channels[0].name);
+  };
+
+  const categoryNames = categories.map(({ name }) => name);
+  const channelsNames = channels.map(({ name }) => name);
 
   return (
     <div className={styles["container"]}>
       <CategoriesNav
         categoryNames={categoryNames}
-        selectedCategoryName={selectedCategoryName}
-        setSelectedCategoryName={(name) => {
-          setSelectedCategoryName(name);
-        }}
+        selectedCategoryName={selectedCategory.name}
+        setSelectedCategoryName={handleCategorySelection}
       />
       <ChannelsNav
-        selectedCategoryName={selectedCategoryName}
         channelsNames={channelsNames}
         selectedChannelName={selectedChannelName}
-        setSelectedChannelName={(name) => {
-          setSelectedChannelName(name);
-        }}
+        setSelectedChannelName={setSelectedChannelName}
       />
       {historicalData}
       <ChannelItemsList category={selectedCategory} />

@@ -15,17 +15,20 @@ import AQIChart from "./AQIChart/AQIChart";
 import Main from "./Main/Main";
 import Loader from "react-loader-spinner";
 import { icons } from "../../assets/appIcons";
+import LangContext from "../../context/lang-context";
 
 const updateDeviceDataSeconds = 30;
 
 const SideBar = () => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
   const dispatch = useDispatch();
 
   const { device, error } = useSelector((state) => state.currentDevice);
 
-  const {
+  let {
     token,
-    categories,
+    categories: initialCategories,
     status,
     indexes,
     location,
@@ -33,7 +36,14 @@ const SideBar = () => {
     dataSource,
     channelDataURLTemplate,
   } = device;
+
+  const [categories, setCategories] = useState(initialCategories);
+
+  console.log(device);
+
   const { online, lastSubmission } = status;
+
+  //NOT Updating channels!!!!
 
   const fetchDeviceData = async () => {
     const res = await fetch(deviceURL);
@@ -44,6 +54,7 @@ const SideBar = () => {
 
     const deviceData = await res.json();
     const { data: categories } = deviceData;
+    setCategories(categories);
     delete deviceData.data;
 
     dispatch(
@@ -68,7 +79,7 @@ const SideBar = () => {
     return () => {
       clearInterval(updateDeviceDataIntervalID);
     };
-  }, [token]);
+  }, [token, lang]);
 
   const [headerKey, setHeaderKey] = useState(Math.random().toString());
   const updateHeaderKey = () => {

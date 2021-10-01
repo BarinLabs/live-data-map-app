@@ -1,5 +1,7 @@
+import { useContext, useEffect } from "react";
 import { Circle, LayerGroup, Polygon } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
+import LangContext from "../../context/lang-context";
 import {
   openDevice,
   setError,
@@ -28,6 +30,9 @@ const markOfflineTreshold = 3;
 const recentDataLimitMinutes = updateDeviceIndexMinutes * markOfflineTreshold;
 
 const Pin = ({ device }) => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
+
   const openedDeviceToken = useSelector(
     (state) => state.currentDevice.device.token
   );
@@ -39,7 +44,7 @@ const Pin = ({ device }) => {
 
   let { deviceURL: deviceURLTemplate, channelDataURL: channelDataURLTemplate } =
     dataEndpoint;
-  const deviceURL = deviceURLTemplate.replace("{Token}", token);
+  let deviceURL = deviceURLTemplate.replace("{Token}", token);
   const channelDataURL = channelDataURLTemplate.replace("{Token}", token);
   const dataSource = device.dataSource;
 
@@ -50,6 +55,9 @@ const Pin = ({ device }) => {
   };
 
   const fetchDeviceData = async () => {
+    if (lang === "bg") {
+      deviceURL += "?lang=bg";
+    }
     const res = await fetch(deviceURL);
 
     if (!res.ok) {

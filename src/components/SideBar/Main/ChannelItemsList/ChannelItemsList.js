@@ -28,7 +28,7 @@ const ChannelItemsList = ({ category }) => {
           isDarkTheme ? styles["category-name-dark"] : styles["category-name"]
         }
       >
-        {translator.textWidgets[lang][titleKey]}:
+        {name}:
       </p>
       <div className={styles["items-container"]}>
         {isDataNotRecent && (
