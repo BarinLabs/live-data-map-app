@@ -7,6 +7,7 @@ import styles from "./aqichart.module.scss";
 import { isDataRecent } from "../../../utils/utils";
 import { translator } from "../../../utils/translator";
 import LangContext from "../../../context/lang-context";
+import Loader from "react-loader-spinner";
 
 const FIRST_TICK_INDEX = 0;
 const MID_TICK_INDEX = 11;
@@ -112,6 +113,7 @@ const AQIChart = ({ token, indexes, source }) => {
   const [error, setError] = useState(false);
   const [data, setData] = useState({ labels: [], hourlyIndexValues: [] });
   const [selectedSlug, setSelectedSlug] = useState(indexes[0].slug);
+  const [isLoading, setIsLoading] = useState(false);
 
   const selectOptions = indexes.map(({ slug }) => (
     <option value={slug} key={slug}>
@@ -124,12 +126,12 @@ const AQIChart = ({ token, indexes, source }) => {
 
   useEffect(() => {
     const getIndexData = async () => {
+      setIsLoading(true);
       const response = await fetch(
         `https://see.senstate.cloud/data/${token}/index?slug=${slug}`
       );
 
       if (!response.ok) {
-        console.log(response);
         throw new Error("Something went wrong.");
       }
 
@@ -145,13 +147,20 @@ const AQIChart = ({ token, indexes, source }) => {
       );
       if (dataNotRecent) {
         setError(true);
+      } else {
+        if (error) {
+          setError(false);
+        }
+        setData({ labels: loadedLabels, hourlyIndexValues: loadedValues });
       }
 
-      error && setError(false);
-      setData({ labels: loadedLabels, hourlyIndexValues: loadedValues });
+      setIsLoading(false);
     };
 
-    getIndexData().catch((e) => console.log(e.message));
+    getIndexData().catch((e) => {
+      setIsLoading(false);
+      setError(true);
+    });
   }, [token, slug, error]);
 
   const handleSlugSelection = (ev) => {
@@ -198,16 +207,28 @@ const AQIChart = ({ token, indexes, source }) => {
             <p>Index historical data not updated recently</p>
           </div>
         )}
+
         <div className={styles["chart"]}>
-          <Bar
-            data={chartData}
-            options={{
-              ...options,
-              scales: {
-                y: { max: Math.max(...(data.hourlyIndexValues || [0])) + 5 },
-              },
-            }}
-          />
+          {isLoading && (
+            <Loader
+              className={styles.loader}
+              type="Oval"
+              color="rgba(22, 18, 63, 1)"
+              height={30}
+              width={30}
+            />
+          )}
+          {!isLoading && (
+            <Bar
+              data={chartData}
+              options={{
+                ...options,
+                scales: {
+                  y: { max: Math.max(...(data.hourlyIndexValues || [0])) + 5 },
+                },
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

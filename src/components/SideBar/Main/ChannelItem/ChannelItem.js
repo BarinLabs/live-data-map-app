@@ -153,12 +153,14 @@ const ChannelItem = ({ channel }) => {
       {standard && isCollapseOpen && (
         <div className={styles.descriptionContainer}>
           <p>{standardName}</p>
-          <p>
+          {/* <p>
             {standard.period === "One hour" &&
               translator.textWidgets[lang].limitHText}
-            : {standard.limit} {suffix}{" "}
+            : {standard.limit} {suffix}
+          </p> */}
+          <p>
+            {standard.description}: {standard.limit} {suffix}
           </p>
-          {/* <p>{standard.description}</p> */}
         </div>
       )}
       <div className={styles["fill-percentage"]}>

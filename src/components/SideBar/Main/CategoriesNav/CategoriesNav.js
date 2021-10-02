@@ -19,13 +19,17 @@ const CategoriesNav = ({
   categoryNames.forEach((name) => {
     let btnIcon = "";
     let index = "";
-    if (name === "Weather" || name === "Метео") {
+    let btnTitle = "";
+    if (name === "Weather") {
+      btnTitle = translator.textWidgets[lang].weatherTitle;
       btnIcon = icons.weather;
       index = 0;
-    } else if (name === "Particulates" || name === "Прахови частици") {
+    } else if (name === "Particulates") {
+      btnTitle = translator.textWidgets[lang].particulatesTitle;
       btnIcon = icons.particulates;
       index = 1;
-    } else if (name === "Gases" || name === "Газове") {
+    } else if (name === "Gases") {
+      btnTitle = translator.textWidgets[lang].gasesTitle;
       btnIcon = icons.gases;
       index = 2;
     }
@@ -45,7 +49,7 @@ const CategoriesNav = ({
         onClick={() => setSelectedCategoryName(name)}
       >
         {btnIcon}
-        {name}
+        {btnTitle}
       </button>
     );
   });

@@ -60,7 +60,7 @@ export const translator = {
       limitHText: "Limit (hourly): ",
     },
     bg: {
-      weatherTitle: "Време",
+      weatherTitle: "Метео",
       particulatesTitle: "Прахови частици",
       gasesTitle: "Газове",
       pmDescription: "Прахови частици, mg/m3",

@@ -38,17 +38,24 @@ const Map = () => {
         loadedDevices.push(data[key]);
       }
 
-      error && setError(false);
+      if (error) {
+        setError(false);
+      }
+
       setDevices(loadedDevices);
       setIsLoading(false);
     };
 
     fetchDevices().catch((e) => setError(true));
 
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       fetchDevices().catch((e) => setError(true));
     }, 1000 * updateMapFrequencySeconds);
-  }, [error]);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const pins = devices.map((device) => {
     return <Pin key={device.token} device={device} />;

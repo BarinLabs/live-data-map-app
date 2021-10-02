@@ -52,6 +52,9 @@
     .chart {
       height: 140px;
       padding-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .no-recent-data-overlay {

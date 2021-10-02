@@ -8,18 +8,18 @@ import styles from "./channelItemsList.module.scss";
 
 const recentDataLimitMinutes = 5;
 
-const ChannelItemsList = ({ category }) => {
+const ChannelItemsList = ({ categoryName, channels }) => {
   const langCtx = useContext(LangContext);
   const { lang } = langCtx;
+
   const themeCtx = useContext(ThemeContext);
   const { isDarkTheme } = themeCtx;
-  const { name, channels } = category;
   const { lastTick } = channels[0];
 
   const isDataNotRecent = !isDataRecent(lastTick, recentDataLimitMinutes);
-  const titleKey = Object.keys(translator.textWidgets[lang]).filter((key) =>
-    key.includes(name.toLowerCase())
-  );
+
+  const name =
+    translator.textWidgets[lang][categoryName.toLowerCase() + "Title"];
 
   return (
     <div className={styles["container"]}>

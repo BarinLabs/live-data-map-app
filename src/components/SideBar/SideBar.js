@@ -26,11 +26,10 @@ const SideBar = () => {
   const { lang } = langCtx;
 
   const [categories, setCategories] = useState([]);
-  const [status, setStatus] = useState({ online: false });
+  const [status, setStatus] = useState({ online: true });
   const [error, setError] = useState(false);
 
-  let online = true;
-  // const { online, lastSubmission } = status;
+  const { online, lastSubmission } = status;
 
   const { device } = useSelector((state) => state.currentDevice);
   const { token, indexes, location } = device;
@@ -39,7 +38,7 @@ const SideBar = () => {
 
   const fetchDeviceData = useCallback(async () => {
     let { deviceURL } = device;
-    const res = await fetch(`${deviceURL}${lang === "bg" ? "?lang=bg" : ""}`);
+    const res = await fetch(deviceURL);
 
     if (!res.ok) {
       throw new Error("Something went wrong");

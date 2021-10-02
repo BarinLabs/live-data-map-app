@@ -2,12 +2,16 @@ import { icons } from "../Assets/icons";
 import styles from "./channelsNav.module.scss";
 import { useContext } from "react";
 import ThemeContext from "../../../../context/theme-context";
+import LangContext from "../../../../context/lang-context";
+import { translator } from "../../../../utils/translator";
 
 const ChannelsNav = ({
   channelsNames,
   selectedChannelName,
   setSelectedChannelName,
 }) => {
+  const langCtx = useContext(LangContext);
+  const { lang } = langCtx;
   const ctx = useContext(ThemeContext);
   let { isDarkTheme } = ctx;
   const createBtns = () => {
@@ -27,21 +31,17 @@ const ChannelsNav = ({
 
       switch (name) {
         case "Temperature":
-        case "Температура":
+          btnTitle = translator.textWidgets[lang].temperatureTitle;
           btnIcon = icons.temperature;
           index = 0;
           break;
         case "Pressure":
-        case "Налягане":
+          btnTitle = translator.textWidgets[lang].pressureTitle;
           btnIcon = icons.pressure;
           index = 1;
           break;
         case "Relative Humidity":
-          btnIcon = icons.humidity;
-          index = 2;
-          break;
-        case "Относителна влажност":
-          btnTitle = "Влажност";
+          btnTitle = translator.textWidgets[lang].humidityTitle;
           btnIcon = icons.humidity;
           index = 2;
           break;
