@@ -38,10 +38,7 @@ const Map = () => {
         loadedDevices.push(data[key]);
       }
 
-      if (error) {
-        setError(false);
-      }
-
+      setError(false);
       setDevices(loadedDevices);
       setIsLoading(false);
     };

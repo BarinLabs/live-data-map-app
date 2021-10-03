@@ -148,9 +148,7 @@ const AQIChart = ({ token, indexes, source }) => {
       if (dataNotRecent) {
         setError(true);
       } else {
-        if (error) {
-          setError(false);
-        }
+        setError(false);
         setData({ labels: loadedLabels, hourlyIndexValues: loadedValues });
       }
 

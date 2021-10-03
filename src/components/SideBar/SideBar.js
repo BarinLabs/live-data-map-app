@@ -55,7 +55,7 @@ const SideBar = () => {
     fetchDeviceData().catch((e) => setError(true));
 
     const updateDeviceDataIntervalID = setInterval(() => {
-      fetchDeviceData().catch((e) => setError());
+      fetchDeviceData().catch((e) => setError(true));
     }, 1000 * updateDeviceDataSeconds);
     return () => {
       clearInterval(updateDeviceDataIntervalID);
