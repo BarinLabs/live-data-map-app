@@ -34,8 +34,6 @@ const SideBar = () => {
   const { device } = useSelector((state) => state.currentDevice);
   const { token, indexes, location } = device;
 
-  //NOT Updating channels!!!!
-
   const fetchDeviceData = useCallback(async () => {
     let { deviceURL } = device;
     const res = await fetch(deviceURL);

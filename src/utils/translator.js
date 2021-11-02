@@ -57,7 +57,7 @@ export const translator = {
       so2Description: "Sulfur Dioxide",
       coDescription: "Carbon Monoxide",
       о3Description: "Ozone",
-      limitHText: "Limit (hourly): ",
+      limitHText: "Concentration limit for averaging period of 1 hour",
     },
     bg: {
       weatherTitle: "Метео",
@@ -74,7 +74,7 @@ export const translator = {
       so2Description: "Серен диоксид",
       coDescription: "Въглероден окис",
       о3Description: "Озон",
-      limitHText: "Лимит (ср./час): ",
+      limitHText: "Лимит на концентрация за период на усредняване от 1 час",
     },
   },
   statesText: {

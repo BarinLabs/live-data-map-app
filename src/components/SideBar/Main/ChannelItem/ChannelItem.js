@@ -153,13 +153,8 @@ const ChannelItem = ({ channel }) => {
       {standard && isCollapseOpen && (
         <div className={styles.descriptionContainer}>
           <p>{standardName}</p>
-          {/* <p>
-            {standard.period === "One hour" &&
-              translator.textWidgets[lang].limitHText}
-            : {standard.limit} {suffix}
-          </p> */}
           <p>
-            {standard.description}: {standard.limit} {suffix}
+            {translator.textWidgets[lang].limitHText}: {standard.limit} {suffix}
           </p>
         </div>
       )}
