@@ -17,15 +17,35 @@
     flex-grow: 1;
     display: flex;
     justify-content: flex-end;
+    margin-right: 50px;
 
     select {
-      margin-right: 50px;
       background-color: #ececec;
       padding: 5px;
       border-radius: 5px;
       border-color: #ececec;
       font-family: "Montserrat";
       font-weight: 600;
+    }
+  }
+
+  @media screen and (max-width: 650px) {
+    .senstate-logo-container {
+      margin-left: 30px;
+    }
+
+    .select-container {
+      margin-right: 20px;
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    .senstate-logo-container {
+      margin-left: 0px;
+    }
+
+    .select-container {
+      margin-right: 10px;
     }
   }
 }
